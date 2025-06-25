@@ -1,0 +1,35 @@
+{{ define "title" }}Admigo{{ end }}
+{{ define "styles" }}
+  <link rel="stylesheet" type="text/css" href="/static/css/home/home.css" />
+{{ end }}
+{{ define "h_content_class" }}
+  {{ attr (" class=\"h-handr\"") }}
+{{ end }}
+{{ define "content" }}
+  {{ $some := index (index . "info") "some" }}
+  <div id="ho-cont">
+    <div class="ho-center">
+      <div class="ho-title">
+        Admi<span>go</span> is a responsive admin panel
+      </div>
+      <div class="ho-info">
+        You can customize this admin panel as you wish.
+      </div>
+      <div class="ho-info">
+        It is very easy to do because it is based at
+      </div>
+      <div class="ho-info">
+        <span>JS</span>,&nbsp;<span>CSS</span>
+        and
+        <a href="https://golang.org" target="_blank">
+          Golang
+        </a>
+      </div>
+      {{ if $some }}
+        <div class="ho-info inp">
+          <input type="text" value="{{ $some }}" readonly onfocus="this.select()" />
+        </div>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}

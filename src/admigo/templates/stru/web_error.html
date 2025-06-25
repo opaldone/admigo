@@ -1,0 +1,7 @@
+{{ define "title" }}Error{{ end }}
+{{ define "content" }}
+<div id="errors-container">
+  <span id="err-ttl" class="err-span">Error</span>
+  <span id="err-msg" class="err-span">{{ (index . "info").error }}</span>
+</div>
+{{ end }}

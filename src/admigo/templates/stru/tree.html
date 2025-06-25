@@ -1,0 +1,12 @@
+{{ define "tree" }}
+{{ $rand := rand }}
+<div id="{{ .el }}" class="tree-cont">
+  <div id="tree-{{ $rand }}" class="rwd-table-container" data-rand="{{ $rand }}">
+  </div>
+</div>
+<script>
+  if (!window.TRP) window.TRP = {};
+  window.TRP['{{ .el }}'] = JSON.parse({{ dd . }});
+</script>
+{{ end }}
+

@@ -1,0 +1,107 @@
+{{ define "_data" }}
+  {{ $info := index . "info" }}
+  {{ $logged := index . "logged" }}
+  {{ $is_admin := $logged.IsRolesAdmin }}
+  {{ $tr := $info.Tree }}
+  {{ $tr_ttl := "" }}
+  {{ $class_cla := "" }}
+  {{ if $is_admin }}
+    {{ $tr_ttl = printf " title=\"%s\"" (re "Click to show menu") }}
+    {{ $class_cla = "cla" }}
+  {{ end }}
+  {{ range $info.List }}
+    {{ $class_finded := "" }}
+    {{  if eq .Al (index $tr "fid") }}
+      {{ $class_finded = "finded" }}
+    {{ end }}
+    {{ $tr_class := strjoin " " $class_cla $class_finded }}
+    {{ if gt (len $tr_class) 0 }}
+      {{ $tr_class = printf "class=\"%s\"" $tr_class }}
+    {{ end }}
+    {{ $ispar := true }}
+    {{ if eq .IsPar 0 }}
+      {{ $ispar = false }}
+    {{ end }}
+    {{ $st := (index $tr "em_step") }}
+    {{ $exp_class := "tr-exp-emp" }}
+    {{ if $ispar }}
+      {{ $st = (index $tr "ex_step") }}
+      {{ $exp_class = "tr-exp" }}
+    {{ end }}
+    {{ $dtroot := "" }}
+    {{ if (index $tr "isroot") }}
+      {{ $dtroot = printf " data-root=\"%d\"" .Lid }}
+    {{ else }}
+      {{ $dtroot = printf " data-root=\"%s\"" (index $tr "root") }}
+    {{ end }}
+    {{ $str_lid := printf "%d" .Lid }}
+    {{ $u_add_par := printf "%s?par=%s" (ro "role_add_get") .Al }}
+    <tr data-rid="{{ .Lid }}"
+        data-id="{{ .Al }}"
+        data-level="{{ (index $tr "tl") }}"
+        {{ attr $tr_ttl }}
+        {{ attr $tr_class }}
+        {{ attr $dtroot }}
+        {{ attr (index $tr "dp") }}
+    >
+      <td {{ attr (index $tr "stp") }} colspan="2">
+        <div class="tr-td-data clearfix" style="padding-left:{{ $st }}px">
+          {{ if (index $tr "show_line") }}
+            <span class="hline"></span>
+            <span class="vline"></span>
+          {{ end }}
+          <span class="{{ $exp_class }}" style="width:{{ $st }}px"></span>
+          <div class="tr-exp-title">
+            <div class="tr-exp-title-cap">
+              {{ .Nm }}
+              {{ if eq .Prot 1 }}
+                <span class="tr-exp-title-icon" title="{{ re "Role is protected" }}">
+                  <i class="fa-solid fa-asterisk"></i>
+                </span>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        {{ .Al }}
+      </td>
+      <td>
+        {{ .Lid }}
+      </td>
+      {{ if $is_admin }}
+        <td class="act-td">
+          <span class="act-item"
+                title="{{ re "Add" }}"
+                data-u="{{ ro "role_add_get" }}"
+                data-m="get">
+            <i class="fa-solid fa-plus"></i>
+          </span>
+          {{ if eq .Prot 0 }}
+            <span class="act-item"
+                  title="{{ re "Edit" }}"
+                  data-who="{{ .Nm }}"
+                  data-u="{{ ro "role_edit_get" $str_lid }}"
+                  data-m="get">
+              <i class="fa-solid fa-i-cursor"></i>
+            </span>
+          {{ end }}
+          <span class="act-item"
+                title="{{ re "Add into" }}"
+                data-who="{{ .Nm }}"
+                data-u="{{ $u_add_par }}"
+                data-m="get">
+            <i class="fa-solid fa-arrow-left"></i>
+          </span>
+          <span class="act-item"
+                title="{{ re "Delete" }}"
+                data-who="{{ .Nm }}"
+                data-u="{{ ro "role_delete" $str_lid }}"
+                data-m="delete">
+            <i class="fa-solid fa-xmark"></i>
+          </span>
+        </td>
+      {{ end }}
+    </tr>
+  {{ end }}
+{{ end }}

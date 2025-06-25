@@ -1,0 +1,62 @@
+{{ define "layout_login" }}
+  {{ $foo := (index . "footer") }}
+  {{ $y := (index $foo "year") }}
+  {{ $appname := (index $foo "appname") }}
+  {{ $fp := (index . "fp") }}
+  {{ $cs := (index . "cs") }}
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=9">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="shortcut icon" href="/static/images/aa/favicon.png?v=1" />
+      <title>
+        {{ block "title" . }}
+        {{ end }}
+      </title>
+      <link rel="stylesheet" type="text/css" href="/static/css/inc/inc_fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/static/external/fontawesome/css/all.min.css" />
+      <link rel="stylesheet" type="text/css" href="/static/css/inc/reset.css" />
+      <link rel="stylesheet" type="text/css" href="/static/css/elems/forms.css" />
+      <link rel="stylesheet" type="text/css" href="/static/css/login/login_one.css" />
+    </head>
+    <body>
+      <div id="login-content">
+        <div id="lg-after" class="lg-col"></div>
+        <div id="lg-title" class="lg-col">
+          <div id="lg-h">
+            {{ re "Admigo Platform" }}
+          </div>
+        </div>
+        <div id="lg-form" class="lg-col">
+          <a href="{{ ro ("home") }}" id="lg-logo" class="lg-form-pd">
+            <span id="img-logo-cont"></span>
+          </a>
+          <div id="lg-f-ttl" class="lg-form-pd">
+            {{ block "please" . }}
+            {{ end }}
+          </div>
+          <form method="post" action="{{ (index $fp "action") }}" class="lg-form-pd">
+            {{ (index $cs "csrfField")  }}
+            {{ block "auth_form" . }}
+            {{ end }}
+            <div class="lg-form-footer">
+              <button id="login-button" class="form-btn">
+                {{ (index $fp "button") }}
+              </button>
+            </div>
+          </form>
+          <div id="lg-footer" class="lg-form-pd">
+            <div id="copyr">
+              <span>&copy;</span>
+              <span>{{ $y }}</span>
+              <span>«{{ $appname }}»</span>
+            </div>
+          </div>
+        </div>
+        <div id="lg-after" class="lg-col"></div>
+      </div>
+    </body>
+  </html>
+{{ end }}

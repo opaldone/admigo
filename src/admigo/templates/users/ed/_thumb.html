@@ -1,0 +1,33 @@
+{{ define "_thumb" }}
+  {{ $th := .GetThumb }}
+  {{ $sh := " empty" }}
+  {{ $ex := "" }}
+  {{ if $th }}
+    {{ $sh = " show" }}
+    {{ $ex = " ex-img" }}
+  {{ end }}
+  <div id="frm-thumb" class="form-tab-content">
+    <div class="form-it-cont">
+      <div class="img-box-container{{ $ex }}" data-ratio="1">
+        <div class="crop-tools">
+          <div class="crop-tools-btns clearfix">
+            <span class="start-crop" title="{{ re "Toggle cropping" }}">
+              <i class="fa-solid fa-crop"></i>
+            </span>
+            <span class="end-crop" title="{{ re "Save cropping" }}">
+              <i class="fa-regular fa-circle-check"></i>
+            </span>
+            <div class="crop-size"></div>
+          </div>
+        </div>
+        <div class="img-box{{ $sh }}">
+          <input type="file" name="user-img" id="user-img" class="img-selector" />
+          <span class="img-hint">
+            Choose file
+          </span>
+          <img class="img-tag{{ $sh }}" src="{{ $th }}" />
+        </div>
+      </div>
+    </div>
+  </div>
+{{ end }}

@@ -1,0 +1,25 @@
+{{ define "_attrs" }}
+  <div id="frm-attrs" class="form-tab-content">
+    <ul>
+    {{ range . }}
+      {{ if lt .So 0}}
+        <input type="hidden"
+               name="attr_{{ .Al }}"
+               value="{{ .Val }}" />
+        {{ continue }}
+      {{ end }}
+      {{ $id_el := printf "attr-user-%s" .Al }}
+      <div class="form-it-cont">
+        <label class="form-lbl" for="{{ $id_el }}">
+          <span>{{ re .Nm }}</span>
+        </label>
+        <input type="text"
+               id="{{ $id_el }}"
+               class="form-inp"
+               name="attr_{{ .Al }}"
+               value="{{ .Val }}"
+               autocomplete="off" />
+      </div>
+    {{ end }}
+  </div>
+{{ end }}

@@ -1,0 +1,18 @@
+{{ define "_le" }}
+  {{ $im := .GetThumb }}
+  {{ $bim := .GetBim }}
+  <div id="per-lk-img">
+    {{ if $im }}
+      <div id="per-ava-cont">
+        <div id="per-ava"
+             style="background-image:url({{ $im }})"
+             href="{{ $bim }}"
+             title="{{ re "Click to show big image" }}"
+        ></div>
+      </div>
+    {{ end }}
+    <div id="per-lk-name">
+      {{ .Name }}
+    </div>
+  </div>
+{{ end }}

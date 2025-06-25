@@ -1,0 +1,32 @@
+{
+  "sidebar": [
+    {
+      "title": "Main",
+      "items": [
+        {
+          "icon": "fas fa-home",
+          "label": "Home",
+          "alias": "home"
+        },
+        {
+          "label": "Data",
+          "icon": "fa-solid fa-database",
+          "items": [
+            {
+              "icon": "fas fa-users",
+              "label": "Users",
+              "alias": "users",
+              "auth": true
+            },
+            {
+              "icon": "fa-solid fa-masks-theater",
+              "label": "Roles",
+              "alias": "roles",
+              "auth": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

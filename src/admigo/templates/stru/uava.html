@@ -1,0 +1,11 @@
+{{ define "uava" }}
+  <a href="/person" id="lka">
+    <div class="ava-logged">
+      <div class="ava-img-container" style="background-image:url({{ .GetThumb }})">
+      </div>
+      <div class="ava-info-container">
+        <span class="ava-name">{{ .Name }}</span>
+      </div>
+    </div>
+  </a>
+{{ end }}

@@ -1,0 +1,14 @@
+services:
+    db:
+        image: postgres:13.3
+        container_name: db
+        environment:
+            POSTGRES_DB: "postgres"
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "qw"
+            PGDATA: "/var/lib/postgresql/data/pgdata"
+        ports:
+            - 5432:5432
+        volumes:
+            - /mnt/terik/a_my/admigo_project/pgd:/var/lib/postgresql/data
+            - /mnt/terik/a_my/admigo_project/dmp:/var/dmp

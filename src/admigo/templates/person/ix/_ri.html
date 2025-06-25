@@ -1,0 +1,48 @@
+{{ define "_ri" }}
+  <div id="per-lk-info">
+    <ul id="per-lk-list">
+      <li>
+        <div>
+          {{ re "Login" }}
+        </div>
+        <div>
+          {{ .Ac }}
+        </div>
+      </li>
+      <li>
+        <div>
+          {{ re "Email" }}
+        </div>
+        <div>
+          <a href="mailto: {{ .Em }}" class="ext-link">
+            {{ .Em }}
+          </a>
+        </div>
+      </li>
+      {{ range .Attrs }}
+        {{ if lt .So 0}}
+        {{ continue }}
+        {{ end }}
+        {{ if eq (len .Val) 0  }}
+        {{ continue }}
+        {{ end }}
+        {{ $ph := false }}
+        {{ if or (eq .Al "mph") (eq .Al "wph") }}
+          {{ $ph = true }}
+        {{ end }}
+        <li>
+          <div>
+            {{ re .Nm }}
+          </div>
+          <div>
+            {{ if $ph }}
+              <a href="tel: {{ .Val }}" class="ext-link">{{ .Val }}</a>
+            {{ else }}
+              {{ .Val }}
+            {{ end }}
+          </div>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+{{ end }}

@@ -1,0 +1,28 @@
+{
+  "appname": "Admigo",
+  "address": "0.0.0.0",
+  "port": 8443,
+  "static": "static",
+  "acme": false,
+  "acmehost": "opaldone.click",
+  "dirCache": "./certs",
+  "crt": "./certs_local/server.crt",
+  "key": "./certs_local/server.key",
+  "lang": "en",
+  "db": {
+    "host": "localhost",
+    "driver": "postgres",
+    "user": "admi_user",
+    "password": "qw",
+    "dbname": "admigo_db",
+    "sslmode": "disable"
+  },
+  "mail": {
+    "from": "pav.shavkunov@yandex.ru",
+    "host": "smtp.yandex.ru",
+    "password": "crouckdehxzzlrgp",
+    "port": 465,
+    "username": "pav.shavkunov@yandex.ru",
+    "gotourl": "https://admigo.so"
+  }
+}

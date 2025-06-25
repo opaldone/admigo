@@ -1,0 +1,42 @@
+{{ define "sidebar" }}
+<aside id="sb-el">
+  <div id="sb-left">
+    <i class="fa-solid fa-caret-left le"></i>
+    <i class="fa-solid fa-caret-right ri"></i>
+  </div>
+  {{ $mn_cls := "" }}
+  {{ $logged := index . "logged" }}
+  {{ if $logged }}
+    {{ $mn_cls = " class=\"log\"" }}
+    {{ template "uava" $logged }}
+  {{ else }}
+    {{ template "unava" }}
+  {{ end }}
+  <div id="sb-menu"{{ attr ($mn_cls) }}>
+    {{ index . "sb" }}
+  </div>
+  <div id="sb-el-bottom">
+    {{ if $logged }}
+      <a href="{{ ro ("logout_get") }}" class="sb-item clearfix">
+        <span class="icon-admin">
+          <i class="fas fa-sign-out-alt"></i>
+        </span>
+        <span class="name">{{ re "Sign out" }}</span>
+      </a>
+    {{ else }}
+      <a href="{{ ro ("login_get") }}" class="sb-item clearfix">
+        <span class="icon-admin">
+          <i class="fas fa-sign-in-alt"></i>
+        </span>
+        <span class="name">{{ re "Sign in" }}</span>
+      </a>
+      <a href="{{ ro ("signup_get") }}" class="sb-item clearfix">
+        <span class="icon-admin">
+          <i class="fas fa-at"></i>
+        </span>
+        <span class="name">{{ re "Signup" }}</span>
+      </a>
+    {{ end }}
+  </div>
+</aside>
+{{ end }}
