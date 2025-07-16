@@ -1,10 +1,7 @@
 {{ define "_row" }}
   {{ $is_admin := index . "is_admin" }}
   {{ $list := index . "list" }}
-  {{ $tr_at := "" }}
-  {{ if $is_admin }}
-    {{ $tr_at = printf " class=\"cla\" title=\"%s\"" (re "Click to show menu") }}
-  {{ end }}
+  {{ $tr_at := printf " class=\"cla\" title=\"%s\"" (re "Click to show menu") }}
   {{ range $list }}
     {{ $str_id := printf "%d" .ID }}
     {{ $person_page := printf "%s?user_id=%s" (ro "person") $str_id }}
@@ -20,15 +17,15 @@
       <td>{{ .Name }}</td>
       <td>{{ .Em }}</td>
       <td>{{ .Ac }}</td>
-      {{ if $is_admin }}
-        <td class="act-td">
-          <span class="act-item"
-                title="{{ re "User page" }}"
-                data-who="{{ .Name }}"
-                data-u="{{ $person_page }}"
-                data-m="get">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-          </span>
+      <td class="act-td">
+        <span class="act-item"
+              title="{{ re "User page" }}"
+              data-who="{{ .Name }}"
+              data-u="{{ $person_page }}"
+              data-m="get">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </span>
+        {{ if $is_admin }}
           <span class="act-item"
                 title="{{ re "Add" }}"
                 data-u="{{ ro "user_add_get" }}"
@@ -49,8 +46,8 @@
                 data-m="delete">
             <i class="fa-solid fa-xmark"></i>
           </span>
-        </td>
-      {{ end }}
+        {{ end }}
+      </td>
     </tr>
   {{ end }}
 {{ end }}

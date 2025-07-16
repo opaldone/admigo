@@ -92,10 +92,6 @@
   background-color: #2C5DE5;
 }
 
-.rwd-table th.act-th {
-  display: none;
-}
-
 .rwd-table th a {
   display: block;
   font-weight: 600;
