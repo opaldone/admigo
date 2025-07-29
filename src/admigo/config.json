@@ -4,7 +4,11 @@
   "port": 8443,
   "static": "static",
   "acme": false,
-  "acmehost": "opaldone.click",
+  "acmehost": [
+    "opaldone.click",
+    "206.189.101.23",
+    "www.opaldone.click"
+  ],
   "dirCache": "./certs",
   "crt": "./certs_local/server.crt",
   "key": "./certs_local/server.key",
