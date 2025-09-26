@@ -1,3 +1,4 @@
+// Package config
 package config
 
 import (
@@ -38,13 +39,14 @@ type Configuration struct {
 	Crt      string      `json:"crt,omitempty"`
 	Key      string      `json:"key,omitempty"`
 	Lang     string      `json:"lang"`
-	Db       *dbConfig   `json:"db"`
+	WsMap    string      `json:"wsmap"`
+	DB       *dbConfig   `json:"db"`
 	Mail     *mailConfig `json:"mail"`
 }
 
 var (
-	config   *Configuration
-	csrf_key string
+	config  *Configuration
+	csrfKey string
 )
 
 // LoadConfig loads config
@@ -71,9 +73,9 @@ func Env(reload bool) *Configuration {
 }
 
 func SetCsrf() {
-	csrf_key = common.CreateUID()
+	csrfKey = common.CreateUID()
 }
 
 func GetKeyCSRF() string {
-	return csrf_key
+	return csrfKey
 }

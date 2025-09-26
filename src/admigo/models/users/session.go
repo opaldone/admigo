@@ -8,7 +8,7 @@ import (
 
 // SessionModel model for a session
 type SessionModel struct {
-	Uid       string
+	UID       string
 	UserID    int
 	CreatedAt time.Time
 }
@@ -20,7 +20,7 @@ func sessionByUUID(uuid string) *SessionModel {
 		where uid = $1
 	`
 	s := SessionModel{}
-	err := mcom.Db.QueryRow(que, uuid).Scan(&s.Uid, &s.UserID, &s.CreatedAt)
+	err := mcom.Dbc.QueryRow(que, uuid).Scan(&s.UID, &s.UserID, &s.CreatedAt)
 	if err != nil {
 		return nil
 	}

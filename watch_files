@@ -54,6 +54,9 @@ W_FILES=(
     "$src/templates/person/ix/index.html;$bin/templates/person/ix/index.html"
     "$src/templates/person/ix/_ri.html;$bin/templates/person/ix/_ri.html"
     "$src/templates/person/ix/_le.html;$bin/templates/person/ix/_le.html"
+    "$src/templates/map/ix/loca.html;$bin/templates/map/ix/loca.html"
+    "$src/templates/map/ix/_mus.html;$bin/templates/map/ix/_mus.html"
+    "$src/templates/map/ix/_logs.html;$bin/templates/map/ix/_logs.html"
 # css
     "$src/static/css/inc/reset.css;$bin/static/css/inc/reset.css"
     "$src/static/css/inc/inc_fonts.css;$bin/static/css/inc/inc_fonts.css"
@@ -66,6 +69,7 @@ W_FILES=(
     "$src/static/css/login/login_one.css;$bin/static/css/login/login_one.css"
     "$src/static/css/home/home.css;$bin/static/css/home/home.css"
     "$src/static/css/person/person.css;$bin/static/css/person/person.css"
+    "$src/static/css/map/amap.css;$bin/static/css/map/amap.css"
 # js
     "$src/static/js/inc/funcs.js;$bin/static/js/inc/funcs.js"
     "$src/static/js/inc/lang.js;$bin/static/js/inc/lang.js"
@@ -79,4 +83,8 @@ W_FILES=(
     "$src/static/js/elems/img_box.js;$bin/static/js/elems/img_box.js"
     "$src/static/js/elems/se_list.js;$bin/static/js/elems/se_list.js"
     "$src/static/js/person/person.js;$bin/static/js/person/person.js"
+    "$src/static/js/map/amap.js;$bin/static/js/map/amap.js"
+    "$src/static/js/map/wsmap.js;$bin/static/js/map/wsmap.js"
+    "$src/static/js/map/taber.js;$bin/static/js/map/taber.js"
+    "$src/static/js/map/uloca.js;$bin/static/js/map/uloca.js"
 )

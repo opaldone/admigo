@@ -108,7 +108,7 @@ func (role *RoleModel) checkLoop() (res int, err error) {
 		) then 1 else 0 end exists_loop
 	`
 
-	err = mcom.Db.QueryRow(que, role.Al, role.Paral).Scan(&res)
+	err = mcom.Dbc.QueryRow(que, role.Al, role.Paral).Scan(&res)
 	if err != nil {
 		return
 	}
@@ -177,7 +177,7 @@ func (role *RoleModel) FillPaths() (err error) {
 		group by f.lid
 	`
 
-	rows, err := mcom.Db.Query(que, role.Al)
+	rows, err := mcom.Dbc.Query(que, role.Al)
 	if err != nil {
 		return
 	}
@@ -217,7 +217,7 @@ func (mo *RoleModel) FillAvaiParents() (err error) {
 		mo_al = mo.Al
 	}
 
-	rows, err := mcom.Db.Query(que, mo_al)
+	rows, err := mcom.Dbc.Query(que, mo_al)
 	if err != nil {
 		return
 	}
@@ -271,13 +271,13 @@ func (link *RoleModel) DeleteLinkRole() (err error) {
 		)
 	`
 
-	_, err = mcom.Db.Exec(up, link.Lid)
+	_, err = mcom.Dbc.Exec(up, link.Lid)
 	if err != nil {
 		return
 	}
 
 	del_link := "delete from role_links where id = $1"
-	_, err = mcom.Db.Exec(del_link, link.Lid)
+	_, err = mcom.Dbc.Exec(del_link, link.Lid)
 	if err != nil {
 		return
 	}
@@ -293,7 +293,7 @@ func (link *RoleModel) DeleteLinkRole() (err error) {
 			where r.al in (l.child, l.parent)
 		)
 	`
-	_, err = mcom.Db.Exec(del_ro, link.Al)
+	_, err = mcom.Dbc.Exec(del_ro, link.Al)
 
 	return
 }
@@ -313,7 +313,7 @@ func (mo *RoleModel) insertLink() (err error) {
 		)
 	`
 
-	_, err = mcom.Db.Exec(ins, mo.Al, mo.Paral)
+	_, err = mcom.Dbc.Exec(ins, mo.Al, mo.Paral)
 
 	return
 }
@@ -326,7 +326,7 @@ func (mo *RoleModel) updateLink() (err error) {
 		and parent != $2
 	`
 
-	_, err = mcom.Db.Exec(upd, mo.Lid, mo.Paral)
+	_, err = mcom.Dbc.Exec(upd, mo.Lid, mo.Paral)
 
 	return
 }
@@ -349,7 +349,7 @@ func (mo *RoleModel) insertRole() (err error) {
 	mo.Al = strings.Trim(strings.ToLower(mo.Al), " ")
 	mo.Nm = strings.Trim(mo.Nm, " ")
 
-	_, err = mcom.Db.Exec(ins, mo.Al, mo.Nm)
+	_, err = mcom.Dbc.Exec(ins, mo.Al, mo.Nm)
 	if err != nil {
 		return
 	}
@@ -369,7 +369,7 @@ func (mo *RoleModel) updateRole() (err error) {
 
 	mo.Nm = strings.Trim(mo.Nm, " ")
 
-	_, err = mcom.Db.Exec(upd, mo.Nm, mo.Al)
+	_, err = mcom.Dbc.Exec(upd, mo.Nm, mo.Al)
 	if err != nil {
 		return
 	}

@@ -24,17 +24,17 @@ func main() {
 
 	e := config.Env(false)
 
-	csrf_h := csrf.Protect(
+	csrfH := csrf.Protect(
 		[]byte(config.GetKeyCSRF()),
 		csrf.Path("/"),
 	)
 
 	if e.Acme {
-		startAcme(e, csrf_h)
+		startAcme(e, csrfH)
 		return
 	}
 
-	startSelf(e, csrf_h)
+	startSelf(e, csrfH)
 }
 
 func startSelf(e *config.Configuration, cs func(http.Handler) http.Handler) {

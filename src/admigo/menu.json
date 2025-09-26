@@ -25,6 +25,18 @@
               "auth": true
             }
           ]
+        },
+        {
+          "label": "Maps",
+          "icon": "fa-solid fa-globe",
+          "items": [
+            {
+              "icon": "fa-solid fa-street-view",
+              "label": "Location",
+              "alias": "loca",
+              "auth": false
+            }
+          ]
         }
       ]
     }

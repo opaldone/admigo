@@ -22,7 +22,7 @@ func GetRows(query *DataQuery, que_in string, alias string, need_where bool) (*s
 	pages := _page(query, que)
 	que = fmt.Sprintf("%s%s%s", que, _order(query), pages)
 
-	return Db.Query(que)
+	return Dbc.Query(que)
 }
 
 func _where(query *DataQuery, alias string, need_where bool) (wh string) {
@@ -96,7 +96,7 @@ func _page(query *DataQuery, sql string) string {
 
 	count := 0
 	cntSQL := fmt.Sprintf("select count(1) from (%s) q_cnt", sql)
-	Db.QueryRow(cntSQL).Scan(&count)
+	Dbc.QueryRow(cntSQL).Scan(&count)
 
 	query.CntPage = int(math.Ceil(float64(count) / float64(query.PerPg)))
 

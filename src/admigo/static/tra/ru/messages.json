@@ -43,5 +43,8 @@
   "User is protected": "Пользователь защищен",
   "Role not found": "Роль не найдена",
   "Role is protected": "Роль защищена",
-  "No records": "Нет записей"
+  "No records": "Нет записей",
+  "Location": "Местонахождение",
+  "Logs": "Логи",
+  "Clear": "Очистить"
 }

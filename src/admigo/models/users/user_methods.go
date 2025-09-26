@@ -43,7 +43,7 @@ func getUser(where_in string, val interface{}, hidePass bool) (mo *UserModel, er
 		where_in,
 	)
 
-	err = mcom.Db.QueryRow(que, val).Scan(
+	err = mcom.Dbc.QueryRow(que, val).Scan(
 		&model.ID, &model.Ac, &model.Em,
 		&model.Pas, &model.CreatedAt, &model.Confirmed, &model.Prot,
 		&model.Name, &model.Thumb, &model.Bim,

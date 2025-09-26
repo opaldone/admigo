@@ -1,0 +1,45 @@
+{{ define "title" }}{{ re "Location" }}{{ end }}
+{{ define "styles" }}
+  <link rel="stylesheet" type="text/css" href="/static/external/leaflet/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/map/amap.css" />
+{{ end }}
+{{ define "csrf" }}
+  {{ .csrfField }}
+{{ end }}
+{{ define "h_content_class" }}
+  {{ attr (" class=\"full\"") }}
+{{ end }}
+{{ define "content" }}
+  <div id="map" href="{{ ro "loca_ws" }}"></div>
+  <div id="map-nav">
+    <ul id="map-nav-btns">
+      <li id="tb-users" class="map-nav-bu">
+        <span class="map-nav-ico">
+          <i class="fa-solid fa-user-group"></i>
+          <span class="map-nav-icnt" id="users-cnt"></span>
+        </span>
+        <span class="map-nav-lbl">
+          {{ re "Users" }}
+        </span>
+      </li>
+      <li id="tb-logs" class="map-nav-bu">
+        <span class="map-nav-ico">
+          <i class="fa-solid fa-info"></i>
+        </span>
+        <span class="map-nav-lbl">
+          {{ re "Logs" }}
+        </span>
+      </li>
+    </ul>
+    {{ template "_mus" }}
+    {{ template "_logs" }}
+  </div>
+{{ end }}
+{{ define "scripts" }}
+  <script src="/static/external/js/axios.js"></script>
+  <script src="/static/external/leaflet/leaflet.js"></script>
+  <script src="/static/js/map/uloca.js"></script>
+  <script src="/static/js/map/taber.js"></script>
+  <script src="/static/js/map/wsmap.js"></script>
+  <script src="/static/js/map/amap.js"></script>
+{{ end }}

@@ -61,7 +61,7 @@ func getRoleOrLink(sel string, where_in string, val interface{}, dest ...any) (e
 		where_in,
 	)
 
-	err = mcom.Db.QueryRow(que, val).Scan(
+	err = mcom.Dbc.QueryRow(que, val).Scan(
 		dest...,
 	)
 	if err != nil {
@@ -142,7 +142,7 @@ func GetForShow(fi string) (resp *RoleListRequest, err error) {
 		order by al
 	`
 
-	rows, err := mcom.Db.Query(que, fi)
+	rows, err := mcom.Dbc.Query(que, fi)
 	if err != nil {
 		return
 	}

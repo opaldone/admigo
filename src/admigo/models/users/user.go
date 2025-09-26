@@ -169,7 +169,7 @@ func (user *UserModel) userSession() (session *SessionModel, err error) {
 	`
 	se := SessionModel{}
 
-	err = mcom.Db.QueryRow(que, user.ID).Scan(&se.Uid, &se.UserID, &se.CreatedAt)
+	err = mcom.Dbc.QueryRow(que, user.ID).Scan(&se.UID, &se.UserID, &se.CreatedAt)
 	session = &se
 	return
 }
@@ -185,7 +185,7 @@ func (user *UserModel) CreateSession() (session *SessionModel, err error) {
 		returning uid, user_id, created_at
 	`
 
-	stmt, err := mcom.Db.Prepare(statement)
+	stmt, err := mcom.Dbc.Prepare(statement)
 	if err != nil {
 		return
 	}
@@ -193,7 +193,7 @@ func (user *UserModel) CreateSession() (session *SessionModel, err error) {
 	defer stmt.Close()
 
 	se := SessionModel{}
-	err = stmt.QueryRow(common.CreateUID(), user.ID).Scan(&se.Uid, &se.UserID, &se.CreatedAt)
+	err = stmt.QueryRow(common.CreateUID(), user.ID).Scan(&se.UID, &se.UserID, &se.CreatedAt)
 
 	session = &se
 	return
@@ -201,13 +201,13 @@ func (user *UserModel) CreateSession() (session *SessionModel, err error) {
 
 func (user *UserModel) DeleteSessions() (err error) {
 	que := "delete from sessions where user_id = $1"
-	_, err = mcom.Db.Exec(que, user.ID)
+	_, err = mcom.Dbc.Exec(que, user.ID)
 	return
 }
 
 func (user *UserModel) SetConfirmed() (err error) {
 	que := "update users set confirmed = 1 where id = $1"
-	_, err = mcom.Db.Exec(que, user.ID)
+	_, err = mcom.Dbc.Exec(que, user.ID)
 	return
 }
 
@@ -282,7 +282,7 @@ func (user *UserModel) FillAttrs() (err error) {
 		order by so
 	`
 
-	rows, err := mcom.Db.Query(que, user.ID)
+	rows, err := mcom.Dbc.Query(que, user.ID)
 	if err != nil {
 		return
 	}
@@ -318,7 +318,7 @@ func (user *UserModel) getRolesByUser() (rows *sql.Rows, err error) {
 		order by al
 	`
 
-	rows, err = mcom.Db.Query(que, user.ID)
+	rows, err = mcom.Dbc.Query(que, user.ID)
 	if err != nil {
 		return
 	}
@@ -336,7 +336,7 @@ func (user *UserModel) getRolesByAliases(aliases string) (rows *sql.Rows, err er
 		order by al
 	`
 
-	rows, err = mcom.Db.Query(que)
+	rows, err = mcom.Dbc.Query(que)
 	if err != nil {
 		return
 	}
@@ -393,7 +393,7 @@ func (user *UserModel) fillCanRoles() (err error) {
 		order by al
 	`
 
-	rows, err := mcom.Db.Query(que, user.ID)
+	rows, err := mcom.Dbc.Query(que, user.ID)
 	if err != nil {
 		return
 	}
@@ -504,7 +504,7 @@ func (user *UserModel) dbAttrs() (err error) {
 	`
 	scr = fmt.Sprintf(scr, un, user.ID)
 
-	_, err = mcom.Db.Exec(scr)
+	_, err = mcom.Dbc.Exec(scr)
 
 	return
 }
@@ -557,7 +557,7 @@ func (user *UserModel) dbRoles() (err error) {
 
 	scr = fmt.Sprintf(scr, un, user.ID)
 
-	_, err = mcom.Db.Exec(scr)
+	_, err = mcom.Dbc.Exec(scr)
 
 	return
 }
@@ -571,7 +571,7 @@ func (user *UserModel) insertUser() (err error) {
 
 	new_pas := common.Hapas(user.Pas)
 
-	row, err := mcom.Db.Query(ins, user.Ac, user.Em, new_pas)
+	row, err := mcom.Dbc.Query(ins, user.Ac, user.Em, new_pas)
 	if err != nil {
 		return
 	}
@@ -604,7 +604,7 @@ func (user *UserModel) updatePas() (err error) {
 
 	new_pas := common.Hapas(user.Pas)
 
-	_, err = mcom.Db.Exec(upd, new_pas, user.ID)
+	_, err = mcom.Dbc.Exec(upd, new_pas, user.ID)
 
 	return
 }
@@ -642,7 +642,7 @@ func (user *UserModel) updateUser() (err error) {
 		)
 	`
 
-	_, err = mcom.Db.Exec(upd, user.Ac, user.Em, user.ID)
+	_, err = mcom.Dbc.Exec(upd, user.Ac, user.Em, user.ID)
 	if err != nil {
 		return
 	}
@@ -691,7 +691,7 @@ func (user *UserModel) DeleteUser() (err error) {
 	}
 
 	del := "delete from users where id = $1"
-	_, err = mcom.Db.Exec(del, user.ID)
+	_, err = mcom.Dbc.Exec(del, user.ID)
 
 	return
 }

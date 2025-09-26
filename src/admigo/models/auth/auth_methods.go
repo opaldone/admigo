@@ -45,7 +45,7 @@ func Login(r *http.Request) (aus *AuthUser, uid string) {
 		return
 	}
 
-	uid = session.Uid
+	uid = session.UID
 	return
 }
 
@@ -98,7 +98,7 @@ func ForceLogin(email string) (uid string, err error) {
 		return
 	}
 
-	uid = sess.Uid
+	uid = sess.UID
 
 	return
 }
