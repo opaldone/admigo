@@ -13,7 +13,7 @@ import (
 
 func retError(w http.ResponseWriter, r *http.Request, from_api bool, mn string) {
 	if from_api {
-		ApiError(w, errors.New(lang.Re("Insufficient rights")))
+		APIError(w, errors.New(lang.Re("Insufficient rights")))
 		return
 	}
 

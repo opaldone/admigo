@@ -1,0 +1,39 @@
+package controllers
+
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+
+	"admigo/common"
+	"admigo/config"
+
+	"github.com/julienschmidt/httprouter"
+)
+
+func MapLoca(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	setFrontContent(w, r, "loca", nil, nil,
+		"map/ix/loca",
+		"map/ix/_mus",
+		"map/ix/_logs",
+	)
+}
+
+func MapWs(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	w.Header().Set("Content-Type", "application/json")
+
+	e := config.Env(false)
+
+	cid := fmt.Sprintf("re-%s", common.RandUID())
+
+	link := fmt.Sprintf("%s/ws/%s/0", e.WsMap, cid)
+
+	js := map[string]string{
+		"cid":  cid,
+		"link": link,
+	}
+
+	output, _ := json.Marshal(js)
+
+	w.Write(output)
+}

@@ -13,6 +13,7 @@
   "crt": "./certs_local/server.crt",
   "key": "./certs_local/server.key",
   "lang": "en",
+  "wsmap": "wss://admigo.so:8088",
   "db": {
     "host": "localhost",
     "driver": "postgres",

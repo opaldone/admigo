@@ -195,7 +195,7 @@ func RolesRoot(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	tr, err := getTreePars(r, true)
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 
@@ -207,7 +207,7 @@ func RolesRoot(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		Tree: tr,
 	})
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 
@@ -217,7 +217,7 @@ func RolesRoot(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		"roles/ix/_data",
 	)
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 
@@ -237,7 +237,7 @@ func RolesNode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	tr, err := getTreePars(r, false)
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 
@@ -249,13 +249,13 @@ func RolesNode(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		Tree: tr,
 	})
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 
 	co, err := getFrontContentAjax(r, list, nil, "roles/ix/_node", "roles/ix/_data")
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 
@@ -277,7 +277,7 @@ func RolesShow(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	list, err := roles.GetForShow(qfi)
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 
@@ -286,7 +286,7 @@ func RolesShow(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if len(list.List) > 0 {
 		co, err = getFrontContentAjax(r, list, nil, "roles/ix/_slist")
 		if err != nil {
-			ApiError(w, err)
+			APIError(w, err)
 			return
 		}
 	}
@@ -307,13 +307,13 @@ func RoleDelete(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	mo, err := roles.LinkByID(id)
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 
 	err = mo.DeleteLinkRole()
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 

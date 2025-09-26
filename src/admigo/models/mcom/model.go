@@ -10,7 +10,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var Db *sql.DB
+var Dbc *sql.DB
 
 func LoadDriver() {
 	var err error
@@ -18,14 +18,14 @@ func LoadDriver() {
 	c := config.Env(false)
 
 	connect := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=%s",
-		c.Db.Host,
-		c.Db.User,
-		c.Db.Password,
-		c.Db.Dbname,
-		c.Db.Sslmode,
+		c.DB.Host,
+		c.DB.User,
+		c.DB.Password,
+		c.DB.Dbname,
+		c.DB.Sslmode,
 	)
 
-	Db, err = sql.Open(c.Db.Driver, connect)
+	Dbc, err = sql.Open(c.DB.Driver, connect)
 	if err != nil {
 		applog.Danger("Error in loadDriver", err)
 	}

@@ -10,44 +10,47 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-type route struct {
+type Route struct {
 	method  string
 	pattern string
 	handle  httprouter.Handle
 }
 
-type routes = map[string]route
+type Routes = map[string]Route
 
-var list routes
+var routsList Routes
 
 func init() {
-	list = routes{
-		"home":   route{"GET", "/", Index},
-		"person": route{"GET", "/person", PersonIndex},
+	routsList = Routes{
+		"home":   Route{"GET", "/", Index},
+		"person": Route{"GET", "/person", PersonIndex},
 
-		"login_get":   route{"GET", "/login", LoginGet},
-		"login_post":  route{"POST", "/login", LoginPost},
-		"logout_get":  route{"GET", "/logout", LogoutGet},
-		"signup_get":  route{"GET", "/signup", SignupGet},
-		"signup_post": route{"POST", "/signup", SignupPost},
-		"confirm":     route{"GET", "/confirm/*filepath", ConfirmUser},
+		"login_get":   Route{"GET", "/login", LoginGet},
+		"login_post":  Route{"POST", "/login", LoginPost},
+		"logout_get":  Route{"GET", "/logout", LogoutGet},
+		"signup_get":  Route{"GET", "/signup", SignupGet},
+		"signup_post": Route{"POST", "/signup", SignupPost},
+		"confirm":     Route{"GET", "/confirm/*filepath", ConfirmUser},
 
-		"users":          route{"GET", "/users", UsersIndex},
-		"user_delete":    route{"DELETE", "/users/:id", LoggedUsersAdmin(UserDelete, true)},
-		"user_add_get":   route{"GET", "/users/add", LoggedUsersAdmin(UserAddGet, false)},
-		"user_add_post":  route{"POST", "/users/add", LoggedUsersAdmin(UserAddPost, false)},
-		"user_edit_get":  route{"GET", "/users/edit/:user_id", LoggedUsersAdmin(UserEditGet, false)},
-		"user_edit_post": route{"POST", "/users/edit/:user_id", LoggedUsersAdmin(UserEditPost, false)},
+		"users":          Route{"GET", "/users", UsersIndex},
+		"user_delete":    Route{"DELETE", "/users/:id", LoggedUsersAdmin(UserDelete, true)},
+		"user_add_get":   Route{"GET", "/users/add", LoggedUsersAdmin(UserAddGet, false)},
+		"user_add_post":  Route{"POST", "/users/add", LoggedUsersAdmin(UserAddPost, false)},
+		"user_edit_get":  Route{"GET", "/users/edit/:user_id", LoggedUsersAdmin(UserEditGet, false)},
+		"user_edit_post": Route{"POST", "/users/edit/:user_id", LoggedUsersAdmin(UserEditPost, false)},
 
-		"roles":          route{"GET", "/roles", RolesIndex},
-		"role_show":      route{"GET", "/roles/show", RolesShow},
-		"roles_root":     route{"POST", "/roles/root", RolesRoot},
-		"roles_node":     route{"POST", "/roles/node", RolesNode},
-		"role_delete":    route{"DELETE", "/roles/:id", LoggedRolesAdmin(RoleDelete, true)},
-		"role_add_get":   route{"GET", "/roles/add", LoggedRolesAdmin(RoleAddGet, false)},
-		"role_add_post":  route{"POST", "/roles/add", LoggedRolesAdmin(RoleAddPost, false)},
-		"role_edit_get":  route{"GET", "/roles/edit/:lid", LoggedRolesAdmin(RoleEditGet, false)},
-		"role_edit_post": route{"POST", "/roles/edit/:lid", LoggedRolesAdmin(RoleEditPost, false)},
+		"roles":          Route{"GET", "/roles", RolesIndex},
+		"role_show":      Route{"GET", "/roles/show", RolesShow},
+		"roles_root":     Route{"POST", "/roles/root", RolesRoot},
+		"roles_node":     Route{"POST", "/roles/node", RolesNode},
+		"role_delete":    Route{"DELETE", "/roles/:id", LoggedRolesAdmin(RoleDelete, true)},
+		"role_add_get":   Route{"GET", "/roles/add", LoggedRolesAdmin(RoleAddGet, false)},
+		"role_add_post":  Route{"POST", "/roles/add", LoggedRolesAdmin(RoleAddPost, false)},
+		"role_edit_get":  Route{"GET", "/roles/edit/:lid", LoggedRolesAdmin(RoleEditGet, false)},
+		"role_edit_post": Route{"POST", "/roles/edit/:lid", LoggedRolesAdmin(RoleEditPost, false)},
+
+		"loca":    Route{"GET", "/map/loca", MapLoca},
+		"loca_ws": Route{"POST", "/map/locaws", MapWs},
 	}
 }
 
@@ -59,7 +62,7 @@ func GetRouters() (router *httprouter.Router) {
 	fpt := fmt.Sprintf("/%s/*filepath", st)
 	router.ServeFiles(fpt, http.Dir(st))
 
-	for _, r := range list {
+	for _, r := range routsList {
 		router.Handle(r.method, r.pattern, r.handle)
 	}
 
@@ -67,7 +70,7 @@ func GetRouters() (router *httprouter.Router) {
 }
 
 func ro(alias string, pars ...string) string {
-	pat := list[alias].pattern
+	pat := routsList[alias].pattern
 	pata := strings.Split(pat, ":")
 
 	if len(pata) == 1 {

@@ -47,6 +47,11 @@ a.ext-link:after {
   height: 100%;
 }
 
+#h-content.full {
+  height: 100%;
+  padding: 0 0 0 25%
+}
+
 #errors-container {
   width: 100%;
   font-size: 18px;
@@ -77,5 +82,9 @@ a.ext-link:after {
     width: 100%;
     height: auto;
     padding: 10px 10px 10px 10px;
+  }
+
+  #h-content.full {
+    padding: 0;
   }
 }

@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  z-index: 3;
+  z-index: 900;
   left: 0;
   top: 0;
   width: 25%;
@@ -99,6 +99,11 @@ a#lka:hover {
   cursor: pointer;
 }
 
+li.has-submenu > div.sb-item {
+    font-weight: bold;
+    color: #fff
+}
+
 .sb-item span {
   float: left;
 }
@@ -124,9 +129,9 @@ a#lka:hover {
 
 .sb-item.active:before {
   position: absolute;
-  content: '\f00c';
+  content: '\f111';
   font: 900 10px/10px 'Font Awesome 6 Free';
-  color: #999;
+  color: #2b3648;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
@@ -142,7 +147,7 @@ a#lka:hover {
   content: '\f105';
   left: 65%;
   top: 2px;
-  color: #999;
+  color: #5b6b86;
   transition: transform 0.2s ease;
 }
 

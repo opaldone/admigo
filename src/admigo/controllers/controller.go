@@ -1,3 +1,4 @@
+// Package controllers
 package controllers
 
 import (
@@ -15,22 +16,22 @@ const (
 )
 
 func setFrontContent(w http.ResponseWriter, r *http.Request,
-	menuitem string, info interface{}, funcs map[string]any,
+	menuitem string, info any, funcs map[string]any,
 	pages ...string,
 ) {
 	logged := LoggedUser(r)
 
-	data := map[string]interface{}{"logged": logged}
+	data := map[string]any{"logged": logged}
 
 	if info != nil {
 		data["info"] = info
 	}
 
-	sb, tag_item := CreateSidebarWeb(menuitem)
+	sb, tagItem := CreateSidebarWeb(menuitem)
 
 	auth := false
-	if tag_item != nil {
-		auth = tag_item.Auth
+	if tagItem != nil {
+		auth = tagItem.Auth
 	}
 
 	data["sb"] = sb
@@ -56,22 +57,22 @@ func setFrontContent(w http.ResponseWriter, r *http.Request,
 		return
 	}
 
-	list_pages := []string{
+	listPages := []string{
 		"lays/layout",
 		"stru/sidebar",
 		"stru/unava",
 		"stru/uava",
 	}
 
-	list_pages = append(list_pages, pages...)
+	listPages = append(listPages, pages...)
 
-	GenerateHTML(w, r, data, funcs, list_pages...)
+	GenerateHTML(w, r, data, funcs, listPages...)
 }
 
-func getFrontContentAjax(r *http.Request, info interface{}, funcs map[string]any, pages ...string) (ret string, err error) {
+func getFrontContentAjax(r *http.Request, info any, funcs map[string]any, pages ...string) (ret string, err error) {
 	logged := LoggedUser(r)
 
-	list_pages := []string{
+	listPages := []string{
 		"lays/layout_ajax",
 	}
 
@@ -80,12 +81,12 @@ func getFrontContentAjax(r *http.Request, info interface{}, funcs map[string]any
 		"info":   info,
 	}
 
-	list_pages = append(list_pages, pages...)
+	listPages = append(listPages, pages...)
 
-	return GetHTMLAjax(data, funcs, list_pages...)
+	return GetHTMLAjax(data, funcs, listPages...)
 }
 
-func ApiError(w http.ResponseWriter, err error) {
+func APIError(w http.ResponseWriter, err error) {
 	res := mcom.GetErrorResult(map[string]string{"api": err.Error()})
 	w.WriteHeader(500)
 	output, _ := json.MarshalIndent(res, "", "\t")

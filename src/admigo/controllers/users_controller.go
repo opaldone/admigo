@@ -180,18 +180,18 @@ func UserDelete(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	user, err := users.UserByID(id)
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 
 	if user.Prot == 1 {
-		ApiError(w, errors.New("user is protected"))
+		APIError(w, errors.New("user is protected"))
 		return
 	}
 
 	err = user.DeleteUser()
 	if err != nil {
-		ApiError(w, err)
+		APIError(w, err)
 		return
 	}
 
