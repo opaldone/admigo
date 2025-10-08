@@ -50,7 +50,7 @@ class Wsmap {
   }
 
   wsClose(e) {
-    this.oin.showLog("wsClose code: " + e.code, false);
+    this.oin.showLog("wsClose code: " + e.code, true);
     this.wsClear()
   }
 

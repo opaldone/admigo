@@ -13,6 +13,7 @@
   "crt": "./certs_local/server.crt",
   "key": "./certs_local/server.key",
   "lang": "en",
+  "wsmap1": "wss://opaldone.su:8088",
   "wsmap": "wss://admigo.so:8088",
   "db": {
     "host": "localhost",

@@ -21,6 +21,38 @@
   background: none;
 }
 
+#route-start {
+  position: absolute;
+  z-index: 899;
+  padding: 20px;
+  top: 0;
+  right: 25%;
+  background-color: #fff;
+  border-radius: 13px;
+  box-shadow: 0 0 7px #979797;
+}
+
+#route-start[data-cid=""] {
+  display: none;
+}
+
+.ros-header {
+  font-weight: 600;
+  margin-bottom: 13px;
+}
+
+.ros-header span {
+  display: inline-block;
+}
+
+.ros-h {
+  color: #777;
+}
+
+.route-btns {
+  margin-top: 30px;
+}
+
 #map-nav-btns {
   position: absolute;
   top: 50%;
@@ -47,6 +79,7 @@
 }
 
 .map-nav-ico {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -58,10 +91,23 @@
 }
 
 .map-nav-icnt {
-  color: #b7b7b7;
-  font-size: 10px;
-  line-height: 10px;
-  margin-top: 5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 12px;
+  line-height: 12px;
+  color: #fff;
+  background-color: #435065;
+  padding: 5px 10px 6px;
+  border-radius: 0 0 0 5px;
+}
+
+.map-nav-icnt:empty {
+  display: none;
+}
+
+.map-nav-icnt#errors-cnt {
+  background-color: #aa5511;
 }
 
 .map-nav-lbl {
@@ -143,6 +189,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.tb-list-err li {
   padding: 7px 20px 9px;
 }
 
@@ -156,35 +205,92 @@
 
 .tb-list li {
   cursor: pointer;
+  padding: 7px 0 9px;
 }
 
 .tb-list li:hover {
   background-color: #f7f7f7;
 }
 
-.tb-list li:active,
 .tb-list li.in-se {
-  background-color: #f0f0f0;
+  background-color: #ebdbe8;
 }
 
-.tb-list li.in-se {
-  cursor: progress;
+.tb-list .map-us-cont {
+  padding-left: 20px;
+  width: 90%;
+}
+
+.us-btn-cont span {
+  padding: 7px 10px 8px;
+  background-color: #fff;
+  border: 1px solid #e7e7e7;
+  border-radius: 7px;
+  font-size: 16px;
+  line-height: 16px;
+  color: #a7a7a7;
+  cursor: pointer;
+}
+
+.in-route .us-btn-cont .us-route {
+  background-color: #f0f0f0;
+  color: #131313;
+  box-shadow: inset 2px 2px 1px #878787;
+}
+
+.us-btn-cont span:hover {
+  background-color: #f0f0f0;
+  color: #131313;
 }
 
 .tb-list .req-loc {
   display: none;
-  color: #2b5de5;
+  color: #00c700;
+  width: 10%;
+  text-align: center;
 }
 
 .tb-list .in-se .req-loc {
-  display: inline-block;
+  display: block;
+}
+
+.nik-cont {
+  font-weight: 500;
+}
+
+.info-cont {
+  display: none;
+  margin-top: 7px;
+  overflow: hidden;
+  border-radius: 7px;
+}
+
+.info-cont:has(.coo-cont:not(:empty)) {
+  display: block;
 }
 
 .coo-cont {
-  margin-top: 7px;
+  display: flex;
+  align-items: center;
   font-size: 12px;
   line-height: 14px;
-  color: #575757;
+  background-color: #f0f0f0;
+  color: #2b5de5;
+  padding: 7px;
+}
+
+.coo-cont:empty {
+  display: none;
+}
+
+.coo-cont span {
+  display: inline-block;
+  margin-left: 7px;
+  color: #000;
+}
+
+.us-btn-cont {
+  padding-top: 10px;
 }
 
 .tb-list-err li .lg-tm {
@@ -204,7 +310,7 @@
  * MEDIA
  */
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   #map-nav {
     width: calc(100% - 50px);
     right: calc(-1 * (100% - 50px));

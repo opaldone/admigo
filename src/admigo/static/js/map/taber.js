@@ -9,6 +9,12 @@ class Taber {
       this.taids.push(elid);
       el.addEventListener('click', this.tb_click.bind(this));
     });
+
+    document.querySelectorAll('.tb-coh').forEach((el) => {
+      el.addEventListener('click', () => {
+        this._clear_cls('');
+      });
+    });
   }
 
   _rem_cls(tid) {

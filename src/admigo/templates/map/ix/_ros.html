@@ -1,0 +1,14 @@
+{{ define "_ros" }}
+  <div id="route-start" data-cid="">
+    <div class="ros-header">
+      <span class="ros-h">{{ re "Route to" }}</span>
+      <span id="ros-who"></span>
+    </div>
+    <input type="text" id="ros-inp" class="form-inp" placeholder="{{ re "Start point" }}" />
+    <div class="route-btns">
+      <button id="make-route" class="form-btn">{{ re "Make route" }}</button>
+      <button id="clo-route" class="form-btn light">{{ re "Close" }}</button>
+      <button id="del-route" class="form-btn red">{{ re "Delete route" }}</button>
+    </div>
+  </div>
+{{ end }}

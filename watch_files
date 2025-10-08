@@ -57,6 +57,7 @@ W_FILES=(
     "$src/templates/map/ix/loca.html;$bin/templates/map/ix/loca.html"
     "$src/templates/map/ix/_mus.html;$bin/templates/map/ix/_mus.html"
     "$src/templates/map/ix/_logs.html;$bin/templates/map/ix/_logs.html"
+    "$src/templates/map/ix/_ros.html;$bin/templates/map/ix/_ros.html"
 # css
     "$src/static/css/inc/reset.css;$bin/static/css/inc/reset.css"
     "$src/static/css/inc/inc_fonts.css;$bin/static/css/inc/inc_fonts.css"

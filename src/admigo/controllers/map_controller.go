@@ -16,6 +16,7 @@ func MapLoca(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		"map/ix/loca",
 		"map/ix/_mus",
 		"map/ix/_logs",
+		"map/ix/_ros",
 	)
 }
 

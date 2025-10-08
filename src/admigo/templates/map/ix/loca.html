@@ -2,6 +2,7 @@
 {{ define "styles" }}
   <link rel="stylesheet" type="text/css" href="/static/external/leaflet/leaflet.css" />
   <link rel="stylesheet" type="text/css" href="/static/css/map/amap.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/elems/forms.css" />
 {{ end }}
 {{ define "csrf" }}
   {{ .csrfField }}
@@ -11,6 +12,7 @@
 {{ end }}
 {{ define "content" }}
   <div id="map" href="{{ ro "loca_ws" }}"></div>
+  {{ template "_ros" }}
   <div id="map-nav">
     <ul id="map-nav-btns">
       <li id="tb-users" class="map-nav-bu">
@@ -25,6 +27,7 @@
       <li id="tb-logs" class="map-nav-bu">
         <span class="map-nav-ico">
           <i class="fa-solid fa-info"></i>
+          <span class="map-nav-icnt" id="errors-cnt"></span>
         </span>
         <span class="map-nav-lbl">
           {{ re "Logs" }}

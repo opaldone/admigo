@@ -10,20 +10,30 @@ class Amap {
 
     this.lg = document.getElementById('ws-logs');
     this.lg_clear = document.getElementById('ws-clear');
+    this.lg_errors = document.getElementById('errors-cnt');
 
     this.fun = new Funcs();
     this.fun.ready(this.handler.bind(this));
 
-    this.lg_clear.addEventListener('click', this.ws_clear_click.bind(this));
-  }
+    this.lg_clear.addEventListener('click', this.lg_clear_click.bind(this));
 
-  ws_clear_click(e) {
-    e.preventDefault();
-    e.stopPropagation();
+    this.ros = {
+      'el': document.getElementById('route-start'),
+      'who': document.getElementById('ros-who'),
+      'inp': document.getElementById('ros-inp'),
+      'bma': document.getElementById('make-route'),
+      'bcl': document.getElementById('clo-route'),
+      'bde': document.getElementById('del-route'),
+      'ma': null
+    };
 
-    this.lg.innerHTML = '';
+    this.ros.bcl.addEventListener('click', () => {
+      this.close_route_form();
+    });
 
-    return false;
+    this.ros.bma.addEventListener('click', this.make_route_click.bind(this));
+    this.ros.inp.addEventListener('input', this.inp_route_update.bind(this));
+    this.ros.bde.addEventListener('click', this.del_route_click.bind(this));
   }
 
   fm_tm(co) {
@@ -39,6 +49,26 @@ class Amap {
     return this.fm_tm(ho) + ':' + this.fm_tm(mi) + ':' + this.fm_tm(se);
   }
 
+  ref_log_cnt() {
+    this.lg_errors.innerHTML = '';
+    let errs = this.lg.querySelectorAll('.err');
+    let cc = errs.length;
+
+    if (cc == 0) return;
+
+    this.lg_errors.textContent = cc;
+  }
+
+  lg_clear_click(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.lg.innerHTML = '';
+    this.ref_log_cnt();
+
+    return false;
+  }
+
   showLog(msg, err) {
     let si = '<li';
     if (err) {
@@ -52,13 +82,197 @@ class Amap {
 
     this.lg.prepend(tem.content);
 
+    setTimeout(() => {
+      this.ref_log_cnt();
+    }, 100);
+
     return false;
+  }
+
+  show_route(some) {
+    if (!some.ros) return;
+    if (!some.ros.ma) return;
+    if (!some.ros.ro) return;
+
+    some.ros.ma.addTo(this.map);
+    some.ros.ro.addTo(this.map);
+  }
+
+  move_start_route(some) {
+    if (!some.ros) return;
+    if (!some.ros.ma) return;
+
+    this.map.setView(some.ros.ma.getLatLng(), 17);
+  }
+
+  set_route_cid(cid) {
+    const some = this.uslist[cid];
+    let nik = some.nik;
+    this.ros.who.innerHTML = nik;
+    this.ros.el.setAttribute('data-cid', cid);
+
+    this.show_route(some);
+    this.move_start_route(some);
+  }
+
+  get_route_cid() {
+    let cid = this.ros.el.getAttribute('data-cid');
+
+    return cid;
+  }
+
+  close_route_form() {
+    this.ros.el.setAttribute('data-cid', '');
+    this.ros.who.innerHTML = '';
+    this.ros.inp.value = '';
+    if (this.ros.ma) {
+      this.map.removeLayer(this.ros.ma);
+      this.ros.ma = null;
+    }
+    this.ulo.sync_litems();
+  }
+
+  clear_route(some) {
+    if (!some.ros) {
+      some.ros = {
+        'ma': null,
+        'ro': null,
+        'ds': -1
+      }
+      return;
+    }
+    if (!some.ros.ma) return;
+    if (!some.ros.ro) return;
+
+    this.map.removeLayer(some.ros.ma);
+    this.map.removeLayer(some.ros.ro);
+
+    some.ros.ma = null;
+    some.ros.ro = null;
+    some.ros.ds = -1;
+  }
+
+  del_route_click() {
+    const cid = this.get_route_cid();
+
+    if (cid.length == 0) return;
+
+    const some = this.uslist[cid];
+
+    if (!some) return;
+
+    this.clear_route(some);
+    this.close_route_form();
+  }
+
+  make_route_click() {
+    const cid = this.get_route_cid();
+
+    if (cid.length == 0) return;
+    if (!this.ros.ma) return;
+
+    const some = this.uslist[cid];
+
+    if (!some) return;
+
+    const pos = some.pos;
+
+    if (!pos) return;
+
+    const rm = this.ros.ma.getLatLng();
+
+    const url = 'https://api.openrouteservice.org/v2/directions/driving-car/geojson';
+    const obj = {
+      'coordinates': [[rm.lng, rm.lat], [pos.lng, pos.lat]]
+    }
+    const he = {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
+      'Authorization': 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjI5Y2U4YjE0YmMwZTQ2ZDVhNDI3NzFlNDU2MzhlODI5IiwiaCI6Im11cm11cjY0In0='
+    }
+
+    axios.post(url, obj, {
+      'headers': he
+    })
+      .then((re) => {
+        this.clear_route(some);
+
+        some.ros.ma = this.ros.ma;
+        some.ros.ro = L.geoJSON(re.data);
+
+        let sm = 0;
+        re.data.features.forEach((f) => {
+          sm += parseFloat(f.properties.summary.distance);
+        });
+
+        some.ros.ds = sm;
+
+        this.close_route_form();
+        this.show_route(some);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  cima(latlng) {
+    let ret = L.circleMarker(latlng, {
+      'stroke': false,
+      'fill': true,
+      'fillOpacity': 1,
+      'fillColor': '#2C5DE5',
+      'radius': 5
+    }).addTo(this.map);
+
+    return ret;
+  }
+
+  inp_route_update(ev) {
+    const inp = ev.currentTarget;
+    const val = inp.value;
+
+    let ar = val.split(/[,;: ]/);
+
+    console.log('inp_route_update', val, ar);
+
+    if (ar.length != 2) {
+      inp.value = '';
+      return;
+    }
+
+    if (this.ros.ma) {
+      this.map.removeLayer(this.ros.ma);
+      this.ros.ma = null;
+    }
+
+    const ln = L.latLng([ar[0], ar[1]]);
+    let ma = this.cima(ln);
+
+    this.ros.ma = ma;
+
+    this.map.setView(this.ros.ma.getLatLng(), 17);
+  }
+
+  map_click(e) {
+    let cid = this.get_route_cid();
+
+    if (cid.length == 0) return false;
+
+    let elal = e.latlng
+    this.ros.inp.value = `${elal.lat.toFixed(4)},${elal.lng.toFixed(4)}`;
+
+    if (this.ros.ma) {
+      this.map.removeLayer(this.ros.ma);
+      this.ros.ma = null;
+    }
+
+    this.ros.ma = this.cima(e.latlng);
   }
 
   set_wsmap() {
     this.taber = new Taber();
     this.wsmap = new Wsmap(this);
-    this.ulo = new Uloca(this);
+    this.ulo = new Uloca(this, this.fun);
   }
 
   init_map() {
@@ -68,6 +282,8 @@ class Amap {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
+
+    this.map.on('click', this.map_click.bind(this));
 
     this.set_wsmap();
   }
