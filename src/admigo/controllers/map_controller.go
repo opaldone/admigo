@@ -16,6 +16,7 @@ func MapLoca(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		"map/ix/loca",
 		"map/ix/_mus",
 		"map/ix/_logs",
+		"map/ix/_ros",
 	)
 }
 
@@ -26,11 +27,14 @@ func MapWs(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	cid := fmt.Sprintf("re-%s", common.RandUID())
 
-	link := fmt.Sprintf("%s/ws/%s/0", e.WsMap, cid)
+	link := fmt.Sprintf("%s/ws/%s/0", e.Map.Ws, cid)
 
 	js := map[string]string{
-		"cid":  cid,
-		"link": link,
+		"cid":        cid,
+		"link":       link,
+		"startpoint": e.Map.StartPoint,
+		"routeurl":   e.Map.RouteURL,
+		"routekey":   e.Map.RouteKey,
 	}
 
 	output, _ := json.Marshal(js)

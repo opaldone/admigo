@@ -10,33 +10,55 @@ class Amap {
 
     this.lg = document.getElementById('ws-logs');
     this.lg_clear = document.getElementById('ws-clear');
+    this.lg_errors = document.getElementById('errors-cnt');
 
     this.fun = new Funcs();
     this.fun.ready(this.handler.bind(this));
 
-    this.lg_clear.addEventListener('click', this.ws_clear_click.bind(this));
+    this.lg_clear.addEventListener('click', this.lg_clear_click.bind(this));
+
+    this.ros = {
+      'el': document.getElementById('route-start'),
+      'who': document.getElementById('ros-who'),
+      'inp': document.getElementById('ros-inp'),
+      'bma': document.getElementById('make-route'),
+      'bcl': document.getElementById('clo-route'),
+      'bde': document.getElementById('del-route'),
+      'ma': null
+    };
+
+    this.ros.bcl.addEventListener('click', () => {
+      this.close_route_form();
+    });
+
+    this.ros.bma.addEventListener('click', this.make_route_click.bind(this));
+    this.ros.inp.addEventListener('input', this.inp_route_update.bind(this));
+    this.ros.bde.addEventListener('click', this.del_route_click.bind(this));
   }
 
-  ws_clear_click(e) {
-    e.preventDefault();
-    e.stopPropagation();
+  test_fill_uslist() {
+    let uu = `{
+        "cid": "111",
+        "nik": "Some user 111",
+        "issender": true
+    }`;
 
-    this.lg.innerHTML = '';
+    let lo = `{
+      "cid": "111",
+      "nik": "Some user 111",
+      "pos": {
+        "lat": 57.9865,
+        "lng": 56.2160,
+        "acc": 15
+      }
+    }`
 
-    return false;
-  }
-
-  fm_tm(co) {
-    return co < 10 ? '0' + co : co;
-  }
-
-  get_tm() {
-    let nw = new Date();
-    let ho = nw.getHours();
-    let mi = nw.getMinutes();
-    let se = nw.getSeconds();
-
-    return this.fm_tm(ho) + ':' + this.fm_tm(mi) + ':' + this.fm_tm(se);
+    setTimeout(() => {
+      this.sender_hi(uu);
+      setTimeout(() => {
+        this.ans_loca(lo);
+      }, 1000)
+    }, 1000);
   }
 
   showLog(msg, err) {
@@ -52,35 +74,266 @@ class Amap {
 
     this.lg.prepend(tem.content);
 
+    setTimeout(() => {
+      this.ref_log_cnt();
+    }, 100);
+
     return false;
+  }
+
+  fm_tm(co) {
+    return co < 10 ? '0' + co : co;
+  }
+
+  str_to_latlng(str) {
+    return str.split(/[,;: ]/);
+  }
+
+  get_tm() {
+    let nw = new Date();
+    let ho = nw.getHours();
+    let mi = nw.getMinutes();
+    let se = nw.getSeconds();
+
+    return this.fm_tm(ho) + ':' + this.fm_tm(mi) + ':' + this.fm_tm(se);
+  }
+
+  ref_log_cnt() {
+    this.lg_errors.innerHTML = '';
+    let errs = this.lg.querySelectorAll('.err');
+    let cc = errs.length;
+
+    if (cc == 0) return;
+
+    this.lg_errors.textContent = cc;
+  }
+
+  lg_clear_click(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.lg.innerHTML = '';
+    this.ref_log_cnt();
+
+    return false;
+  }
+
+  show_route(some) {
+    if (!some.ros) return;
+    if (!some.ros.ma) return;
+    if (!some.ros.ro) return;
+
+    some.ros.ma.addTo(this.map);
+    some.ros.ro.addTo(this.map);
+  }
+
+  move_start_route(some) {
+    if (!some.ros) return;
+    if (!some.ros.ma) return;
+
+    this.map.setView(some.ros.ma.getLatLng());
+  }
+
+  move_to_ma(some) {
+    if (!some.ma) return;
+    this.map.setView(some.ma.getLatLng());
+  }
+
+  set_route_cid(some) {
+    let nik = some.nik;
+    this.ros.who.innerHTML = nik;
+    this.ros.el.setAttribute('data-cid', some.cid);
+
+    this.show_route(some);
+    this.move_start_route(some);
+  }
+
+  get_route_cid() {
+    let cid = this.ros.el.getAttribute('data-cid');
+
+    return cid;
+  }
+
+  close_route_form() {
+    this.ros.el.setAttribute('data-cid', '');
+    this.ros.who.innerHTML = '';
+    this.ros.inp.value = '';
+    if (this.ros.ma) {
+      this.map.removeLayer(this.ros.ma);
+      this.ros.ma = null;
+    }
+    this.ulo.sync_litems();
+  }
+
+  clear_route(some) {
+    if (!some.ros) {
+      some.ros = {
+        'ma': null,
+        'ro': null,
+        'ds': -1
+      }
+      return;
+    }
+    if (!some.ros.ma) return;
+    if (!some.ros.ro) return;
+
+    this.map.removeLayer(some.ros.ma);
+    this.map.removeLayer(some.ros.ro);
+
+    some.ros.ma = null;
+    some.ros.ro = null;
+    some.ros.ds = -1;
+  }
+
+  del_route_click() {
+    const cid = this.get_route_cid();
+
+    if (cid.length == 0) return;
+
+    const some = this.uslist[cid];
+
+    if (!some) return;
+
+    this.clear_route(some);
+    this.close_route_form();
+  }
+
+  make_route_click() {
+    const cid = this.get_route_cid();
+
+    if (cid.length == 0) return;
+    if (!this.ros.ma) return;
+
+    const some = this.uslist[cid];
+
+    if (!some) return;
+
+    const pos = some.pos;
+
+    if (!pos) return;
+
+    const rm = this.ros.ma.getLatLng();
+
+    const url = this.wsmap.ws.routeurl;
+    const obj = {
+      'coordinates': [[rm.lng, rm.lat], [pos.lng, pos.lat]]
+    }
+    const he = {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
+      'Authorization': this.wsmap.ws.routekey
+    }
+
+    axios.post(url, obj, {
+      'headers': he
+    })
+      .then((re) => {
+        this.clear_route(some);
+
+        some.ros.ma = this.ros.ma;
+        some.ros.ro = L.geoJSON(re.data);
+
+        let sm = 0;
+        re.data.features.forEach((f) => {
+          sm += parseFloat(f.properties.summary.distance);
+        });
+
+        some.ros.ds = sm;
+
+        this.close_route_form();
+        this.show_route(some);
+      })
+      .catch((err) => {
+        this.showLog(err, true);
+      });
+  }
+
+  cima(latlng) {
+    let ret = L.circleMarker(latlng, {
+      'stroke': false,
+      'fill': true,
+      'fillOpacity': 1,
+      'fillColor': '#2C5DE5',
+      'radius': 5
+    }).addTo(this.map);
+
+    return ret;
+  }
+
+  inp_route_update(ev) {
+    const inp = ev.currentTarget;
+    const val = inp.value;
+
+    let ar = this.str_to_latlng(val);
+
+    if (ar.length != 2) {
+      inp.value = '';
+      return;
+    }
+
+    if (this.ros.ma) {
+      this.map.removeLayer(this.ros.ma);
+      this.ros.ma = null;
+    }
+
+    const ln = L.latLng([ar[0], ar[1]]);
+    let ma = this.cima(ln);
+
+    this.ros.ma = ma;
+
+    this.map.setView(this.ros.ma.getLatLng());
+  }
+
+  map_click(e) {
+    let cid = this.get_route_cid();
+
+    if (cid.length == 0) return false;
+
+    let elal = e.latlng
+    this.ros.inp.value = `${elal.lat.toFixed(4)},${elal.lng.toFixed(4)}`;
+
+    if (this.ros.ma) {
+      this.map.removeLayer(this.ros.ma);
+      this.ros.ma = null;
+    }
+
+    this.ros.ma = this.cima(e.latlng);
   }
 
   set_wsmap() {
     this.taber = new Taber();
     this.wsmap = new Wsmap(this);
-    this.ulo = new Uloca(this);
+    this.ulo = new Uloca(this, this.fun);
   }
 
   init_map() {
-    this.map = L.map(this.elmap).setView([57.989287, 56.213889], 13);
+    this.map = L.map(this.elmap);
+    this.map.on('load', () => {
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(this.map);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(this.map);
+      this.wsmap.startWs();
 
-    this.set_wsmap();
+      // todo: test1
+      // this.test_fill_uslist();
+      // \todo: test1
+    });
+    this.map.on('click', this.map_click.bind(this));
+    this.map.setView(this.str_to_latlng(this.wsmap.ws.startpoint), 17);
   }
 
   handler() {
-    this.init_map();
+    this.set_wsmap();
   }
 
   set_uslist_item(v) {
-    let cid = v.cid;
+    const cid = v.cid;
 
     if (!this.uslist[cid]) {
       this.uslist[cid] = {
+        'cid': cid,
         'nik': '',
         'issender': false,
         'pos': null
@@ -89,7 +342,7 @@ class Amap {
 
     this.uslist[cid]['nik'] = v.nik;
     this.uslist[cid]['issender'] = v.issender;
-    this.uslist[cid].pos = v.pos;
+    this.uslist[cid]['pos'] = v.pos;
   }
 
   rem_uslist_item(v) {
@@ -147,8 +400,8 @@ class Amap {
     this.rem_uslist_item(js);
   }
 
-  req_loca(cid) {
-    this.wsmap.req_loca_cid(cid);
+  req_loca(some) {
+    this.wsmap.req_loca_cid(some.cid);
   }
 
   ans_loca(cont) {

@@ -164,14 +164,22 @@
   color: #fff;
 }
 
-a.form-btn {
+.form-btn.light {
   background-color: #e7e7e7;
   color: #111;
 }
 
-a.form-btn:hover {
+.form-btn.light:hover {
   background-color: #e0e0e0;
   color: #111;
+}
+
+.form-btn.red {
+  background-color: #ff3311;
+}
+
+.form-btn.red:hover {
+  background-color: #d9290c;
 }
 
 .form-btn + .form-btn {

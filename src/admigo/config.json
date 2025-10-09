@@ -13,7 +13,6 @@
   "crt": "./certs_local/server.crt",
   "key": "./certs_local/server.key",
   "lang": "en",
-  "wsmap": "wss://admigo.so:8088",
   "db": {
     "host": "localhost",
     "driver": "postgres",
@@ -29,5 +28,12 @@
     "port": 465,
     "username": "pav.shavkunov@yandex.ru",
     "gotourl": "https://admigo.so"
+  },
+  "map": {
+    "ws1": "wss://opaldone.su:8088",
+    "ws": "wss://admigo.so:8088",
+    "startpoint": "57.989287,56.213889",
+    "routeurl": "https://api.openrouteservice.org/v2/directions/driving-car/geojson",
+    "routekey": "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjI5Y2U4YjE0YmMwZTQ2ZDVhNDI3NzFlNDU2MzhlODI5IiwiaCI6Im11cm11cjY0In0="
   }
 }
