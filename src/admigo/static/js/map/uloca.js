@@ -20,24 +20,20 @@ class Uloca {
     });
   }
 
-  ref_coo_cont(cid, pos, msg_in) {
-    let liel = document.getElementById(cid);
+  ref_coo_cont(some) {
+    let liel = document.getElementById(some.cid);
 
     if (!liel) return;
 
-    let sid = 'coo-' + cid;
+    let sid = 'coo-' + some.cid;
     let el = document.getElementById(sid);
 
     if (!el) return;
 
-    let msg = '';
+    let msg = 'Press the item to get the location';
 
-    if (msg_in) {
-      msg = msg_in;
-    }
-
-    if (pos) {
-      msg = `<i class="fa-solid fa-location-crosshairs"></i><span>${pos.lat.toFixed(4)},${pos.lng.toFixed(4)}</span>`;
+    if (some.pos) {
+      msg = `<i class="fa-solid fa-location-crosshairs"></i><span>${some.pos.lat.toFixed(4)},${some.pos.lng.toFixed(4)}</span>`;
     }
 
     el.innerHTML = msg;
@@ -66,13 +62,13 @@ class Uloca {
     return ret;
   }
 
-  ref_dista_cont(cid, some) {
+  ref_dista_cont(some) {
     if (!some.ros) return;
     if (!some.ros.ds) return;
 
-    let liel = document.getElementById(cid);
+    let liel = document.getElementById(some.cid);
     if (!liel) return;
-    let sid = 'dista-' + cid;
+    let sid = 'dista-' + some.cid;
     let el = document.getElementById(sid);
     if (!el) return;
 
@@ -109,7 +105,7 @@ class Uloca {
         litem.classList.remove('in-route');
       }
 
-      this.ref_dista_cont(cid, some);
+      this.ref_dista_cont(some);
     });
   }
 
@@ -120,14 +116,14 @@ class Uloca {
     some.tm = null;
   }
 
-  update_timer(cid, some) {
+  update_timer(some) {
     this.clear_timer(some);
 
     if (!some.in_se) return;
 
     some.tm = setTimeout(() => {
-      this.oin.req_loca(cid);
-    }, 1000);
+      this.oin.req_loca(some);
+    }, 5000);
   }
 
   ref_ma(cid) {
@@ -135,8 +131,8 @@ class Uloca {
 
     if (!some) return false;
 
-    this.ref_coo_cont(cid, some.pos, null);
-    this.update_timer(cid, some);
+    this.ref_coo_cont(some);
+    this.update_timer(some);
 
     if (!some.pos) return false;
 
@@ -170,7 +166,7 @@ class Uloca {
     }
 
     if (can_move) {
-      this.oin.map.setView(some.ma.getLatLng(), 17);
+      this.oin.move_to_ma(some);
     }
   }
 
@@ -209,7 +205,8 @@ class Uloca {
     some.in_se = true;
     this.sync_litems();
 
-    this.oin.req_loca(cid);
+    this.oin.move_to_ma(some);
+    this.oin.req_loca(some);
 
     return false;
   }
@@ -225,7 +222,7 @@ class Uloca {
     let some = this.oin.uslist[cid];
 
     if (!some.pos) {
-      this.ref_coo_cont(cid, null, 'Press the item to get the location');
+      this.ref_coo_cont(some);
       return false;
     }
 
@@ -234,7 +231,7 @@ class Uloca {
       return false;
     }
 
-    this.oin.set_route_cid(cid);
+    this.oin.set_route_cid(some);
     this.sync_litems();
 
     return false;
@@ -294,7 +291,7 @@ class Uloca {
       }
 
       let nik = document.getElementById('nik-' + cid);
-      nik.textContent = some.nik.length ? some.nik : cid;
+      nik.textContent = some.nik.length ? some.nik : some.cid;
     });
 
     this.docon();

@@ -36,8 +36,57 @@ class Amap {
     this.ros.bde.addEventListener('click', this.del_route_click.bind(this));
   }
 
+  test_fill_uslist() {
+    let uu = `{
+        "cid": "111",
+        "nik": "Some user 111",
+        "issender": true
+    }`;
+
+    let lo = `{
+      "cid": "111",
+      "nik": "Some user 111",
+      "pos": {
+        "lat": 57.9865,
+        "lng": 56.2160,
+        "acc": 15
+      }
+    }`
+
+    setTimeout(() => {
+      this.sender_hi(uu);
+      setTimeout(() => {
+        this.ans_loca(lo);
+      }, 1000)
+    }, 1000);
+  }
+
+  showLog(msg, err) {
+    let si = '<li';
+    if (err) {
+      si += ' class="err"';
+    }
+    si += '><span class="lg-msg">' + msg + '</span>' +
+      '<span class="lg-tm">' + this.get_tm() + '</span></li>';
+
+    let tem = document.createElement('template');
+    tem.innerHTML = si;
+
+    this.lg.prepend(tem.content);
+
+    setTimeout(() => {
+      this.ref_log_cnt();
+    }, 100);
+
+    return false;
+  }
+
   fm_tm(co) {
     return co < 10 ? '0' + co : co;
+  }
+
+  str_to_latlng(str) {
+    return str.split(/[,;: ]/);
   }
 
   get_tm() {
@@ -69,26 +118,6 @@ class Amap {
     return false;
   }
 
-  showLog(msg, err) {
-    let si = '<li';
-    if (err) {
-      si += ' class="err"';
-    }
-    si += '><span class="lg-msg">' + msg + '</span>' +
-      '<span class="lg-tm">' + this.get_tm() + '</span></li>';
-
-    let tem = document.createElement('template');
-    tem.innerHTML = si;
-
-    this.lg.prepend(tem.content);
-
-    setTimeout(() => {
-      this.ref_log_cnt();
-    }, 100);
-
-    return false;
-  }
-
   show_route(some) {
     if (!some.ros) return;
     if (!some.ros.ma) return;
@@ -102,14 +131,18 @@ class Amap {
     if (!some.ros) return;
     if (!some.ros.ma) return;
 
-    this.map.setView(some.ros.ma.getLatLng(), 17);
+    this.map.setView(some.ros.ma.getLatLng());
   }
 
-  set_route_cid(cid) {
-    const some = this.uslist[cid];
+  move_to_ma(some) {
+    if (!some.ma) return;
+    this.map.setView(some.ma.getLatLng());
+  }
+
+  set_route_cid(some) {
     let nik = some.nik;
     this.ros.who.innerHTML = nik;
-    this.ros.el.setAttribute('data-cid', cid);
+    this.ros.el.setAttribute('data-cid', some.cid);
 
     this.show_route(some);
     this.move_start_route(some);
@@ -181,14 +214,14 @@ class Amap {
 
     const rm = this.ros.ma.getLatLng();
 
-    const url = 'https://api.openrouteservice.org/v2/directions/driving-car/geojson';
+    const url = this.wsmap.ws.routeurl;
     const obj = {
       'coordinates': [[rm.lng, rm.lat], [pos.lng, pos.lat]]
     }
     const he = {
       'Content-Type': 'application/json; charset=utf-8',
       'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
-      'Authorization': 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjI5Y2U4YjE0YmMwZTQ2ZDVhNDI3NzFlNDU2MzhlODI5IiwiaCI6Im11cm11cjY0In0='
+      'Authorization': this.wsmap.ws.routekey
     }
 
     axios.post(url, obj, {
@@ -211,7 +244,7 @@ class Amap {
         this.show_route(some);
       })
       .catch((err) => {
-        console.log(err);
+        this.showLog(err, true);
       });
   }
 
@@ -231,9 +264,7 @@ class Amap {
     const inp = ev.currentTarget;
     const val = inp.value;
 
-    let ar = val.split(/[,;: ]/);
-
-    console.log('inp_route_update', val, ar);
+    let ar = this.str_to_latlng(val);
 
     if (ar.length != 2) {
       inp.value = '';
@@ -250,7 +281,7 @@ class Amap {
 
     this.ros.ma = ma;
 
-    this.map.setView(this.ros.ma.getLatLng(), 17);
+    this.map.setView(this.ros.ma.getLatLng());
   }
 
   map_click(e) {
@@ -276,27 +307,33 @@ class Amap {
   }
 
   init_map() {
-    this.map = L.map(this.elmap).setView([57.989287, 56.213889], 13);
+    this.map = L.map(this.elmap);
+    this.map.on('load', () => {
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(this.map);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(this.map);
+      this.wsmap.startWs();
 
+      // todo: test1
+      // this.test_fill_uslist();
+      // \todo: test1
+    });
     this.map.on('click', this.map_click.bind(this));
-
-    this.set_wsmap();
+    this.map.setView(this.str_to_latlng(this.wsmap.ws.startpoint), 17);
   }
 
   handler() {
-    this.init_map();
+    this.set_wsmap();
   }
 
   set_uslist_item(v) {
-    let cid = v.cid;
+    const cid = v.cid;
 
     if (!this.uslist[cid]) {
       this.uslist[cid] = {
+        'cid': cid,
         'nik': '',
         'issender': false,
         'pos': null
@@ -305,7 +342,7 @@ class Amap {
 
     this.uslist[cid]['nik'] = v.nik;
     this.uslist[cid]['issender'] = v.issender;
-    this.uslist[cid].pos = v.pos;
+    this.uslist[cid]['pos'] = v.pos;
   }
 
   rem_uslist_item(v) {
@@ -363,8 +400,8 @@ class Amap {
     this.rem_uslist_item(js);
   }
 
-  req_loca(cid) {
-    this.wsmap.req_loca_cid(cid);
+  req_loca(some) {
+    this.wsmap.req_loca_cid(some.cid);
   }
 
   ans_loca(cont) {

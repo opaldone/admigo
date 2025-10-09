@@ -27,6 +27,13 @@ type mailConfig struct {
 	GotoURL  string `json:"gotourl"`
 }
 
+type mapConfig struct {
+	Ws         string `json:"ws"`
+	StartPoint string `json:"startpoint"`
+	RouteURL   string `json:"routeurl"`
+	RouteKey   string `json:"routekey"`
+}
+
 // Configuration type for config of admigo
 type Configuration struct {
 	Appname  string      `json:"appname"`
@@ -39,9 +46,9 @@ type Configuration struct {
 	Crt      string      `json:"crt,omitempty"`
 	Key      string      `json:"key,omitempty"`
 	Lang     string      `json:"lang"`
-	WsMap    string      `json:"wsmap"`
 	DB       *dbConfig   `json:"db"`
 	Mail     *mailConfig `json:"mail"`
+	Map      *mapConfig  `json:"map"`
 }
 
 var (

@@ -1,13 +1,16 @@
 ;"use strict";
 class Wsmap {
-  constructor(par_in) {
-    this.oin = par_in;
+  constructor(oin_in) {
+    this.oin = oin_in;
 
     this.ws = {
-      wsurl: '',
-      cid: '',
-      handler: null,
-      TPS: {
+      'wsurl': '',
+      'cid': '',
+      'startpoint': '',
+      'routeurl': '',
+      'routekey': '',
+      'handler': null,
+      'TPS': {
         "RLOCA": "rloca",
         "ALOCA": "aloca",
         "CLIST": "clist",
@@ -16,10 +19,10 @@ class Wsmap {
       }
     };
 
-    this.wsConf()
+    this.initConf()
   }
 
-  wsConf() {
+  initConf() {
     const cs = document.getElementsByName("gorilla.csrf.Token")[0].value;
     const url = this.oin.elmap.getAttribute('href');
 
@@ -29,7 +32,10 @@ class Wsmap {
       .then((re) => {
         this.ws.cid = re.data.cid;
         this.ws.wsurl = re.data.link;
-        this.startWs();
+        this.ws.startpoint = re.data.startpoint;
+        this.ws.routeurl = re.data.routeurl;
+        this.ws.routekey = re.data.routekey;
+        this.oin.init_map();
       })
       .catch(err => {
         this.oin.showLog(err, true);
