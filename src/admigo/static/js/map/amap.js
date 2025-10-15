@@ -16,24 +16,6 @@ class Amap {
     this.fun.ready(this.handler.bind(this));
 
     this.lg_clear.addEventListener('click', this.lg_clear_click.bind(this));
-
-    this.ros = {
-      'el': document.getElementById('route-start'),
-      'who': document.getElementById('ros-who'),
-      'inp': document.getElementById('ros-inp'),
-      'bma': document.getElementById('make-route'),
-      'bcl': document.getElementById('clo-route'),
-      'bde': document.getElementById('del-route'),
-      'ma': null
-    };
-
-    this.ros.bcl.addEventListener('click', () => {
-      this.close_route_form();
-    });
-
-    this.ros.bma.addEventListener('click', this.make_route_click.bind(this));
-    this.ros.inp.addEventListener('input', this.inp_route_update.bind(this));
-    this.ros.bde.addEventListener('click', this.del_route_click.bind(this));
   }
 
   test_fill_uslist() {
@@ -47,9 +29,41 @@ class Amap {
       "cid": "111",
       "nik": "Some user 111",
       "pos": {
-        "lat": 57.9865,
-        "lng": 56.2160,
+        "lat": 57.9895,
+        "lng": 56.2143,
         "acc": 15
+      }
+    }`
+
+    let uul = `{
+        "cid": "222",
+        "nik": "Some user 222",
+        "issender": true
+    }`;
+
+    let lol = `{
+      "cid": "222",
+      "nik": "Some user 222",
+      "pos": {
+        "lat": 58.0202,
+        "lng": 56.3009,
+        "acc": 15
+      }
+    }`
+
+    let uuq = `{
+        "cid": "333",
+        "nik": "Some user 333",
+        "issender": true
+    }`;
+
+    let loq = `{
+      "cid": "333",
+      "nik": "Some user 333",
+      "pos": {
+        "lat": 57.9875,
+        "lng": 56.2152,
+        "acc": 10
       }
     }`
 
@@ -57,8 +71,22 @@ class Amap {
       this.sender_hi(uu);
       setTimeout(() => {
         this.ans_loca(lo);
-      }, 1000)
+      }, 500)
     }, 1000);
+
+    setTimeout(() => {
+      this.sender_hi(uuq);
+      setTimeout(() => {
+        this.ans_loca(loq);
+      }, 500)
+    }, 2000);
+
+    setTimeout(() => {
+      this.sender_hi(uul);
+      setTimeout(() => {
+        this.ans_loca(lol);
+      }, 500)
+    }, 3000);
   }
 
   showLog(msg, err) {
@@ -118,192 +146,21 @@ class Amap {
     return false;
   }
 
-  show_route(some) {
-    if (!some.ros) return;
-    if (!some.ros.ma) return;
-    if (!some.ros.ro) return;
-
-    some.ros.ma.addTo(this.map);
-    some.ros.ro.addTo(this.map);
-  }
-
-  move_start_route(some) {
-    if (!some.ros) return;
-    if (!some.ros.ma) return;
-
-    this.map.setView(some.ros.ma.getLatLng());
+  sync_litems() {
+    this.ulo.sync_litems()
   }
 
   move_to_ma(some) {
     if (!some.ma) return;
     this.map.setView(some.ma.getLatLng());
-  }
-
-  set_route_cid(some) {
-    let nik = some.nik;
-    this.ros.who.innerHTML = nik;
-    this.ros.el.setAttribute('data-cid', some.cid);
-
-    this.show_route(some);
-    this.move_start_route(some);
-  }
-
-  get_route_cid() {
-    let cid = this.ros.el.getAttribute('data-cid');
-
-    return cid;
-  }
-
-  close_route_form() {
-    this.ros.el.setAttribute('data-cid', '');
-    this.ros.who.innerHTML = '';
-    this.ros.inp.value = '';
-    if (this.ros.ma) {
-      this.map.removeLayer(this.ros.ma);
-      this.ros.ma = null;
-    }
-    this.ulo.sync_litems();
-  }
-
-  clear_route(some) {
-    if (!some.ros) {
-      some.ros = {
-        'ma': null,
-        'ro': null,
-        'ds': -1
-      }
-      return;
-    }
-    if (!some.ros.ma) return;
-    if (!some.ros.ro) return;
-
-    this.map.removeLayer(some.ros.ma);
-    this.map.removeLayer(some.ros.ro);
-
-    some.ros.ma = null;
-    some.ros.ro = null;
-    some.ros.ds = -1;
-  }
-
-  del_route_click() {
-    const cid = this.get_route_cid();
-
-    if (cid.length == 0) return;
-
-    const some = this.uslist[cid];
-
-    if (!some) return;
-
-    this.clear_route(some);
-    this.close_route_form();
-  }
-
-  make_route_click() {
-    const cid = this.get_route_cid();
-
-    if (cid.length == 0) return;
-    if (!this.ros.ma) return;
-
-    const some = this.uslist[cid];
-
-    if (!some) return;
-
-    const pos = some.pos;
-
-    if (!pos) return;
-
-    const rm = this.ros.ma.getLatLng();
-
-    const url = this.wsmap.ws.routeurl;
-    const obj = {
-      'coordinates': [[rm.lng, rm.lat], [pos.lng, pos.lat]]
-    }
-    const he = {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
-      'Authorization': this.wsmap.ws.routekey
-    }
-
-    axios.post(url, obj, {
-      'headers': he
-    })
-      .then((re) => {
-        this.clear_route(some);
-
-        some.ros.ma = this.ros.ma;
-        some.ros.ro = L.geoJSON(re.data);
-
-        let sm = 0;
-        re.data.features.forEach((f) => {
-          sm += parseFloat(f.properties.summary.distance);
-        });
-
-        some.ros.ds = sm;
-
-        this.close_route_form();
-        this.show_route(some);
-      })
-      .catch((err) => {
-        this.showLog(err, true);
-      });
-  }
-
-  cima(latlng) {
-    let ret = L.circleMarker(latlng, {
-      'stroke': false,
-      'fill': true,
-      'fillOpacity': 1,
-      'fillColor': '#2C5DE5',
-      'radius': 5
-    }).addTo(this.map);
-
-    return ret;
-  }
-
-  inp_route_update(ev) {
-    const inp = ev.currentTarget;
-    const val = inp.value;
-
-    let ar = this.str_to_latlng(val);
-
-    if (ar.length != 2) {
-      inp.value = '';
-      return;
-    }
-
-    if (this.ros.ma) {
-      this.map.removeLayer(this.ros.ma);
-      this.ros.ma = null;
-    }
-
-    const ln = L.latLng([ar[0], ar[1]]);
-    let ma = this.cima(ln);
-
-    this.ros.ma = ma;
-
-    this.map.setView(this.ros.ma.getLatLng());
-  }
-
-  map_click(e) {
-    let cid = this.get_route_cid();
-
-    if (cid.length == 0) return false;
-
-    let elal = e.latlng
-    this.ros.inp.value = `${elal.lat.toFixed(4)},${elal.lng.toFixed(4)}`;
-
-    if (this.ros.ma) {
-      this.map.removeLayer(this.ros.ma);
-      this.ros.ma = null;
-    }
-
-    this.ros.ma = this.cima(e.latlng);
+    some.ma.openPopup();
   }
 
   set_wsmap() {
     this.taber = new Taber();
     this.wsmap = new Wsmap(this);
     this.ulo = new Uloca(this, this.fun);
+    this.mro = new Mroute(this);
   }
 
   init_map() {
@@ -316,16 +173,20 @@ class Amap {
 
       this.wsmap.startWs();
 
-      // todo: test1
       // this.test_fill_uslist();
-      // \todo: test1
     });
-    this.map.on('click', this.map_click.bind(this));
+    this.mro.init_map_event();
     this.map.setView(this.str_to_latlng(this.wsmap.ws.startpoint), 17);
   }
 
   handler() {
     this.set_wsmap();
+  }
+
+  hide_tabs() {
+    if (!this.taber) return;
+
+    this.taber.hide_tabs();
   }
 
   set_uslist_item(v) {
@@ -350,15 +211,13 @@ class Amap {
 
     this.ulo.rem_from_list(cid);
 
-    if (!this.uslist[cid]) return;
+    let some = this.uslist[cid]
 
-    if (this.uslist[cid].ma) {
-      this.map.removeLayer(this.uslist[cid].ma);
-    }
+    if (!some) return;
 
-    if (this.uslist[cid].ci) {
-      this.map.removeLayer(this.uslist[cid].ci);
-    }
+    if (some.ma) this.map.removeLayer(some.ma);
+    if (some.ci) this.map.removeLayer(some.ci);
+    this.mro.clear_route(some);
 
     delete this.uslist[cid];
   }
@@ -413,6 +272,26 @@ class Amap {
 
     this.set_uslist_item(js);
     this.ulo.ref_ma(js.cid);
+  }
+
+  set_route_cid(some) {
+    this.mro.set_route_cid(some);
+  }
+
+  get_route_cid() {
+    return this.mro.get_route_cid();
+  }
+
+  close_route_form() {
+    this.mro.close_route_form();
+  }
+
+  bet_route(cids) {
+    this.mro.bet_route(cids);
+  }
+
+  clear_bero() {
+    this.ulo.clear_bero();
   }
 }
 

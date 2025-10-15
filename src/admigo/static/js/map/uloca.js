@@ -6,6 +6,7 @@ class Uloca {
     this.list = document.getElementById('map-users');
     this.user_cnt = document.getElementById('users-cnt');
     this.li_tag = this.get_li_tag();
+    this.bero = [];
   }
 
   docon() {
@@ -17,6 +18,11 @@ class Uloca {
     this.list.querySelectorAll('.us-route').forEach(el => {
       if (this.oin.fun.once(el, 'us_route_click')) return;
       el.addEventListener('click', this.us_route_click.bind(this));
+    });
+
+    this.list.querySelectorAll('.bet-us-route').forEach(el => {
+      if (this.oin.fun.once(el, 'bet_us_route_click')) return;
+      el.addEventListener('click', this.bet_us_route_click.bind(this));
     });
   }
 
@@ -33,7 +39,7 @@ class Uloca {
     let msg = 'Press the item to get the location';
 
     if (some.pos) {
-      msg = `<i class="fa-solid fa-location-crosshairs"></i><span>${some.pos.lat.toFixed(4)},${some.pos.lng.toFixed(4)}</span>`;
+      msg = `<i class="fa-solid fa-location-crosshairs"></i><div class="i-val">${some.pos.lat.toFixed(4)},${some.pos.lng.toFixed(4)}</div>`;
     }
 
     el.innerHTML = msg;
@@ -48,11 +54,11 @@ class Uloca {
     let ret = "";
 
     if (kms > 0) {
-      ret += `${kms} km`;
+      ret += `${kms}<span>km</span>`;
     }
 
     if (mts > 0) {
-      ret += ` ${mts.toFixed(0)} m`;
+      ret += ` ${mts.toFixed(0)}<span>m</span>`;
     }
 
     if (kms === 0 && mts === 0) {
@@ -76,7 +82,7 @@ class Uloca {
 
     let msg = '';
     if (dis.length > 0) {
-      msg = '<i class="fa-solid fa-route"></i><span>' + dis + '</span>';
+      msg = '<i class="fa-solid fa-compass-drafting"></i><div class="i-val">' + dis + '</div>';
     }
 
     el.innerHTML = msg;
@@ -103,6 +109,18 @@ class Uloca {
         litem.classList.add('in-route');
       } else {
         litem.classList.remove('in-route');
+      }
+
+      if (some.ros && some.ros.ro) {
+        litem.classList.add('w-route');
+      } else {
+        litem.classList.remove('w-route');
+      }
+
+      if (this.bero.includes(cid)) {
+        litem.classList.add('in-bero')
+      } else {
+        litem.classList.remove('in-bero');
       }
 
       this.ref_dista_cont(some);
@@ -233,6 +251,49 @@ class Uloca {
 
     this.oin.set_route_cid(some);
     this.sync_litems();
+    this.oin.hide_tabs();
+
+    return false;
+  }
+
+  check_bero() {
+    if (this.bero.length < 2) return;
+
+    this.oin.bet_route(this.bero);
+  }
+
+  clear_bero() {
+    this.bero = [];
+    this.sync_litems();
+  }
+
+  bet_us_route_click(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let el = e.currentTarget;
+    let li_cont = this.fun.parent(el, '.map-us-li');
+    let cid = li_cont.getAttribute('id');
+    let in_bero = li_cont.classList.contains('in-bero');
+    let some = this.oin.uslist[cid];
+
+    if (!some.ma) {
+      this.ref_coo_cont(some);
+      return false;
+    }
+
+    if (in_bero) {
+      this.bero = this.bero.filter(cidin => cidin !== cid);
+      this.sync_litems();
+      return false;
+    }
+
+    if (!this.bero.includes(cid)) {
+      this.bero.push(cid);
+    }
+
+    this.check_bero();
+    this.sync_litems();
 
     return false;
   }
@@ -258,9 +319,11 @@ class Uloca {
       '<span class="us-route" title="Make a route">' +
       '<i class="fa-solid fa-car-side"></i>' +
       '</span>' +
+      '<span class="bet-us-route" title="Make a route between people">' +
+      '<i class="fa-solid fa-person-walking-arrow-loop-left"></i>' +
+      '</span>' +
       '</div>' +
       '</div>' +
-      '<div class="req-loc"><i class="fa-solid fa-thumbtack"></i></div>' +
       '</li>';
 
     return ret;
