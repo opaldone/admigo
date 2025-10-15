@@ -88,4 +88,5 @@ W_FILES=(
     "$src/static/js/map/wsmap.js;$bin/static/js/map/wsmap.js"
     "$src/static/js/map/taber.js;$bin/static/js/map/taber.js"
     "$src/static/js/map/uloca.js;$bin/static/js/map/uloca.js"
+    "$src/static/js/map/mroute.js;$bin/static/js/map/mroute.js"
 )

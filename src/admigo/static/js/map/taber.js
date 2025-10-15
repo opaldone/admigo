@@ -12,7 +12,7 @@ class Taber {
 
     document.querySelectorAll('.tb-coh').forEach((el) => {
       el.addEventListener('click', () => {
-        this._clear_cls('');
+        this.hide_tabs();
       });
     });
   }
@@ -34,6 +34,10 @@ class Taber {
       if (sid == tid) return;
       this._rem_cls(sid);
     });
+  }
+
+  hide_tabs() {
+    this._clear_cls('');
   }
 
   tb_click(e) {
