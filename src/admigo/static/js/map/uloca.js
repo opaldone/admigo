@@ -26,25 +26,6 @@ class Uloca {
     });
   }
 
-  ref_coo_cont(some) {
-    let liel = document.getElementById(some.cid);
-
-    if (!liel) return;
-
-    let sid = 'coo-' + some.cid;
-    let el = document.getElementById(sid);
-
-    if (!el) return;
-
-    let msg = 'Press the item to get the location';
-
-    if (some.pos) {
-      msg = `<i class="fa-solid fa-location-crosshairs"></i><div class="i-val">${some.pos.lat.toFixed(4)},${some.pos.lng.toFixed(4)}</div>`;
-    }
-
-    el.innerHTML = msg;
-  }
-
   fm_distance(di) {
     if (di <= 0) return '';
 
@@ -68,12 +49,59 @@ class Uloca {
     return ret;
   }
 
+  fm_bat(ba) {
+    let num = Math.ceil(ba / 10) * 10;
+
+    switch (true) {
+      case (num == 100):
+        return 'full';
+      case (num >= 75 && num < 100):
+        return 'three-quarters';
+      case (num >= 50 && num < 75):
+        return 'half';
+      case (num >= 25 && num < 50):
+        return 'quarter';
+      default:
+        return 'empty';
+    }
+  }
+
+  ref_coo_cont(some) {
+    let sid = 'coo-' + some.cid;
+    let el = document.getElementById(sid);
+
+    if (!el) return;
+
+    let msg = 'Press the item to get the location';
+
+    if (some.pos) {
+      msg = `<i class="fa-solid fa-location-crosshairs"></i><div class="i-val">${some.pos.lat.toFixed(4)},${some.pos.lng.toFixed(4)}</div>`;
+    }
+
+    el.innerHTML = msg;
+  }
+
+  ref_bat_cont(some) {
+    if (!some.bat) return;
+
+    let ba = parseInt(some.bat);
+    if (ba < 0) return;
+
+    let sid = 'bat-' + some.cid;
+    let el = document.getElementById(sid);
+    if (!el) return;
+
+    let bc = this.fm_bat(ba);
+
+    let msg = '<i class="fa-solid fa-battery-' + bc + '"></i><div class="i-val">' + ba + '<span>%</span></div>';
+
+    el.innerHTML = msg;
+  }
+
   ref_dista_cont(some) {
     if (!some.ros) return;
     if (!some.ros.ds) return;
 
-    let liel = document.getElementById(some.cid);
-    if (!liel) return;
     let sid = 'dista-' + some.cid;
     let el = document.getElementById(sid);
     if (!el) return;
@@ -150,6 +178,7 @@ class Uloca {
     if (!some) return false;
 
     this.ref_coo_cont(some);
+    this.ref_bat_cont(some);
     this.update_timer(some);
 
     if (!some.pos) return false;
@@ -317,6 +346,7 @@ class Uloca {
       '<div class="info-cont">' +
       '<div class="coo-cont" id="coo-#CID#" title="Location"></div>' +
       '<div class="coo-cont" id="dista-#CID#" title="Distance"></div>' +
+      '<div class="coo-cont" id="bat-#CID#" title="Battery"></div>' +
       '</div>' +
       '<div class="us-btn-cont">' +
       '<span class="us-route" title="Make a route">' +

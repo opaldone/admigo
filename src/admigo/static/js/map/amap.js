@@ -202,6 +202,7 @@ class Amap {
       this.uslist[cid] = {
         'cid': cid,
         'nik': '',
+        'bat': -1,
         'issender': false,
         'pos': null
       };
@@ -210,6 +211,7 @@ class Amap {
     this.uslist[cid]['nik'] = v.nik;
     this.uslist[cid]['issender'] = v.issender;
     this.uslist[cid]['pos'] = v.pos;
+    this.uslist[cid]['bat'] = v.bat;
   }
 
   rem_uslist_item(v) {
