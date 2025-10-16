@@ -24,10 +24,12 @@ class Mroute {
 
   cima(latlng) {
     let ret = L.circleMarker(latlng, {
-      'stroke': false,
+      'stroke': true,
       'fill': true,
       'fillOpacity': 1,
-      'fillColor': '#2C5DE5',
+      'fillColor': '#ffffff',
+      'weight': 3,
+      'color': '#2b5de5',
       'radius': 5
     }).addTo(this.oin.map);
 
@@ -37,7 +39,9 @@ class Mroute {
   map_route(geo_json) {
     let ro = L.geoJSON(geo_json, {
       'style': {
-        color: '#2b5de5',
+        'color': '#2b5de5',
+        'weight': 10,
+        'opacity': 0.5
       }
     });
 

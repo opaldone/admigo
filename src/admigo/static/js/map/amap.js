@@ -2,6 +2,7 @@
 class Amap {
   constructor() {
     this.map = null;
+    this.mai = null;
     this.wsmap = null;
     this.taber = null;
     this.ulo = null;
@@ -21,13 +22,13 @@ class Amap {
   test_fill_uslist() {
     let uu = `{
         "cid": "111",
-        "nik": "Some user 111",
+        "nik": "Шавкунов Павел Сергеевич",
         "issender": true
     }`;
 
     let lo = `{
       "cid": "111",
-      "nik": "Some user 111",
+      "nik": "Шавкунов Павел Сергеевич",
       "pos": {
         "lat": 57.9895,
         "lng": 56.2143,
@@ -63,7 +64,7 @@ class Amap {
       "pos": {
         "lat": 57.9875,
         "lng": 56.2152,
-        "acc": 10
+        "acc": 30
       }
     }`
 
@@ -81,12 +82,12 @@ class Amap {
       }, 500)
     }, 2000);
 
-    setTimeout(() => {
-      this.sender_hi(uul);
-      setTimeout(() => {
-        this.ans_loca(lol);
-      }, 500)
-    }, 3000);
+    // setTimeout(() => {
+      // this.sender_hi(uul);
+      // setTimeout(() => {
+        // this.ans_loca(lol);
+      // }, 500)
+    // }, 3000);
   }
 
   showLog(msg, err) {
@@ -174,6 +175,11 @@ class Amap {
       this.wsmap.startWs();
 
       // this.test_fill_uslist();
+    });
+    this.mai = L.icon({
+      iconUrl: '/static/images/map/ma.png',
+      iconAnchor:   [10, 25],
+      popupAnchor:  [0, -25]
     });
     this.mro.init_map_event();
     this.map.setView(this.str_to_latlng(this.wsmap.ws.startpoint), 17);
