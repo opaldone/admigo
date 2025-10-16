@@ -165,9 +165,11 @@ class Uloca {
         some.ma.closePopup();
       }
     } else {
-      some.ma = L.marker(sp).addTo(this.oin.map);
+      some.ma = L.marker(sp, {
+        'icon': this.oin.mai
+      }).addTo(this.oin.map);
       let pop = some.nik ? some.nik : some.cid;
-      some.ma.bindPopup('<b>' + pop + '</b>').openPopup();
+      some.ma.bindPopup(pop).openPopup();
     }
 
     if (some.ci) {
@@ -175,11 +177,12 @@ class Uloca {
       some.ci.setRadius(some.pos.acc);
     } else {
       some.ci = L.circle(sp, {
-        color: '#2b5de5',
-        fillColor: '#2b5de5',
-        fillOpacity: 0.5,
-        stroke: false,
-        radius: some.pos.acc
+        'fillColor': '#2b5de5',
+        'fillOpacity': 0.2,
+        'stroke': false,
+        'color': '#2b5de5',
+        'weight': 1,
+        'radius': some.pos.acc
       }).addTo(this.oin.map);
     }
 
