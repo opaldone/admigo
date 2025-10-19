@@ -66,6 +66,35 @@ class Uloca {
     }
   }
 
+  ref_info(elin, msg, some) {
+    if (msg.length > 0) {
+      elin.innerHTML = msg;
+      elin.classList.add('sh');
+    }
+
+    let sid = 'info-cont-' + some.cid;
+    let el = document.getElementById(sid);
+
+    if (!el) return;
+
+    const chils = el.children;
+    let not_empty = false;
+
+    for (let i = 0; i < chils.length; i++) {
+      if (chils[i].innerHTML.length > 0) {
+        not_empty = true;
+        break;
+      }
+    }
+
+    if (not_empty) {
+      el.classList.add('sh');
+      return;
+    }
+
+    el.classList.remove('sh');
+  }
+
   ref_coo_cont(some) {
     let sid = 'coo-' + some.cid;
     let el = document.getElementById(sid);
@@ -78,7 +107,7 @@ class Uloca {
       msg = `<i class="fa-solid fa-location-crosshairs"></i><div class="i-val">${some.pos.lat.toFixed(4)},${some.pos.lng.toFixed(4)}</div>`;
     }
 
-    el.innerHTML = msg;
+    this.ref_info(el, msg, some);
   }
 
   ref_bat_cont(some) {
@@ -95,7 +124,7 @@ class Uloca {
 
     let msg = '<i class="fa-solid fa-battery-' + bc + '"></i><div class="i-val">' + ba + '<span>%</span></div>';
 
-    el.innerHTML = msg;
+    this.ref_info(el, msg, some);
   }
 
   ref_dista_cont(some) {
@@ -113,7 +142,16 @@ class Uloca {
       msg = '<i class="fa-solid fa-compass-drafting"></i><div class="i-val">' + dis + '</div>';
     }
 
-    el.innerHTML = msg;
+    this.ref_info(el, msg, some);
+  }
+
+  ref_cnt() {
+    this.user_cnt.innerHTML = '';
+    let cc = this.list.children.length;
+
+    if (cc == 0) return;
+
+    this.user_cnt.textContent = cc;
   }
 
   sync_litems() {
@@ -330,20 +368,11 @@ class Uloca {
     return false;
   }
 
-  ref_cnt() {
-    this.user_cnt.innerHTML = '';
-    let cc = this.list.children.length;
-
-    if (cc == 0) return;
-
-    this.user_cnt.textContent = cc;
-  }
-
   get_li_tag() {
     let ret = '<li id="#CID#" class="map-us-li">' +
       '<div class="map-us-cont">' +
       '<div id="nik-#CID#" class="nik-cont"></div>' +
-      '<div class="info-cont">' +
+      '<div class="info-cont" id="info-cont-#CID#">' +
       '<div class="coo-cont" id="coo-#CID#" title="Location"></div>' +
       '<div class="coo-cont" id="dista-#CID#" title="Distance"></div>' +
       '<div class="coo-cont" id="bat-#CID#" title="Battery"></div>' +
