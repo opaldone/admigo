@@ -19,6 +19,9 @@ func setFrontContent(w http.ResponseWriter, r *http.Request,
 	menuitem string, info any, funcs map[string]any,
 	pages ...string,
 ) {
+	qv := r.URL.Query()
+	hsb := qv.Get("hsb")
+
 	logged := LoggedUser(r)
 
 	data := map[string]any{"logged": logged}
@@ -39,8 +42,14 @@ func setFrontContent(w http.ResponseWriter, r *http.Request,
 	data["lang"] = config.Env(false).Lang
 	data["stat"] = config.Env(false).Static
 	data["needtra"] = 0
+	data["hidesb"] = 0
+
 	if lang.NeedTra() {
 		data["needtra"] = 1
+	}
+
+	if len(hsb) > 0 {
+		data["hidesb"] = 1
 	}
 
 	if logged == nil && auth {

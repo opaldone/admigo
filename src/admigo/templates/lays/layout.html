@@ -2,6 +2,11 @@
   {{ $lang := index . "lang" }}
   {{ $stat := index . "stat" }}
   {{ $needtra := index . "needtra" }}
+  {{ $hidesb := index . "hidesb" }}
+  {{ $hsb := "" }}
+  {{ if eq $hidesb 1 }}
+    {{ $hsb = " class=\"hide-sb\"" }}
+  {{ end }}
   <!DOCTYPE html>
   <html lang="{{ $lang }}" stat="{{ $stat }}" tra="{{ $needtra }}">
     <head>
@@ -21,13 +26,15 @@
       {{ block "styles" . }}
       {{ end }}
     </head>
-    <body>
+    <body{{ attr $hsb }}>
       {{ block "csrf" . }}
       {{ end }}
       {{ block "dlg" . }}
       {{ end }}
       <div id="h-container" class="clearfix">
-        {{ template "sidebar" . }}
+        {{ if eq $hidesb 0  }}
+          {{ template "sidebar" . }}
+        {{ end }}
         <div id="h-content"{{ block "h_content_class" . }}{{ end }}>
           {{ block "content" . }}
           {{ end }}

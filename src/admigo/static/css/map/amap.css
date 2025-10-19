@@ -284,7 +284,7 @@
   margin-top: 16px;
 }
 
-.info-cont:has(.coo-cont:not(:empty)) {
+.info-cont.sh {
   display: block;
 }
 
@@ -294,11 +294,11 @@
   font-size: 14px;
   line-height: 16px;
   color: #b7b7b7;
-  padding: 3px 0;
+  padding: 0;
 }
 
-.coo-cont:empty {
-  display: none;
+.coo-cont.sh {
+  padding: 3px 0;
 }
 
 .coo-cont .i-val {

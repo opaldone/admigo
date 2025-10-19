@@ -9,13 +9,15 @@ class Sidebar {
   }
 
   handler() {
+    this.sb = document.getElementById('sb-el');
+
+    if (!this.sb) return;
+
+    this.collapa = document.getElementById('sb-left');
+
     document.querySelectorAll(".has-submenu").forEach(el => {
         el.addEventListener("click", this.clickMenu.bind(this));
     });
-
-    this.collapa = document.getElementById('sb-left');
-    this.sb = document.getElementById('sb-el');
-
     this.collapa.addEventListener('click', this.collapa_click.bind(this));
 
     this.openToAct();

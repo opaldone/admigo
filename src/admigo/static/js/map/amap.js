@@ -33,7 +33,8 @@ class Amap {
         "lat": 57.9895,
         "lng": 56.2143,
         "acc": 15
-      }
+      },
+      "bat": 14
     }`
 
     let uul = `{
@@ -49,7 +50,8 @@ class Amap {
         "lat": 58.0202,
         "lng": 56.3009,
         "acc": 15
-      }
+      },
+      "bat": 77
     }`
 
     let uuq = `{
@@ -65,7 +67,8 @@ class Amap {
         "lat": 57.9875,
         "lng": 56.2152,
         "acc": 30
-      }
+      },
+      "bat": 57
     }`
 
     setTimeout(() => {
