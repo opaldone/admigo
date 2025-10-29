@@ -11,11 +11,12 @@ class Wsmap {
       'routekey': '',
       'handler': null,
       'TPS': {
-        "RLOCA": "rloca",
-        "ALOCA": "aloca",
-        "CLIST": "clist",
-        "SENDERHI": "sender_hi",
-        "SENDERST": "sender_stop"
+        'RLOCA': 'rloca',
+        'ALOCA': 'aloca',
+        'CLIST': 'clist',
+        'SENDERHI': 'sender_hi',
+        'SENDERST': 'sender_stop',
+        'GOCHAT': 'go_chat'
       }
     };
 
@@ -23,11 +24,11 @@ class Wsmap {
   }
 
   initConf() {
-    const cs = document.getElementsByName("gorilla.csrf.Token")[0].value;
+    const cs = document.getElementsByName('gorilla.csrf.Token')[0].value;
     const url = this.oin.elmap.getAttribute('href');
 
     axios.post(url, null, {
-      headers: { "X-CSRF-Token": cs }
+      headers: { 'X-CSRF-Token': cs }
     })
       .then((re) => {
         this.ws.cid = re.data.cid;
@@ -47,16 +48,16 @@ class Wsmap {
   }
 
   wsError(ev) {
-    this.oin.showLog("WS error: " + ev.target.url, true);
+    this.oin.showLog('WS error: ' + ev.target.url, true);
   }
 
   wsOpen() {
-    this.oin.showLog("Connected to server", false);
+    this.oin.showLog('Connected to server', false);
     this.clients_list();
   }
 
   wsClose(e) {
-    this.oin.showLog("wsClose code: " + e.code, true);
+    this.oin.showLog('wsClose code: ' + e.code, true);
     this.wsClear()
   }
 
@@ -66,7 +67,7 @@ class Wsmap {
     for (let i in jsi) {
       let msg = JSON.parse(jsi[i]);
 
-      this.oin.showLog("wsMessage: " + msg.tp, false);
+      this.oin.showLog('wsMessage: ' + msg.tp, false);
 
       switch (msg.tp) {
         case this.ws.TPS.ALOCA:
@@ -104,11 +105,11 @@ class Wsmap {
     this.ws.handler.send(JSON.stringify(jo));
   }
 
-  req_loca_cid(cid) {
+  req_loca_ws(some) {
     if (!this.ws.handler) return;
 
     let st = {
-      'cid': cid
+      'cid': some.cid
     };
 
     let jo = {
@@ -117,5 +118,43 @@ class Wsmap {
     };
 
     this.ws.handler.send(JSON.stringify(jo));
+  }
+
+  makeid(len) {
+    var ret = '';
+
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    var cl = chars.length;
+    for ( var i = 0; i < len; i++ ) {
+      ret += chars.charAt(Math.floor(Math.random() * cl));
+    }
+
+    return ret;
+  }
+
+  req_chat_ws(some) {
+    if (!this.ws.handler) return;
+
+    if (!some.roomid) {
+      some.roomid = this.makeid(14);
+    }
+
+    let st = {
+      'cid': some.cid,
+      'roomid': some.roomid
+    };
+
+    let jo = {
+      'tp': this.ws.TPS.GOCHAT,
+      'content': JSON.stringify(st)
+    };
+
+    this.ws.handler.send(JSON.stringify(jo));
+
+    this.oin.sync_litems();
+    let buf = 'meet/' + some.roomid;
+    this.oin.cp_into_buf('meet/' + some.roomid);
+    this.oin.showLog("Go to the chat, append into URL " + buf);
   }
 }

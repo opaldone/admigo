@@ -30,8 +30,8 @@ class Amap {
       "cid": "111",
       "nik": "Шавкунов Павел Сергеевич",
       "pos": {
-        "lat": 57.9895,
-        "lng": 56.2143,
+        "lat": 57.9743,
+        "lng": 56.2118,
         "acc": 15
       },
       "bat": 14
@@ -91,6 +91,10 @@ class Amap {
         // this.ans_loca(lol);
       // }, 500)
     // }, 3000);
+  }
+
+  cp_into_buf(str) {
+    navigator.clipboard.writeText(str);
   }
 
   showLog(msg, err) {
@@ -271,7 +275,7 @@ class Amap {
   }
 
   req_loca(some) {
-    this.wsmap.req_loca_cid(some.cid);
+    this.wsmap.req_loca_ws(some);
   }
 
   ans_loca(cont) {
@@ -283,6 +287,10 @@ class Amap {
 
     this.set_uslist_item(js);
     this.ulo.ref_ma(js.cid);
+  }
+
+  req_chat(some) {
+    this.wsmap.req_chat_ws(some);
   }
 
   set_route_cid(some) {

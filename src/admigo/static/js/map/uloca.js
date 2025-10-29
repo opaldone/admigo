@@ -24,6 +24,11 @@ class Uloca {
       if (this.oin.fun.once(el, 'bet_us_route_click')) return;
       el.addEventListener('click', this.bet_us_route_click.bind(this));
     });
+
+    this.list.querySelectorAll('.us-chat').forEach(el => {
+      if (this.oin.fun.once(el, 'us_chat_click')) return;
+      el.addEventListener('click', this.us_chat_click.bind(this));
+    });
   }
 
   fm_distance(di) {
@@ -101,11 +106,13 @@ class Uloca {
 
     if (!el) return;
 
-    let msg = 'Press the item to get the location';
+    let msg = '&mdash;';
 
     if (some.pos) {
-      msg = `<i class="fa-solid fa-location-crosshairs"></i><div class="i-val">${some.pos.lat.toFixed(4)},${some.pos.lng.toFixed(4)}</div>`;
+      msg = `${some.pos.lat.toFixed(4)},${some.pos.lng.toFixed(4)}`;
     }
+
+    msg = `<i class="fa-solid fa-location-crosshairs"></i><div class="i-val">${msg}</div>`;
 
     this.ref_info(el, msg, some);
   }
@@ -187,6 +194,12 @@ class Uloca {
         litem.classList.add('in-bero')
       } else {
         litem.classList.remove('in-bero');
+      }
+
+      if (some.roomid) {
+        litem.classList.add('w-room');
+      } else {
+        litem.classList.remove('w-room');
       }
 
       this.ref_dista_cont(some);
@@ -310,7 +323,6 @@ class Uloca {
     let some = this.oin.uslist[cid];
 
     if (!some.pos) {
-      this.ref_coo_cont(some);
       return false;
     }
 
@@ -348,7 +360,6 @@ class Uloca {
     let some = this.oin.uslist[cid];
 
     if (!some.ma) {
-      this.ref_coo_cont(some);
       return false;
     }
 
@@ -368,6 +379,22 @@ class Uloca {
     return false;
   }
 
+  us_chat_click(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let el = e.currentTarget;
+    let li_cont = this.fun.parent(el, '.map-us-li');
+    let cid = li_cont.getAttribute('id');
+    let some = this.oin.uslist[cid];
+
+    if (!some) return;
+
+    this.oin.req_chat(some, el);
+
+    return false;
+  }
+
   get_li_tag() {
     let ret = '<li id="#CID#" class="map-us-li">' +
       '<div class="map-us-cont">' +
@@ -383,6 +410,9 @@ class Uloca {
       '</span>' +
       '<span class="bet-us-route" title="Make a route between people">' +
       '<i class="fa-solid fa-person-walking-arrow-loop-left"></i>' +
+      '</span>' +
+      '<span class="us-chat" title="Start chat">' +
+      '<i class="fa-solid fa-headset"></i>' +
       '</span>' +
       '</div>' +
       '</div>' +

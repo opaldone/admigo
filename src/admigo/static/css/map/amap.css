@@ -224,11 +224,11 @@
 }
 
 .tb-list li:hover {
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
 }
 
 .tb-list li.in-se {
-  background-color: #f0f0f0;
+  background-color: #ececec;
   box-shadow: 2px 2px 2px inset #aaa;
 }
 
@@ -268,9 +268,20 @@
   box-shadow: inset 2px 2px 1px #555;
 }
 
-.w-route .us-btn-cont .us-route {
-  background-color: #d7d7d7;
-  border-color: #c7c7c7;
+.w-route .us-btn-cont .us-route,
+.w-room .us-btn-cont .us-chat {
+  background-color: #5c6e89;
+  border-color: #5c6e89;
+  color: #fff;
+}
+
+.w-route .us-btn-cont .us-route:hover,
+.w-room .us-btn-cont .us-chat:hover {
+  background-color: #4e5e76;
+}
+
+.w-room .us-btn-cont .us-chat:active {
+  background-color: #394557;
 }
 
 .nik-cont {
@@ -295,6 +306,10 @@
   line-height: 16px;
   color: #b7b7b7;
   padding: 0;
+}
+
+.coo-cont:hover {
+  background-color: #f7f7f7;
 }
 
 .coo-cont.sh {
@@ -338,5 +353,13 @@
   #map-nav {
     width: calc(100% - 50px);
     right: calc(-1 * (100% - 50px));
+  }
+}
+
+@media (max-width: 480px) {
+  #route-start {
+    left: 0;
+    right: 0;
+    width: 100%;
   }
 }
