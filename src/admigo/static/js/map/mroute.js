@@ -153,7 +153,7 @@ class Mroute {
 
     const rm = ma.getLatLng();
 
-    this.promise_route(rm, some.pos)
+    this.promise_route(some.pos, rm)
       .then((re) => {
         this.clear_route(some);
 
