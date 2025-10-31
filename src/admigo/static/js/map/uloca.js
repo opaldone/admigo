@@ -411,8 +411,8 @@ class Uloca {
       '<span class="bet-us-route" title="Make a route between people">' +
       '<i class="fa-solid fa-person-walking-arrow-loop-left"></i>' +
       '</span>' +
-      '<span class="us-chat" title="Start chat">' +
-      '<i class="fa-solid fa-headset"></i>' +
+      '<span class="us-chat" title="Join to chat">' +
+      '<i class="fa-solid fa-microphone"></i>' +
       '</span>' +
       '</div>' +
       '</div>' +

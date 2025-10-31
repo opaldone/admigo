@@ -9,6 +9,8 @@ class Amap {
     this.elmap = document.getElementById('map');
     this.uslist = {};
 
+    this.roomid = null;
+
     this.lg = document.getElementById('ws-logs');
     this.lg_clear = document.getElementById('ws-clear');
     this.lg_errors = document.getElementById('errors-cnt');
@@ -95,6 +97,29 @@ class Amap {
 
   cp_into_buf(str) {
     navigator.clipboard.writeText(str);
+  }
+
+  makeid(len) {
+    var ret = '';
+
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    var cl = chars.length;
+    for ( var i = 0; i < len; i++ ) {
+      ret += chars.charAt(Math.floor(Math.random() * cl));
+    }
+
+    return ret;
+  }
+
+  make_roomid() {
+    if (this.roomid && this.roomid.length > 0) {
+      return this.roomid;
+    }
+
+    this.roomid = this.makeid(14);
+
+    return this.roomid;
   }
 
   showLog(msg, err) {

@@ -120,24 +120,11 @@ class Wsmap {
     this.ws.handler.send(JSON.stringify(jo));
   }
 
-  makeid(len) {
-    var ret = '';
-
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    var cl = chars.length;
-    for ( var i = 0; i < len; i++ ) {
-      ret += chars.charAt(Math.floor(Math.random() * cl));
-    }
-
-    return ret;
-  }
-
   req_chat_ws(some) {
     if (!this.ws.handler) return;
 
     if (!some.roomid) {
-      some.roomid = this.makeid(14);
+      some.roomid = this.oin.make_roomid();
     }
 
     let st = {
@@ -154,7 +141,10 @@ class Wsmap {
 
     this.oin.sync_litems();
     let buf = 'meet/' + some.roomid;
-    this.oin.cp_into_buf('meet/' + some.roomid);
-    this.oin.showLog("Go to the chat, append into URL " + buf);
+    this.oin.cp_into_buf(buf);
+
+    if (window.window.AndroidChatInterface) {
+      window.AndroidChatInterface.sendRoomid(some.roomid);
+    }
   }
 }
