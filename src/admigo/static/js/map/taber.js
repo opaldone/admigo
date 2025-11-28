@@ -1,7 +1,9 @@
 ;"use strict";
 class Taber {
-  constructor() {
+  constructor(fun_in) {
+    this.fun = fun_in;
     this.tb = document.getElementById('map-nav');
+    this.tb_users = document.getElementById('tb-users');
 
     this.taids = [];
     document.querySelectorAll('.map-nav-bu').forEach(el => {
@@ -10,7 +12,7 @@ class Taber {
       el.addEventListener('click', this.tb_click.bind(this));
     });
 
-    document.querySelectorAll('.tb-coh').forEach((el) => {
+    document.querySelectorAll('.tb-coh, .tb-content').forEach((el) => {
       el.addEventListener('click', () => {
         this.hide_tabs();
       });
@@ -52,5 +54,11 @@ class Taber {
 
     this._clear_cls(tid);
     this._add_cls(tid);
+  }
+
+  show_users() {
+    if (this.tb.classList.contains('tb-users')) return;
+
+    this.fun.trigger(this.tb_users, 'click');
   }
 }

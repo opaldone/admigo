@@ -7,6 +7,7 @@ class Uloca {
     this.user_cnt = document.getElementById('users-cnt');
     this.li_tag = this.get_li_tag();
     this.bero = [];
+    this.time_out = 5000;
   }
 
   docon() {
@@ -71,33 +72,10 @@ class Uloca {
     }
   }
 
-  ref_info(elin, msg, some) {
-    if (msg.length > 0) {
-      elin.innerHTML = msg;
-      elin.classList.add('sh');
-    }
-
-    let sid = 'info-cont-' + some.cid;
-    let el = document.getElementById(sid);
-
-    if (!el) return;
-
-    const chils = el.children;
-    let not_empty = false;
-
-    for (let i = 0; i < chils.length; i++) {
-      if (chils[i].innerHTML.length > 0) {
-        not_empty = true;
-        break;
-      }
-    }
-
-    if (not_empty) {
-      el.classList.add('sh');
-      return;
-    }
-
-    el.classList.remove('sh');
+  ref_info(elin, msg) {
+    if (msg.length <= 0) return;
+    elin.innerHTML = msg;
+    elin.classList.add('sh');
   }
 
   ref_coo_cont(some) {
@@ -114,7 +92,7 @@ class Uloca {
 
     msg = `<i class="fa-solid fa-location-crosshairs"></i><div class="i-val">${msg}</div>`;
 
-    this.ref_info(el, msg, some);
+    this.ref_info(el, msg);
   }
 
   ref_bat_cont(some) {
@@ -131,7 +109,7 @@ class Uloca {
 
     let msg = '<i class="fa-solid fa-battery-' + bc + '"></i><div class="i-val">' + ba + '<span>%</span></div>';
 
-    this.ref_info(el, msg, some);
+    this.ref_info(el, msg);
   }
 
   ref_dista_cont(some) {
@@ -149,24 +127,28 @@ class Uloca {
       msg = '<i class="fa-solid fa-compass-drafting"></i><div class="i-val">' + dis + '</div>';
     }
 
-    this.ref_info(el, msg, some);
+    this.ref_info(el, msg);
   }
 
   ref_cnt() {
     this.user_cnt.innerHTML = '';
     let cc = this.list.children.length;
+    let cc_inse = this.list.querySelectorAll('li.in-se').length;
 
     if (cc == 0) return;
 
-    this.user_cnt.textContent = cc;
+    let msg = cc;
+    if (parseInt(cc_inse) > 0) {
+      msg = cc_inse + '/' + cc;
+    }
+
+    this.user_cnt.textContent = msg;
   }
 
   sync_litems() {
     const cids = Object.keys(this.oin.uslist);
 
     if (cids.length == 0) return;
-
-    const rcid = this.oin.get_route_cid();
 
     cids.forEach((cid, _) => {
       let litem = document.getElementById(cid);
@@ -178,10 +160,10 @@ class Uloca {
         litem.classList.remove('in-se');
       }
 
-      if (cid == rcid) {
-        litem.classList.add('in-route');
+      if (some.some_se) {
+        litem.classList.add('some-se');
       } else {
-        litem.classList.remove('in-route');
+        litem.classList.remove('some-se');
       }
 
       if (some.ros && some.ros.ro) {
@@ -204,6 +186,25 @@ class Uloca {
 
       this.ref_dista_cont(some);
     });
+
+    this.ref_cnt();
+  }
+
+  is_located(some) {
+    if (some.in_se) return;
+
+    some.some_se = true;
+    this.sync_litems();
+
+    if (some.loc_tm) {
+      clearTimeout(some.loc_tm);
+      some.loc_tm = null;
+    }
+
+    some.loc_tm = setTimeout(() => {
+      some.some_se = false;
+      this.sync_litems();
+    }, this.time_out*2);
   }
 
   clear_timer(some) {
@@ -220,7 +221,7 @@ class Uloca {
 
     some.tm = setTimeout(() => {
       this.oin.req_loca(some);
-    }, 5000);
+    }, this.time_out);
   }
 
   ref_ma(cid) {
@@ -269,20 +270,8 @@ class Uloca {
     if (can_move) {
       this.oin.move_to_ma(some);
     }
-  }
 
-  clear_in_se() {
-    const cids = Object.keys(this.oin.uslist);
-
-    if (cids.length == 0) return;
-
-    const cid = cids.find((cc) => {
-      return this.oin.uslist[cc].in_se == true;
-    });
-
-    if (!cid) return;
-
-    this.oin.uslist[cid].in_se = false;
+    this.is_located(some);
   }
 
   li_click(e) {
@@ -302,8 +291,8 @@ class Uloca {
       return;
     }
 
-    this.clear_in_se();
     some.in_se = true;
+    some.some_se = false;
     this.sync_litems();
 
     this.oin.move_to_ma(some);
@@ -319,7 +308,8 @@ class Uloca {
     let el = e.currentTarget;
     let li_cont = this.fun.parent(el, '.map-us-li');
     let cid = li_cont.getAttribute('id');
-    let in_route = li_cont.classList.contains('in-route');
+    const rcid = this.oin.get_route_cid();
+    let in_route = cid == rcid;
     let some = this.oin.uslist[cid];
 
     if (!some.pos) {
@@ -399,10 +389,13 @@ class Uloca {
     let ret = '<li id="#CID#" class="map-us-li">' +
       '<div class="map-us-cont">' +
       '<div id="nik-#CID#" class="nik-cont"></div>' +
-      '<div class="info-cont" id="info-cont-#CID#">' +
+      '<div class="info-cont">' +
+      '<div class="info-cont-items">' +
+      '<div class="coo-cont" id="bat-#CID#" title="Battery"></div>' +
       '<div class="coo-cont" id="coo-#CID#" title="Location"></div>' +
       '<div class="coo-cont" id="dista-#CID#" title="Distance"></div>' +
-      '<div class="coo-cont" id="bat-#CID#" title="Battery"></div>' +
+      '</div>' +
+      '</div>' +
       '</div>' +
       '<div class="us-btn-cont">' +
       '<span class="us-route" title="Make a route">' +
@@ -414,7 +407,6 @@ class Uloca {
       '<span class="us-chat" title="Join to chat">' +
       '<i class="fa-solid fa-microphone"></i>' +
       '</span>' +
-      '</div>' +
       '</div>' +
       '</li>';
 

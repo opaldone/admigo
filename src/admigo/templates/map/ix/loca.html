@@ -13,25 +13,23 @@
 {{ define "content" }}
   <div id="map" href="{{ ro "loca_ws" }}"></div>
   {{ template "_ros" }}
-  <div id="map-nav">
+  <div id="map-nav" class="tb-users sh">
     <ul id="map-nav-btns">
-      <li id="tb-users" class="map-nav-bu">
-        <span class="map-nav-ico">
-          <i class="fa-solid fa-user-group"></i>
+      <li id="tb-users" class="map-nav-bu act">
+        <div class="map-nav-ico">
           <span class="map-nav-icnt" id="users-cnt"></span>
-        </span>
-        <span class="map-nav-lbl">
-          {{ re "Users" }}
-        </span>
+          <span class="map-nav-lbl">
+            {{ re "Users" }}
+          </span>
+        </div>
       </li>
       <li id="tb-logs" class="map-nav-bu">
-        <span class="map-nav-ico">
-          <i class="fa-solid fa-info"></i>
+        <div class="map-nav-ico">
           <span class="map-nav-icnt" id="errors-cnt"></span>
-        </span>
-        <span class="map-nav-lbl">
-          {{ re "Logs" }}
-        </span>
+          <span class="map-nav-lbl">
+            {{ re "Logs" }}
+          </span>
+        </div>
       </li>
     </ul>
     {{ template "_mus" }}

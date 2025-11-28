@@ -39,6 +39,7 @@ class Wsmap {
         this.oin.init_map();
       })
       .catch(err => {
+        console.log(err);
         this.oin.showLog(err, true);
       });
   }
