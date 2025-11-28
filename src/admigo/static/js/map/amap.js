@@ -22,77 +22,46 @@ class Amap {
   }
 
   test_fill_uslist() {
-    let uu = `{
-        "cid": "111",
-        "nik": "Шавкунов Павел Сергеевич",
-        "issender": true
-    }`;
+    let users = ['111', '222'];
 
-    let lo = `{
-      "cid": "111",
-      "nik": "Шавкунов Павел Сергеевич",
-      "pos": {
-        "lat": 57.9743,
-        "lng": 56.2118,
-        "acc": 15
-      },
-      "bat": 14
-    }`
+    users.forEach((ii) => {
+      let uu = `{
+          "cid": "` + ii + `",
+          "nik": "test user ` + ii + `",
+          "issender": true
+      }`;
 
-    let uul = `{
-        "cid": "222",
-        "nik": "Some user 222",
-        "issender": true
-    }`;
+      let lo = `{
+        "cid": "` + ii + `",
+        "nik": "test user ` + ii + `",
+        "pos": {
+          "lat": 57.9743,
+          "lng": 56.2118,
+          "acc": 15
+        },
+        "bat": 14
+      }`;
 
-    let lol = `{
-      "cid": "222",
-      "nik": "Some user 222",
-      "pos": {
-        "lat": 58.0202,
-        "lng": 56.3009,
-        "acc": 15
-      },
-      "bat": 77
-    }`
-
-    let uuq = `{
-        "cid": "333",
-        "nik": "Some user 333",
-        "issender": true
-    }`;
-
-    let loq = `{
-      "cid": "333",
-      "nik": "Some user 333",
-      "pos": {
-        "lat": 57.9875,
-        "lng": 56.2152,
-        "acc": 30
-      },
-      "bat": 57
-    }`
-
-    setTimeout(() => {
-      this.sender_hi(uu);
       setTimeout(() => {
-        this.ans_loca(lo);
-      }, 500)
-    }, 1000);
+        this.sender_hi(uu);
+        setTimeout(() => {
+          this.ans_loca(lo);
+        }, 1000);
+      }, 1000);
 
-    setTimeout(() => {
-      this.sender_hi(uuq);
-      setTimeout(() => {
-        this.ans_loca(loq);
-      }, 500)
-    }, 2000);
+      let loo = JSON.parse(lo)
+      let min = parseFloat(loo.pos.lat);
+      let max = min + 0.01;
 
-    // setTimeout(() => {
-      // this.sender_hi(uul);
-      // setTimeout(() => {
-        // this.ans_loca(lol);
-      // }, 500)
-    // }, 3000);
+      setInterval(() => {
+        if (!this.uslist[ii]) return;
+        if (!this.uslist[ii].in_se) return;
+
+        loo.pos.lat = Math.random() * (max - min) + min;
+        loo.bat = Math.random() * (100 - 1) + 1;
+        this.ans_loca(JSON.stringify(loo));
+      }, 5000);
+    });
   }
 
   cp_into_buf(str) {
@@ -190,7 +159,7 @@ class Amap {
   }
 
   set_wsmap() {
-    this.taber = new Taber();
+    this.taber = new Taber(this.fun);
     this.wsmap = new Wsmap(this);
     this.ulo = new Uloca(this, this.fun);
     this.mro = new Mroute(this);
@@ -200,7 +169,7 @@ class Amap {
     this.map = L.map(this.elmap);
     this.map.on('load', () => {
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
+        maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(this.map);
 
@@ -227,6 +196,12 @@ class Amap {
     this.taber.hide_tabs();
   }
 
+  show_users() {
+    if (!this.taber) return;
+
+    this.taber.show_users();
+  }
+
   set_uslist_item(v) {
     const cid = v.cid;
 
@@ -236,7 +211,11 @@ class Amap {
         'nik': '',
         'bat': -1,
         'issender': false,
-        'pos': null
+        'in_se': false,
+        'some_se': false,
+        'pos': null,
+        'tm': null,
+        'loc_tm': null
       };
     }
 

@@ -112,7 +112,6 @@ body.show-dlg-screen {
 * MEDIA
 */
 
-
 @media (max-width: 980px) {
   #dlg-container {
     width: 70%;

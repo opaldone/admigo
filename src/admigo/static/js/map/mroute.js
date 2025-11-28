@@ -87,7 +87,9 @@ class Mroute {
       this.oin.map.removeLayer(this.ros.ma);
       this.ros.ma = null;
     }
+
     this.oin.sync_litems();
+    this.oin.show_users();
   }
 
   clear_route(some) {
