@@ -1,0 +1,9 @@
+{{ define "hidden_sort" }}
+  {{ range $son, $de := . }}
+    {{ $sig := "" }}
+    {{ if $de }}
+      {{ $sig = "-" }}
+    {{ end }}
+    <input type="hidden" name="sort" value="{{ printf "%s%s" $sig $son }}" />
+  {{ end }}
+{{ end }}

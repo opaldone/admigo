@@ -1,0 +1,94 @@
+html {
+  background-color: #f5f5f5;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: normal;
+}
+
+a {
+  display: inline-block;
+  color: #2C5DE5;
+}
+
+a:hover {
+  color: #0737c1;
+}
+
+a.ext-link {
+  position: relative;
+}
+
+a.ext-link:after {
+  position: absolute;
+  display: inline-block;
+  font: normal 10px/10px 'FontAwesome';
+  color: #99aadc;
+  content: '\f08e';
+  top: -3px;
+  right: -20px;
+}
+
+#h-container {
+  width: 100%;
+  height: 100%
+}
+
+#h-content {
+  width: 100%;
+  height: auto;
+  padding: 10px 30px 30px calc(25% + 30px);
+}
+
+#h-content.h-handr {
+  height: 100%;
+}
+
+#h-content.full {
+  height: 100%;
+  padding: 0 0 0 25%;
+}
+
+.hide-sb #h-content.full {
+  padding: 0;
+}
+
+#errors-container {
+  width: 100%;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000;
+  background-color: #fff;
+  border-radius: 13px;
+  box-shadow:  0 0 13px #e7e7e7;
+}
+
+.err-span {
+  display: inline-block;
+  padding: 13px 13px 15px 13px;
+}
+
+#err-ttl {
+  background: #f31;
+  color: #fff;
+  border-radius: 13px 0 0 13px;
+}
+
+/*
+* MEDIA
+*/
+
+@media (max-width: 980px) {
+  #h-content {
+    width: 100%;
+    height: auto;
+    padding: 10px 10px 10px 10px;
+  }
+
+  #h-content.full {
+    padding: 0;
+  }
+}

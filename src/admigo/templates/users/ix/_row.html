@@ -1,0 +1,53 @@
+{{ define "_row" }}
+  {{ $is_admin := index . "is_admin" }}
+  {{ $list := index . "list" }}
+  {{ $tr_at := printf " class=\"cla\" title=\"%s\"" (re "Click to show menu") }}
+  {{ range $list }}
+    {{ $str_id := printf "%d" .ID }}
+    {{ $person_page := printf "%s?user_id=%s" (ro "person") $str_id }}
+    <tr{{ attr $tr_at }} data-rid="{{ $str_id }}">
+      <td>{{ .ID }}</td>
+      <td>
+        {{ if .Thumb }}
+          <div class="cell-wrapper-image">
+            <img src="{{ .GetThumb }}" />
+          </div>
+        {{ end }}
+      </td>
+      <td>{{ .Name }}</td>
+      <td>{{ .Em }}</td>
+      <td>{{ .Ac }}</td>
+      <td class="act-td">
+        <span class="act-item"
+              title="{{ re "User page" }}"
+              data-who="{{ .Name }}"
+              data-u="{{ $person_page }}"
+              data-m="get">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </span>
+        {{ if $is_admin }}
+          <span class="act-item"
+                title="{{ re "Add" }}"
+                data-u="{{ ro "user_add_get" }}"
+                data-m="get">
+            <i class="fa-solid fa-plus"></i>
+          </span>
+          <span class="act-item"
+                title="{{ re "Edit" }}"
+                data-who="{{ .Name }}"
+                data-u="{{ ro "user_edit_get" $str_id }}"
+                data-m="get">
+            <i class="fa-solid fa-i-cursor"></i>
+          </span>
+          <span class="act-item"
+                title="{{ re "Delete" }}"
+                data-who="{{ .Name }}"
+                data-u="{{ ro "user_delete" $str_id }}"
+                data-m="delete">
+            <i class="fa-solid fa-xmark"></i>
+          </span>
+        {{ end }}
+      </td>
+    </tr>
+  {{ end }}
+{{ end }}

@@ -1,0 +1,19 @@
+{{ define "_head" }}
+  {{ $info := index . "info" }}
+  {{ $logged := index . "logged" }}
+  {{ $is_admin := $logged.IsRolesAdmin }}
+  <thead>
+    <tr>
+      {{ pth "al" (label "nm") "42" $info.Query false }}
+      <th style="width:4%" class="tree-th-btns">
+        <div class="tree-head-col">
+          <span class="tree-head-btn expand" title="{{ re "Expand all" }}" >
+            <i class="fa-solid fa-expand"></i>
+          </span>
+        </div>
+      </th>
+      {{ pth "nm" (label "al") "42" $info.Query false }}
+      {{ pth "lid" "ID" "12" $info.Query false }}
+    </tr>
+  </thead>
+{{ end }}

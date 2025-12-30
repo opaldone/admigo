@@ -1,0 +1,53 @@
+{{ define "title" }}{{ re "Role" }}{{ end }}
+{{ define "styles" }}
+  <link rel="stylesheet" type="text/css" href="/static/css/elems/forms.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/elems/se_list.css" />
+{{ end }}
+{{ define "content" }}
+  {{ $mo := (index . "info").mo }}
+  {{ $edit := (ge $mo.Lid 0) }}
+  {{ $all_error := $mo.GetError "all" }}
+  <div id="form-container">
+    <div class="form-header">
+      {{ if $edit }}
+        {{ label "edit_title" }}<span>{{ $mo.AlNm }}</span>
+      {{ else }}
+        {{ label "add_title" }}
+      {{ end }}
+    </div>
+    {{ $act := "" }}
+    {{ if $edit }}
+      {{ $act = (ro "role_edit_post" (printf "%d" $mo.Lid)) }}
+    {{ else }}
+      {{ $par := "" }}
+      {{ if $mo.Paral }}
+        {{ $par = printf "?par=%s" $mo.Paral }}
+      {{ end }}
+      {{ $act = printf "%s%s" (ro "role_add_post") $par }}
+    {{ end }}
+    <form action="{{ $act }}" method="POST">
+      {{ .csrfField }}
+      <div class="form-content">
+        {{ if $all_error }}
+          <div id="all-error">
+            {{ $all_error }}
+          </div>
+        {{ end }}
+        {{ template "_sign" $mo }}
+      </div>
+      <div class="form-footer">
+        <button class="form-btn" type="submit">
+          {{ re "Save" }}
+        </button>
+        <a class="form-btn light" href="{{ ro "roles" }}">
+          {{ re "Cancel" }}
+        </a>
+      </div>
+    </form>
+  </div>
+{{ end }}
+{{ define "scripts" }}
+  <script src="/static/external/js/axios.js"></script>
+  <script src="/static/js/elems/aforms.js"></script>
+  <script src="/static/js/elems/se_list.js"></script>
+{{ end }}

@@ -1,0 +1,34 @@
+{{ define "_filter" }}
+  <form action="" method="GET" class="grid-form clearfix">
+    <div class="grid-form-inputs clearfix">
+      {{ $fi := .Filter }}
+      {{ template "hidden_sort" .OrderBy }}
+      <input type="text"
+             name="pk"
+             class="grid-form-inp"
+             style="width:20%"
+             placeholder="ID"
+             value="{{ index $fi "pk" }}" />
+      <input type="text"
+             name="nm"
+             class="grid-form-inp"
+             style="width:calc(40% - 7px)"
+             placeholder="{{ label "name" }}"
+             value="{{ index $fi "nm" }}" />
+      <input type="text"
+             name="em"
+             class="grid-form-inp"
+             style="width:calc(40% - 7px)"
+             placeholder="{{ label "em" }}"
+             value="{{ index $fi "em" }}" />
+    </div>
+    <div class="grid-form-buttons">
+      <button class="grid-form-btn" title="{{ re "Find" }}">
+        <i class="fas fa-filter"></i>
+      </button>
+      <a href="{{ ro "users" }}" class="grid-form-btn gr" title="{{ re "Reset" }}">
+        <i class="fas fa-sync-alt"></i>
+      </a>
+    </div>
+  </form>
+{{ end }}

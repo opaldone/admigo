@@ -1,0 +1,30 @@
+{{ define "_table" }}
+  {{ $info := index . "info" }}
+  {{ $logged := index . "logged" }}
+  {{ $is_admin := $logged.IsUsersAdmin }}
+  {{ $rand := rand }}
+  <div id="user-{{ $rand }}" class="rwd-table-container" data-rand="{{ $rand }}">
+    <div class="rwd-menu hide">
+      <ul></ul>
+    </div>
+    <table class="rwd-table">
+      <thead>
+        <tr>
+          {{ pth "id" "ID" "5" $info.Query true }}
+          {{ pth "th" (label "th") "10" $info.Query true }}
+          {{ pth "nm" (label "name") "28.333" $info.Query true }}
+          {{ pth "em" (label "em") "28.333" $info.Query true }}
+          {{ pth "ac" (label "ac") "28.333" $info.Query true }}
+        </tr>
+      </thead>
+      <tbody>
+        {{ if $info.Users }}
+          {{ template "_row" dict "is_admin" $is_admin "list" $info.Users }}
+        {{ else }}
+          {{ template "_row_empty" dict "is_admin" $is_admin }}
+        {{ end }}
+      </tbody>
+      {{ ppg 5 $info.Query true }}
+    </table>
+  </div>
+{{ end }}

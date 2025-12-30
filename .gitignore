@@ -1,0 +1,14 @@
+bin
+node_modules
+pkg
+src/github.com
+src/admigo/static/images/users
+src/golang.org
+src/google.golang.org
+src/admigo/go.mod
+src/admigo/go.sum
+tags
+howtocert/kk
+migrations/.env
+src/admigo/static/apki/*
+src/admigo/config.json

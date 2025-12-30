@@ -1,0 +1,41 @@
+{{ define "title" }}{{ re "Android apps" }}{{ end }}
+{{ define "styles" }}
+  <link rel="stylesheet" type="text/css" href="/static/css/apki/apki.css" />
+{{ end }}
+{{ define "h_content_class" }}
+  {{ attr (" class=\"h-handr\"") }}
+{{ end }}
+{{ define "content" }}
+  {{ $info := index . "info" }}
+  <code>
+    {{/* dd $info */}}
+  </code>
+
+  <div id="middle-cont">
+    <ul id="list-app">
+    {{ range $info }}
+      <li>
+        <a href="{{ .hre }}">
+          <div class="ap-ico">
+            <img src="data:image/png;base64,{{ .ico }}" alt="" />
+          </div>
+          <div class="app-name">
+            <div class="app-name-ttl">
+              {{ .lbl }}
+            </div>
+            <div class="app-name-s clearfix">
+              <span>Version:</span>{{ .vn }}
+            </div>
+            <div class="app-name-s clearfix">
+              <span>Date:</span>{{ .md }}
+            </div>
+          </div>
+          <div class="app-sz">
+            {{ .sz }}
+          </div>
+        </a>
+      </li>
+    {{ end }}
+    </ul>
+  </div>
+{{ end }}

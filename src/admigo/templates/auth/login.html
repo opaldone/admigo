@@ -1,0 +1,41 @@
+{{ define "title" }}{{ re "Sign in" }}{{ end }}
+{{ define "please" }}{{ label "login_title" }}{{ end }}
+{{ define "auth_form" }}
+  {{ $au := (index . "au") }}
+  {{ $acem_error := $au.GetError "acem" }}
+  {{ $pas_error := $au.GetError "pas" }}
+  <div class="form-it-cont">
+    <label for="login_name" class="form-lbl">{{ label "acem" }}</label>
+    <div class="form-inp-cont">
+      <input type="text"
+             class="form-inp"
+             id="login_name"
+             name="acem"
+             value="{{ $au.Acem }}"
+             required
+             autofocus />
+      <span class="inp-icon"><i class="far fa-user"></i></span>
+    </div>
+    {{ if $acem_error }}
+      <span class="invalid-feedback" role="alert">
+        {{ $acem_error }}
+      </span>
+    {{ end }}
+  </div>
+  <div class="form-it-cont">
+    <label for="password" class="form-lbl">{{ label "pas" }}</label>
+    <div class="form-inp-cont">
+      <input type="password"
+             class="form-inp"
+             id="password"
+             name="pas"
+             required />
+      <span class="inp-icon"><i class="fas fa-lock"></i></span>
+    </div>
+    {{ if $pas_error }}
+      <span class="invalid-feedback" role="alert">
+        {{ $pas_error }}
+      </span>
+    {{ end }}
+  </div>
+{{ end }}

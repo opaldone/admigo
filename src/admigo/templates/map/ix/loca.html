@@ -1,0 +1,72 @@
+{{ define "title" }}{{ re "Location" }}{{ end }}
+{{ define "styles" }}
+  <link rel="stylesheet" type="text/css" href="/static/external/leaflet/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/map/amap.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/elems/forms.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/elems/se_list.css" />
+{{ end }}
+{{ define "csrf" }}
+  {{ .csrfField }}
+{{ end }}
+{{ define "h_content_class" }}
+  {{ attr (" class=\"full\"") }}
+{{ end }}
+{{ define "content" }}
+  <div id="map" href="{{ ro "loca_ws" }}"></div>
+  {{ template "_ros" . }}
+  <div id="map-nav" class="tb-users sh">
+    <ul id="map-nav-btns" class="map-nav-ul">
+      <li id="tb-users" class="map-nav-bu act">
+        <div class="map-nav-ico">
+          <span class="map-nav-icnt" id="users-cnt"></span>
+          <span class="map-nav-lbl">
+            <i class="fa-solid fa-user-group"></i>
+          </span>
+        </div>
+      </li>
+      <li id="tb-logs" class="map-nav-bu">
+        <div class="map-nav-ico">
+          <span class="map-nav-icnt" id="errors-cnt"></span>
+          <span class="map-nav-lbl">
+            <i class="fa-solid fa-chart-simple"></i>
+          </span>
+        </div>
+      </li>
+      <li class="nav-delim"></li>
+      <li id="map-zoo-pl" class="map-zoo-co hv">
+        <div class="map-nav-ico">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+      </li>
+      <li id="map-zoo-ne" class="map-zoo-co hv ne">
+        <div class="map-nav-ico">
+          <i class="fa-solid fa-minus"></i>
+        </div>
+      </li>
+      <li id="map-rotate-ri" class="map-rot hv">
+        <div class="map-nav-ico">
+          <i class="fa-solid fa-rotate-right"></i>
+        </div>
+      </li>
+      <li id="map-rotate-le" class="map-rot hv le">
+        <div class="map-nav-ico">
+          <i class="fa-solid fa-rotate-left"></i>
+        </div>
+      </li>
+    </ul>
+    {{ template "_mus" }}
+    {{ template "_logs" }}
+  </div>
+{{ end }}
+{{ define "scripts" }}
+  <script src="/static/external/js/axios.js"></script>
+  <script src="/static/external/leaflet/leaflet.js"></script>
+  <script src="/static/external/rotate/leaflet-rotate.js"></script>
+  <script src="/static/js/map/uloca.js"></script>
+  <script src="/static/js/map/mroute.js"></script>
+  <script src="/static/js/map/taber.js"></script>
+  <script src="/static/js/map/wsmap.js"></script>
+  <script src="/static/js/map/rota.js"></script>
+  <script src="/static/js/map/amap.js"></script>
+  <script src="/static/js/elems/se_list.js"></script>
+{{ end }}

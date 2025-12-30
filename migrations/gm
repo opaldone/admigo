@@ -1,0 +1,66 @@
+#!/bin/bash
+
+cd $(dirname "${BASH_SOURCE[0]}")
+
+declare pw=$("pwd")
+declare wh=$1
+declare nm=$2
+
+source ./.env
+
+export GOOSE_DRIVER="postgres"
+export GOOSE_DBSTRING=$DBSTRING
+export GOOSE_MIGRATION_DIR="$pw/db"
+
+declare defal="gm empty-show status, u-set migrations, c [name]-create migration with name, g-show migrations with ID"
+
+if [[ $wh == "u" ]]; then
+    goose -allow-missing up
+    exit 0
+fi
+
+if [[ $wh == "c" ]]; then
+    if [[ -z $nm ]]; then
+        echo -e "\nUse \"gm c name_of_migration\"\n"
+        exit -1
+    fi
+
+    goose create $nm sql
+
+    exit 0
+fi
+
+if [[ $wh == "g" ]]; then
+    if [[ -z $nm ]]; then
+        declare nm=""
+    fi
+
+    declare res=$(goose status 2>&1>/dev/null)
+    declare rows=$(echo "${res}" | grep -v grep | grep -i "$nm")
+
+    IFS=$'\n' ARR=(`echo "${rows}"`)
+
+    declare CNT=${#ARR[@]}
+    for ((i=0;i<$CNT;i++)); do
+        declare row_item="${ARR[i]}"
+        declare id_item="$(echo $row_item | awk -F'-- ' '{ print $2 }' | awk -F'_' '{ print $1 }')"
+        declare len=${#id_item}
+        declare some=""
+        if [[ $len -gt 0 ]]; then
+            declare some=" ( $id_item )"
+        fi
+        echo "$row_item$some"
+    done
+
+    exit 0
+fi
+
+if [[ $wh ]]; then
+    echo -e "\nThe parameter \"$wh\" is wrong\n"
+    echo $defal
+    exit -1
+fi
+
+goose status
+goose version
+exit 0

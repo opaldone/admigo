@@ -1,0 +1,68 @@
+{{ define "_sign" }}
+  {{ $edit := (ge .Lid 0) }}
+  {{ $al_error := .GetError "al" }}
+  {{ $nm_error := .GetError "nm" }}
+  <div id="frm-sign" class="form-tab-content act">
+    {{ if $edit }}
+      <input type="hidden" name="al" value="{{ .Al }}" />
+    {{ else }}
+      <div class="form-it-cont">
+        <label class="form-lbl re" for="role-al">
+          <span>{{ label "al" }}</span>
+        </label>
+        <div class="search-able">
+          <input class="sea-al" type="hidden" name="al" value="{{ .Al }}" />
+          <input type="text"
+                 id="role-al"
+                 class="form-inp sea-al"
+                 value="{{ .Al }}"
+                 required
+                 autocomplete="off"
+                 autofocus />
+          <div class="se-list" tabindex="0" data-seu="{{ ro "role_show" }}"></div>
+          {{ if $al_error }}
+            <span class="invalid-feedback" role="alert">
+              {{ $al_error }}
+            </span>
+          {{ end }}
+        </div>
+      </div>
+    {{ end }}
+    <div class="form-it-cont">
+      <label class="form-lbl re" for="role-nm">
+        <span>{{ label "nm" }}</span>
+      </label>
+      <input type="text"
+             id="role-nm"
+             class="form-inp sea-nm"
+             name="nm"
+             value="{{ .Nm }}"
+             required
+             autocomplete="off" />
+      {{ if $nm_error }}
+        <span class="invalid-feedback" role="alert">
+          {{ $nm_error }}
+        </span>
+      {{ end }}
+    </div>
+    <div class="form-it-cont">
+      <label class="form-lbl" for="role-paral">
+        <span>{{ label "paral" }}</span>
+      </label>
+      <select id="some" class="form-inp" name="paral">
+        {{ $mo := . }}
+        {{ range $mo.Parents }}
+          {{ $se := "" }}
+          {{ if eq $mo.Paral .Al }}
+            {{ $se = " selected" }}
+          {{ end }}
+          <option value="{{ .Al }}"{{ attr $se }}>
+            {{ if gt (len .Al) 0 }}
+              {{ .AlNm }}
+            {{ end }}
+          </option>
+        {{ end }}
+      </select>
+    </div>
+  </div>
+{{ end }}

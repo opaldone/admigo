@@ -1,0 +1,22 @@
+{{ define "title" }}{{ re "Users" }}{{ end }}
+{{ define "styles" }}
+  <link rel="stylesheet" type="text/css" href="/static/css/elems/dlg.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/elems/data_grid.css" />
+{{ end }}
+{{ define "csrf" }}
+  {{ .csrfField }}
+{{ end }}
+{{ define "dlg" }}
+  {{ template "dlg" }}
+{{ end }}
+{{ define "content" }}
+  {{ $info := index . "info" }}
+  {{ template "_filter" $info.Query }}
+  {{ template "_table" . }}
+{{ end }}
+{{ define "scripts" }}
+  <script src="/static/external/js/axios.js"></script>
+  <script src="/static/js/elems/dlg.js"></script>
+  <script src="/static/js/elems/grid.js"></script>
+  <script src="/static/js/elems/grid_handler.js"></script>
+{{ end }}

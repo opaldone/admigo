@@ -1,0 +1,50 @@
+{{ define "layout" }}
+  {{ $lang := index . "lang" }}
+  {{ $stat := index . "stat" }}
+  {{ $needtra := index . "needtra" }}
+  {{ $hidesb := index . "hidesb" }}
+  {{ $hsb := "" }}
+  {{ if eq $hidesb 1 }}
+    {{ $hsb = " class=\"hide-sb\"" }}
+  {{ end }}
+  <!DOCTYPE html>
+  <html lang="{{ $lang }}" stat="{{ $stat }}" tra="{{ $needtra }}">
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=9">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="shortcut icon" href="/static/images/aa/favicon.png?v=1" />
+      <title>
+      {{ block "title" . }}
+      {{ end }}
+      </title>
+      <link rel="stylesheet" type="text/css" href="/static/css/inc/inc_fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/static/external/fontawesome/css/all.min.css" />
+      <link rel="stylesheet" type="text/css" href="/static/css/inc/reset.css" />
+      <link rel="stylesheet" type="text/css" href="/static/css/inc/style.css" />
+      <link rel="stylesheet" type="text/css" href="/static/css/elems/nav.css" />
+      {{ block "styles" . }}
+      {{ end }}
+    </head>
+    <body{{ attr $hsb }}>
+      {{ block "csrf" . }}
+      {{ end }}
+      {{ block "dlg" . }}
+      {{ end }}
+      <div id="h-container" class="clearfix">
+        {{ if eq $hidesb 0  }}
+          {{ template "sidebar" . }}
+        {{ end }}
+        <div id="h-content"{{ block "h_content_class" . }}{{ end }}>
+          {{ block "content" . }}
+          {{ end }}
+        </div>
+      </div>
+      <script src="/static/js/inc/funcs.js"></script>
+      <script src="/static/js/inc/lang.js"></script>
+      <script src="/static/js/elems/sidebar.js"></script>
+      {{ block "scripts" . }}
+      {{ end }}
+    </body>
+  </html>
+{{ end }}

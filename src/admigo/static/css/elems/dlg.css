@@ -1,0 +1,120 @@
+#dlg-screen {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000033;
+  z-index: 15;
+  overflow-y: auto;
+}
+
+body.show-dlg-screen {
+  overflow: hidden;
+}
+
+.show-dlg-screen #dlg-screen {
+  display: block;
+}
+
+#dlg-container {
+  position: relative;
+  width: 35%;
+  top: 20%;
+  left: 50%;
+}
+
+#dlg-close {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 14px;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #2C5DE5;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+#dlg-close:hover {
+  background-color: #0737c1;
+}
+
+#dlg-content {
+  background-color: #fff;
+  box-shadow: 3px 3px 13px #999;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+#dlg-header {
+  background-color: #00a700;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #fff;
+  padding: 10px 20px 13px 20px;
+}
+
+#dlg-msg {
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #121212;
+  padding: 20px 20px 24px 20px;
+}
+
+#dlg-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px 10px 20px;
+}
+
+.dlg-btn {
+  border: none;
+  color: #fff;
+  background-color: #2C5DE5;
+  padding: 8px 15px 10px 15px;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+.dlg-btn:hover {
+  background-color: #0737c1;
+}
+
+.dlg-btn:focus {
+  outline: 2px dashed #00a700;
+}
+
+.dlg-btn + .dlg-btn {
+  margin-left: 7px;
+}
+
+.dlg-btn.cancel {
+  background-color: #e7e7e7;
+  color: #121212;
+}
+
+.dlg-btn.cancel:hover {
+  background-color: #d7d7d7;
+}
+
+/*
+* MEDIA
+*/
+
+@media (max-width: 980px) {
+  #dlg-container {
+    width: 70%;
+    transform: translateX(-50%);
+  }
+}

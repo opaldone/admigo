@@ -1,0 +1,50 @@
+#ho-cont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.ho-title {
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: bold;
+  color: #121212;
+  padding-bottom: 25px;
+}
+.ho-title span {
+  color: #ff9933
+}
+
+.ho-info {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.ho-info + .ho-info {
+  padding-top: 7px;
+}
+
+.ho-info a {
+  padding-bottom: 1px;
+  border-bottom: 1px dashed #03f;
+}
+
+.ho-info span {
+  display: inline-block;
+  color: #11aa11;
+}
+
+.ho-info.inp {
+  padding-top: 33px;
+}
+
+.ho-info input {
+  width: 100%;
+  padding: 7px 13px 9px 13px;
+  border: 1px solid #d7d7d7;
+  font-size: 13px;
+  line-height: 15px;
+  cursor: pointer;
+}

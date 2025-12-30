@@ -1,0 +1,37 @@
+{{ define "_ros" }}
+  <div id="route-start" data-cid="">
+    <div id="ros-title">Making a route</div>
+    <div id="route-btns" class="clearfix">
+      <button id="make-route" class="ros-btn">
+        <i class="fa-solid fa-car-side"></i>
+        <span>{{ re "Make route" }}</span>
+      </button>
+      <button id="del-route" class="ros-btn">
+        <i class="fa-solid fa-eraser"></i>
+        <span>{{ re "Delete route" }}</span>
+      </button>
+      <button id="clo-route" class="ros-btn">
+        <i class="fa-solid fa-xmark"></i>
+        <span>{{ re "Close" }}</span>
+      </button>
+    </div>
+    <label class="ros-header" for="ros-inp">
+      <span class="ros-h">{{ re "Start from" }}</span>
+      <span id="ros-who"></span>
+    </label>
+    <div id="ros-se">
+      <div class="search-able one" data-errid="ros-error">
+        <input type="hidden" id="ros-inp-lo" class="sea-lo" value="" />
+        <input type="text" id="ros-inp" autofocus class="form-inp sea-nm" placeholder="{{ re "To point" }}" />
+        <div class="se-list hid" tabindex="-1" data-seu="{{ ro "loca_show" .info.city }}"></div>
+        <button class="se-list-btn sh" title="Show addresses">
+          <i class="fa-solid fa-ellipsis"></i>
+        </button>
+        <button class="se-list-btn cl hid" title="Hide addresses">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="ros-error" class="err-cont"></div>
+    </div>
+  </div>
+{{ end }}

@@ -1,0 +1,20 @@
+{{ define "_row_empty" }}
+  {{ $is_admin := index . "is_admin" }}
+  {{ $tr_at := "" }}
+  {{ if $is_admin }}
+    {{ $tr_at = printf " class=\"cla\" title=\"%s\"" (re "Click to show menu") }}
+  {{ end }}
+  <tr{{ attr $tr_at }}>
+    <td colspan="5" class="empty-row">{{ re "No records" }}</td>
+    {{ if $is_admin }}
+      <td class="act-td">
+        <span class="act-item"
+              title="{{ re "Add" }}"
+              data-u="{{ ro "user_add_get" }}"
+              data-m="get">
+          <i class="fa-solid fa-plus"></i>
+        </span>
+      </td>
+    {{ end }}
+  </tr>
+{{ end }}

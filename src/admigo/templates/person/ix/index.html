@@ -1,0 +1,18 @@
+{{ define "title" }}Person{{ end }}
+{{ define "styles" }}
+  <link rel="stylesheet" type="text/css" href="/static/external/fancybox/fancybox.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/person/person.css" />
+{{ end }}
+{{ define "content" }}
+  {{ $info := index . "info" }}
+  {{ $show_user := index $info "show_user" }}
+  <div id="per-container">
+    {{ template "_le" $show_user }}
+    {{ template "_ri" $show_user }}
+  </div>
+{{ end }}
+{{ define "scripts" }}
+  <script src="/static/external/fancybox/fancybox.umd.js"></script>
+  <script src="/static/js/person/person.js"></script>
+{{ end }}
+

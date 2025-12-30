@@ -1,0 +1,35 @@
+{{ define "_user_roles" }}
+<div id="frm-roles" class="form-tab-content">
+  <div class="search-able form-it-cont" list-to-add="list_roles">
+    <label class="form-lbl" for="se-user-role">
+      <span>{{ label "ch_role" }}</span>
+    </label>
+    <input id="se-user-role" class="form-inp sea-al" type="text" />
+    <div class="se-list hid" tabindex="0" data-seu="{{ ro "role_show" }}"></div>
+  </div>
+  <div class="form-it-cont">
+    <ul id="list_roles" class="multi-list" data-cuq="al">
+      <li id="templ-list_roles" class="templ-item">
+        <div class="lita-cont">
+          <input type="hidden" />
+          <span class="sp-lbl sea-alnm sea-inhtml sea-ifemp sea-tmp"></span>
+          <span class="sp-del" title="Delete role from the list">
+            <i class="fa-solid fa-xmark"></i>
+          </span>
+        </div>
+      </li>
+      {{ range .Roles }}
+        <li class="ml-item">
+          <div class="lita-cont">
+            <input type="hidden" name="list_roles[]" value="{{ .Al }}" />
+            <span class="sp-lbl sea-alnm sea-inhtml sea-ifemp">{{ .AlNm }}</span>
+            <span class="sp-del" data-vuq="{{ .Al }}" title="Delete role from the list">
+              <i class="fa-solid fa-xmark"></i>
+            </span>
+          </div>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</div>
+{{ end }}

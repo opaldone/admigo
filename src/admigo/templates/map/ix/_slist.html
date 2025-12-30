@@ -1,0 +1,13 @@
+{{ define "content" }}
+  {{ $info := index . "info" }}
+  <ul class="search-list-ul">
+    {{ range $info }}
+      <li
+        data-lo="{{ .Lat }},{{ .Lon }}"
+        data-nm="{{ .ShortName }}"
+      >
+        <span>{{ .MiddleName }}</span>
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}

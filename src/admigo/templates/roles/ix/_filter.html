@@ -1,0 +1,40 @@
+{{ define "_filter" }}
+  <form action="" method="GET" id="user-filter-form" class="grid-form clearfix">
+    <div class="grid-form-inputs clearfix">
+      {{ $ob := .Query.OrderBy }}
+      {{ $fi := .Query.Filter }}
+      {{ $finded := .Finded }}
+      {{ $sid := "" }}
+      {{ $sval := "" }}
+      {{ if $finded }}
+        {{ $sid = $finded.Al }}
+        {{ $sval = $finded.AlNm }}
+      {{ end }}
+      {{ template "hidden_sort" $ob }}
+      <input type="text"
+             name="pk"
+             class="grid-form-inp"
+             style="width:20%"
+             placeholder="ID"
+             value="{{ index $fi "pk" }}" />
+      <div class="search-able" style="width:calc(80% - 7px)" form-submit="user-filter-form">
+        <input class="sea-al" type="hidden" name="sid" value="{{ $sid }}" />
+        <input type="text"
+               class="grid-form-inp sea-alnm"
+               style="width:100%"
+               placeholder="{{ label "frole" }}"
+               autocomplete="off"
+               value="{{ $sval }}" />
+        <div class="se-list hid" tabindex="0" data-seu="{{ ro "role_show" }}"></div>
+      </div>
+    </div>
+    <div class="grid-form-buttons">
+      <button class="grid-form-btn" title="{{ re "Find" }}">
+        <i class="fas fa-filter"></i>
+      </button>
+      <a href="{{ ro "roles" }}" class="grid-form-btn gr" title="{{ re "Reset" }}">
+        <i class="fas fa-sync-alt"></i>
+      </a>
+    </div>
+  </form>
+{{ end }}

@@ -1,0 +1,67 @@
+{{ define "_sign" }}
+  {{ $edit := (ge .ID 0) }}
+  {{ $ac_error := .GetError "ac" }}
+  {{ $em_error := .GetError "em" }}
+  {{ $pas_error := .GetError "pas" }}
+  <div id="frm-sign" class="form-tab-content">
+    <div class="form-it-cont">
+      <label class="form-lbl re" for="user-ac">
+        <span>{{ label "ac" }}</span>
+      </label>
+      <input type="text"
+             id="user-ac"
+             class="form-inp"
+             name="ac"
+             value="{{ .Ac }}"
+             required
+             autocomplete="off"
+             autofocus />
+      {{ if $ac_error }}
+        <span class="invalid-feedback" role="alert">
+          {{ $ac_error }}
+        </span>
+      {{ end }}
+    </div>
+    <div class="form-it-cont">
+      <label class="form-lbl re" for="user-em">
+        <span>{{ label "em" }}</span>
+      </label>
+      <input style="display:none" type="email" name="foilautofill" />
+      <input type="email"
+             id="user-em"
+             class="form-inp"
+             name="em"
+             value="{{ .Em }}"
+             required
+             autocomplete="off" />
+      {{ if $em_error }}
+        <span class="invalid-feedback" role="alert">
+          {{ $em_error }}
+        </span>
+      {{ end }}
+    </div>
+    {{ $re := " re" }}
+    {{ $rq := "required" }}
+    {{ if $edit }}
+      {{ $re = "" }}
+      {{ $rq = "" }}
+    {{ end }}
+    <div class="form-it-cont">
+      <label class="form-lbl{{ $re }}" for="pass">
+        <span>{{ label "pas" }}</span>
+      </label>
+      <input type="password"
+             id="pass"
+             class="form-inp"
+             name="pas"
+             value=""
+             {{ $rq }}
+             autocomplete="off" />
+      {{ if $pas_error }}
+        <span class="invalid-feedback" role="alert">
+          {{ $pas_error }}
+        </span>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}
