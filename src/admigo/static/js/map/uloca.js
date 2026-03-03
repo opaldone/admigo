@@ -237,10 +237,22 @@ class Uloca {
 
   get_cust_icon(some) {
     if (some.nik.toLowerCase().includes('как')) {
-      return '/static/images/map/ka.png';
+        return L.icon({
+          'iconUrl': '/static/images/map/ka.png',
+          'iconAnchor': [15, 30],
+          'tooltipAnchor': [0, -30]
+        });
     }
 
-    return '';
+    if (some.nik.toLowerCase().includes('оле')) {
+        return L.icon({
+          'iconUrl': '/static/images/map/mapi.png',
+          'iconAnchor': [10, 25],
+          'tooltipAnchor': [0, -25]
+        });
+    }
+
+    return null;
   }
 
   ref_ma(cid) {
@@ -263,13 +275,7 @@ class Uloca {
       let pop = some.nik ? some.nik : some.cid;
       let cicon = this.get_cust_icon(some);
       let ico = this.oin.mai;
-      if (cicon.length > 0) {
-        ico = L.icon({
-          'iconUrl': cicon,
-          'iconAnchor': [15, 30],
-          'tooltipAnchor': [0, -30]
-        });
-      }
+      if (cicon) ico = cicon;
       some.ma = L.marker(sp, {
         'icon': ico
       }).addTo(this.oin.map);
