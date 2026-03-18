@@ -163,5 +163,8 @@ The config file is located here __admigo/bin/config.json__
 }
 ```
 
+### Screenshots
+[![Home Page](assets/imgs/i1.png)](assets/imgs/i1.png)
+
 ### License
 MIT License - see [LICENSE](LICENSE) for full text
