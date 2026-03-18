@@ -25,7 +25,12 @@
               "auth": true
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "title": "Navigation",
+      "items": [
         {
           "label": "Maps",
           "icon": "fa-solid fa-globe",

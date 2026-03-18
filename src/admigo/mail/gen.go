@@ -1,3 +1,4 @@
+// Package mail
 package mail
 
 import (
@@ -19,6 +20,6 @@ func getMailTemplates(filenames []string) (tmpl *template.Template) {
 }
 
 // GenerateMail genereates email
-func GenerateMail(bufer *bytes.Buffer, data interface{}, filenames ...string) {
+func GenerateMail(bufer *bytes.Buffer, data any, filenames ...string) {
 	getMailTemplates(filenames).ExecuteTemplate(bufer, "layout_mail", data)
 }

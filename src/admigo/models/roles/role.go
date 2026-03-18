@@ -1,3 +1,4 @@
+// Package roles
 package roles
 
 import (
@@ -21,8 +22,8 @@ type RoleModel struct {
 }
 
 const (
-	ADMIN_ROLE string = "admr"
-	MN_ROLES   string = "roles"
+	AdminRole string = "admr"
+	MnRoles   string = "roles"
 )
 
 var (
@@ -133,9 +134,9 @@ func (role *RoleModel) CheckFields() {
 		return
 	}
 
-	loo, lo_err := role.checkLoop()
-	if lo_err != nil {
-		role.AddError("all", lo_err.Error())
+	loo, loerr := role.checkLoop()
+	if loerr != nil {
+		role.AddError("all", loerr.Error())
 		return
 	}
 
@@ -152,13 +153,13 @@ func (role *RoleModel) GetError(fld string) string {
 	return (*role.Errors)[fld]
 }
 
-func (role *RoleModel) AddError(key string, err_msg string) {
+func (role *RoleModel) AddError(key string, errmsg string) {
 	if role.Errors == nil {
 		err := make(map[string]string)
 		role.Errors = &err
 	}
 
-	(*role.Errors)[key] = err_msg
+	(*role.Errors)[key] = errmsg
 }
 
 func (role *RoleModel) FillPaths() (err error) {
@@ -206,18 +207,18 @@ func (role *RoleModel) FillPaths() (err error) {
 	return
 }
 
-func (mo *RoleModel) FillAvaiParents() (err error) {
+func (role *RoleModel) FillAvaiParents() (err error) {
 	sel := GetSelect()
 	que := sel + `where r.al != $1
 		order by al
 	`
 
-	mo_al := "-"
-	if len(mo.Al) > 0 {
-		mo_al = mo.Al
+	moal := "-"
+	if len(role.Al) > 0 {
+		moal = role.Al
 	}
 
-	rows, err := mcom.Dbc.Query(que, mo_al)
+	rows, err := mcom.Dbc.Query(que, moal)
 	if err != nil {
 		return
 	}
@@ -241,12 +242,12 @@ func (mo *RoleModel) FillAvaiParents() (err error) {
 		return
 	}
 
-	mo.Parents = &list
+	role.Parents = &list
 
 	return
 }
 
-func (link *RoleModel) DeleteLinkRole() (err error) {
+func (role *RoleModel) DeleteLinkRole() (err error) {
 	up := `
 		update role_links up set
 		parent = default
@@ -271,18 +272,18 @@ func (link *RoleModel) DeleteLinkRole() (err error) {
 		)
 	`
 
-	_, err = mcom.Dbc.Exec(up, link.Lid)
+	_, err = mcom.Dbc.Exec(up, role.Lid)
 	if err != nil {
 		return
 	}
 
-	del_link := "delete from role_links where id = $1"
-	_, err = mcom.Dbc.Exec(del_link, link.Lid)
+	dellink := "delete from role_links where id = $1"
+	_, err = mcom.Dbc.Exec(dellink, role.Lid)
 	if err != nil {
 		return
 	}
 
-	del_ro := `
+	delro := `
 		delete
 		from roles r
 		where r.al = $1
@@ -293,12 +294,12 @@ func (link *RoleModel) DeleteLinkRole() (err error) {
 			where r.al in (l.child, l.parent)
 		)
 	`
-	_, err = mcom.Dbc.Exec(del_ro, link.Al)
+	_, err = mcom.Dbc.Exec(delro, role.Al)
 
 	return
 }
 
-func (mo *RoleModel) insertLink() (err error) {
+func (role *RoleModel) insertLink() (err error) {
 	ins := `
 		insert into role_links(child, parent)
 		select q.child, q.parent
@@ -313,12 +314,12 @@ func (mo *RoleModel) insertLink() (err error) {
 		)
 	`
 
-	_, err = mcom.Dbc.Exec(ins, mo.Al, mo.Paral)
+	_, err = mcom.Dbc.Exec(ins, role.Al, role.Paral)
 
 	return
 }
 
-func (mo *RoleModel) updateLink() (err error) {
+func (role *RoleModel) updateLink() (err error) {
 	upd := `
 		update role_links set
 		parent = $2
@@ -326,12 +327,12 @@ func (mo *RoleModel) updateLink() (err error) {
 		and parent != $2
 	`
 
-	_, err = mcom.Dbc.Exec(upd, mo.Lid, mo.Paral)
+	_, err = mcom.Dbc.Exec(upd, role.Lid, role.Paral)
 
 	return
 }
 
-func (mo *RoleModel) insertRole() (err error) {
+func (role *RoleModel) insertRole() (err error) {
 	ins := `
 		insert into roles(al, nm)
 		select q.al, q.nm
@@ -346,20 +347,20 @@ func (mo *RoleModel) insertRole() (err error) {
 		returning al
 	`
 
-	mo.Al = strings.Trim(strings.ToLower(mo.Al), " ")
-	mo.Nm = strings.Trim(mo.Nm, " ")
+	role.Al = strings.Trim(strings.ToLower(role.Al), " ")
+	role.Nm = strings.Trim(role.Nm, " ")
 
-	_, err = mcom.Dbc.Exec(ins, mo.Al, mo.Nm)
+	_, err = mcom.Dbc.Exec(ins, role.Al, role.Nm)
 	if err != nil {
 		return
 	}
 
-	err = mo.insertLink()
+	err = role.insertLink()
 
 	return
 }
 
-func (mo *RoleModel) updateRole() (err error) {
+func (role *RoleModel) updateRole() (err error) {
 	upd := `
 		update roles set
 		nm = $1
@@ -367,22 +368,22 @@ func (mo *RoleModel) updateRole() (err error) {
 		and nm != $1
 	`
 
-	mo.Nm = strings.Trim(mo.Nm, " ")
+	role.Nm = strings.Trim(role.Nm, " ")
 
-	_, err = mcom.Dbc.Exec(upd, mo.Nm, mo.Al)
+	_, err = mcom.Dbc.Exec(upd, role.Nm, role.Al)
 	if err != nil {
 		return
 	}
 
-	err = mo.updateLink()
+	err = role.updateLink()
 
 	return
 }
 
-func (mo *RoleModel) DoRole() error {
-	if mo.Lid < 0 {
-		return mo.insertRole()
+func (role *RoleModel) DoRole() error {
+	if role.Lid < 0 {
+		return role.insertRole()
 	}
 
-	return mo.updateRole()
+	return role.updateRole()
 }

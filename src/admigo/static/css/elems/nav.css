@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  z-index: 1701;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 25%;
@@ -49,7 +49,7 @@ a#lka:hover {
 
 #sb-menu {
   position: relative;
-  padding: 20px 7% 20px;
+  padding: 20px 3% 20px;
   height: calc(100% - 145px - 104px);
   overflow-y: auto;
 }
@@ -76,15 +76,13 @@ a#lka:hover {
 }
 
 .title-admin {
-  color: #fff;
+  color: #b7b7b7;
   margin-bottom: 7px;
-  padding: 7px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 10px;
-  line-height: 10px;
+  padding: 7px 10px 10px 10px;
+  font-size: 12px;
+  line-height: 12px;
   background-color: #2b3648;
-
+  border-radius: 7px;
 }
 
 .title-admin:not(:first-child) {
@@ -94,9 +92,10 @@ a#lka:hover {
 .sb-item {
   position: relative;
   display: block;
-  padding: 12px 0;
+  padding: 12px 10px;
   color: #b7b7b7;
   cursor: pointer;
+  border-radius: 13px;
 }
 
 li.has-submenu > div.sb-item {
@@ -124,17 +123,7 @@ li.has-submenu > div.sb-item {
 
 .sb-item.active {
   color: #fff;
-  background-color: rgba(255, 255, 255, 0.02);
-}
-
-.sb-item.active:before {
-  position: absolute;
-  content: '\f111';
-  font: 900 10px/10px 'Font Awesome 6 Free';
-  color: #2b3648;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+  background-color: #ffffff11;
 }
 
 .has-submenu >.sb-item > .name {
@@ -235,7 +224,7 @@ li.has-submenu > div.sb-item {
   #sb-el.opened #lka,
   #sb-el.opened #sb-menu,
   #sb-el.opened #sb-el-bottom {
-    padding-left: calc(7% + 30px);
+    padding-left: calc(3% + 30px);
   }
 }
 @media (max-width: 800px) {}

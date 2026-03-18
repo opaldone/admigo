@@ -35,9 +35,9 @@ type UserModel struct {
 }
 
 const (
-	IMGPATH           = "/images/users/"
-	ADMIN_ROLE string = "admu"
-	MN_USERS   string = "users"
+	imgPath          = "/images/users/"
+	adminRole string = "admu"
+	MnUsers   string = "users"
 )
 
 var (
@@ -126,17 +126,17 @@ func (user *UserModel) GetError(fld string) string {
 	return (*user.Errors)[fld]
 }
 
-func (user *UserModel) AddError(key string, err_msg string) {
+func (user *UserModel) AddError(key string, errmsg string) {
 	if user.Errors == nil {
 		err := make(map[string]string)
 		user.Errors = &err
 	}
 
-	(*user.Errors)[key] = err_msg
+	(*user.Errors)[key] = errmsg
 }
 
 func (user *UserModel) imgPath() (ret string) {
-	ret = fmt.Sprintf("/%s%s", config.Env(false).Static, IMGPATH)
+	ret = fmt.Sprintf("/%s%s", config.Env(false).Static, imgPath)
 
 	return
 }
@@ -248,29 +248,29 @@ func (user *UserModel) removeFiles() (err error) {
 	return
 }
 
-func (user *UserModel) setAttr(al_in string, val_in string) {
+func (user *UserModel) setAttr(alin string, valin string) {
 	if user.Attrs == nil {
 		return
 	}
 
-	for _, attr_in := range user.Attrs {
-		if attr_in.Al != al_in {
+	for _, attrin := range user.Attrs {
+		if attrin.Al != alin {
 			continue
 		}
 
-		attr_in.Val = val_in
+		attrin.Val = valin
 		return
 	}
 }
 
-func (user *UserModel) SetThumb(val_in string) {
-	user.setAttr("th", val_in)
-	user.Thumb = val_in
+func (user *UserModel) SetThumb(valin string) {
+	user.setAttr("th", valin)
+	user.Thumb = valin
 }
 
-func (user *UserModel) SetBim(val_in string) {
-	user.setAttr("bim", val_in)
-	user.Bim = val_in
+func (user *UserModel) SetBim(valin string) {
+	user.setAttr("bim", valin)
+	user.Bim = valin
 }
 
 func (user *UserModel) FillAttrs() (err error) {
@@ -308,12 +308,12 @@ func (user *UserModel) FillAttrs() (err error) {
 }
 
 func (user *UserModel) getRolesByUser() (rows *sql.Rows, err error) {
-	role_sel := roles.GetSelect()
+	rolesel := roles.GetSelect()
 
 	que := `
 		select qu.al, qu.alnm
 		from usro_links ur
-		join (` + role_sel + `) qu on qu.al = ur.role_al
+		join (` + rolesel + `) qu on qu.al = ur.role_al
 		where ur.user_id = $1
 		order by al
 	`
@@ -327,10 +327,10 @@ func (user *UserModel) getRolesByUser() (rows *sql.Rows, err error) {
 }
 
 func (user *UserModel) getRolesByAliases(aliases string) (rows *sql.Rows, err error) {
-	role_sel := roles.GetSelect()
+	rolesel := roles.GetSelect()
 	que := `
 		select qu.al, qu.alnm
-		from (` + role_sel + `) qu
+		from (` + rolesel + `) qu
 		where qu.al in (` + aliases + `)
 		and length(qu.al) > 0
 		order by al
@@ -401,16 +401,16 @@ func (user *UserModel) fillCanRoles() (err error) {
 	defer rows.Close()
 
 	mapa := make(map[string]bool)
-	var map_key string
+	var mapkey string
 
 	for rows.Next() {
 
-		err = rows.Scan(&map_key)
+		err = rows.Scan(&mapkey)
 		if err != nil {
 			return
 		}
 
-		mapa[map_key] = true
+		mapa[mapkey] = true
 	}
 
 	user.canRoles = mapa
@@ -418,7 +418,7 @@ func (user *UserModel) fillCanRoles() (err error) {
 	return
 }
 
-func (user *UserModel) canRole(role_al string) bool {
+func (user *UserModel) canRole(roleal string) bool {
 	if user.canRoles == nil {
 		err := user.fillCanRoles()
 		if err != nil {
@@ -426,15 +426,15 @@ func (user *UserModel) canRole(role_al string) bool {
 		}
 	}
 
-	return user.canRoles[role_al]
+	return user.canRoles[roleal]
 }
 
 func (user *UserModel) IsUsersAdmin() bool {
-	return user.canRole(ADMIN_ROLE)
+	return user.canRole(adminRole)
 }
 
 func (user *UserModel) IsRolesAdmin() bool {
-	return user.canRole(roles.ADMIN_ROLE)
+	return user.canRole(roles.AdminRole)
 }
 
 func (user *UserModel) SetOus() {
@@ -455,8 +455,8 @@ func (user *UserModel) dbAttrs() (err error) {
 	}
 
 	un := ""
-	for _, attr_in := range user.Attrs {
-		if len(attr_in.Val) == 0 {
+	for _, attrin := range user.Attrs {
+		if len(attrin.Val) == 0 {
 			continue
 		}
 
@@ -465,7 +465,7 @@ func (user *UserModel) dbAttrs() (err error) {
 		}
 
 		un = fmt.Sprintf("%sselect %d user_id, '%s' attr, '%s' val", un,
-			user.ID, attr_in.Al, attr_in.Val,
+			user.ID, attrin.Al, attrin.Val,
 		)
 	}
 
@@ -515,8 +515,8 @@ func (user *UserModel) dbRoles() (err error) {
 	}
 
 	un := ""
-	for _, rl_in := range user.Roles {
-		if len(rl_in.Al) == 0 {
+	for _, rlin := range user.Roles {
+		if len(rlin.Al) == 0 {
 			continue
 		}
 
@@ -525,7 +525,7 @@ func (user *UserModel) dbRoles() (err error) {
 		}
 
 		un = fmt.Sprintf("%sselect %d user_id, '%s' role_al", un,
-			user.ID, rl_in.Al,
+			user.ID, rlin.Al,
 		)
 	}
 
@@ -569,9 +569,9 @@ func (user *UserModel) insertUser() (err error) {
 		returning id
 	`
 
-	new_pas := common.Hapas(user.Pas)
+	newpas := common.Hapas(user.Pas)
 
-	row, err := mcom.Dbc.Query(ins, user.Ac, user.Em, new_pas)
+	row, err := mcom.Dbc.Query(ins, user.Ac, user.Em, newpas)
 	if err != nil {
 		return
 	}
@@ -602,9 +602,9 @@ func (user *UserModel) updatePas() (err error) {
 		where id = $2
 	`
 
-	new_pas := common.Hapas(user.Pas)
+	newpas := common.Hapas(user.Pas)
 
-	_, err = mcom.Dbc.Exec(upd, new_pas, user.ID)
+	_, err = mcom.Dbc.Exec(upd, newpas, user.ID)
 
 	return
 }

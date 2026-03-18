@@ -55,10 +55,4 @@ class Taber {
     this._clear_cls(tid);
     this._add_cls(tid);
   }
-
-  show_users() {
-    if (this.tb.classList.contains('tb-users')) return;
-
-    this.fun.trigger(this.tb_users, 'click');
-  }
 }

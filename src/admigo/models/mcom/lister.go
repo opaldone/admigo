@@ -1,3 +1,4 @@
+// Package mcom
 package mcom
 
 import (
@@ -17,15 +18,15 @@ type DataQuery struct {
 	Filter  *map[string]string `json:"filter,omitempty"`
 }
 
-func GetRows(query *DataQuery, que_in string, alias string, need_where bool) (*sql.Rows, error) {
-	que := fmt.Sprintf("%s%s", que_in, _where(query, alias, need_where))
+func GetRows(query *DataQuery, quein string, alias string, needwhere bool) (*sql.Rows, error) {
+	que := fmt.Sprintf("%s%s", quein, _where(query, alias, needwhere))
 	pages := _page(query, que)
 	que = fmt.Sprintf("%s%s%s", que, _order(query), pages)
 
 	return Dbc.Query(que)
 }
 
-func _where(query *DataQuery, alias string, need_where bool) (wh string) {
+func _where(query *DataQuery, alias string, needwhere bool) (wh string) {
 	if query == nil {
 		return
 	}
@@ -34,27 +35,27 @@ func _where(query *DataQuery, alias string, need_where bool) (wh string) {
 		return
 	}
 
-	wh_list := []string{}
+	whlist := []string{}
 
 	for fld, val := range *query.Filter {
 		if fld == "pk" {
-			wh_list = append(wh_list, fmt.Sprintf("%s.id = %s", alias, val))
+			whlist = append(whlist, fmt.Sprintf("%s.id = %s", alias, val))
 			continue
 		}
 
-		wh_list = append(wh_list, fmt.Sprintf("lower(%s.%s) like lower('%%%s%%')", alias, fld, val))
+		whlist = append(whlist, fmt.Sprintf("lower(%s.%s) like lower('%%%s%%')", alias, fld, val))
 	}
 
-	if len(wh_list) == 0 {
+	if len(whlist) == 0 {
 		return
 	}
 
-	emp_str := "and "
-	if need_where {
-		emp_str = "where "
+	empstr := "and "
+	if needwhere {
+		empstr = "where "
 	}
 
-	wh = fmt.Sprintf(emp_str+"%s\n", strings.Join(wh_list, " and "))
+	wh = fmt.Sprintf(empstr+"%s\n", strings.Join(whlist, " and "))
 
 	return
 }

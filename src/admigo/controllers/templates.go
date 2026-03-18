@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"maps"
 	"net/http"
 
 	"admigo/common"
@@ -34,9 +35,7 @@ func getFm(funcs map[string]any) (fm template.FuncMap) {
 		"dict":    TemplDict,
 	}
 
-	for ke, fu := range funcs {
-		fm[ke] = fu
-	}
+	maps.Copy(fm, funcs)
 
 	return
 }

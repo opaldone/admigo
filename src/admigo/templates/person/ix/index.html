@@ -5,10 +5,10 @@
 {{ end }}
 {{ define "content" }}
   {{ $info := index . "info" }}
-  {{ $show_user := index $info "show_user" }}
+  {{ $showUser := index $info "showUser" }}
   <div id="per-container">
-    {{ template "_le" $show_user }}
-    {{ template "_ri" $show_user }}
+    {{ template "_le" $showUser }}
+    {{ template "_ri" $showUser }}
   </div>
 {{ end }}
 {{ define "scripts" }}

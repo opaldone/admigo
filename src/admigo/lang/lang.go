@@ -1,3 +1,4 @@
+// Package lang
 package lang
 
 import (
@@ -9,13 +10,13 @@ import (
 	"admigo/config"
 )
 
-const TR_FOLDER = "tra"
+const trFolder = "tra"
 
 var lame map[string]string
 
-func read_json(file_name string) (ret *[]byte) {
+func readJSON(fileName string) (ret *[]byte) {
 	lang := config.Env(false).Lang
-	lap := fmt.Sprintf("%s/%s/%s/%s.json", config.Env(false).Static, TR_FOLDER, lang, file_name)
+	lap := fmt.Sprintf("%s/%s/%s/%s.json", config.Env(false).Static, trFolder, lang, fileName)
 
 	_, err := os.Stat(lap)
 	if err != nil {
@@ -34,23 +35,23 @@ func read_json(file_name string) (ret *[]byte) {
 }
 
 func LoadMessages() {
-	p_cont := read_json("messages")
+	pcont := readJSON("messages")
 
-	if p_cont == nil {
+	if pcont == nil {
 		return
 	}
 
-	json.Unmarshal(*p_cont, &lame)
+	json.Unmarshal(*pcont, &lame)
 }
 
-func LoadLabels(file_name string) (ret *map[string]string) {
-	p_cont := read_json(file_name)
+func LoadLabels(fileName string) (ret *map[string]string) {
+	pcont := readJSON(fileName)
 
-	if p_cont == nil {
+	if pcont == nil {
 		return
 	}
 
-	json.Unmarshal(*p_cont, &ret)
+	json.Unmarshal(*pcont, &ret)
 
 	return
 }

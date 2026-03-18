@@ -9,13 +9,13 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func getShowUser(par_user string) (show_user *users.UserModel) {
-	userid, err := strconv.Atoi(par_user)
+func getShowUser(parUser string) (showUser *users.UserModel) {
+	userid, err := strconv.Atoi(parUser)
 	if err != nil {
 		return
 	}
 
-	show_user, err = users.UserByID(userid)
+	showUser, err = users.UserByID(userid)
 	if err != nil {
 		return
 	}
@@ -24,31 +24,31 @@ func getShowUser(par_user string) (show_user *users.UserModel) {
 }
 
 func PersonIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	var show_user *users.UserModel
+	var showUser *users.UserModel
 
 	qv := r.URL.Query()
 
-	par_user := qv.Get("user_id")
+	parUser := qv.Get("user_id")
 
-	if len(par_user) > 0 {
-		show_user = getShowUser(par_user)
+	if len(parUser) > 0 {
+		showUser = getShowUser(parUser)
 
-		if show_user == nil {
+		if showUser == nil {
 			http.Redirect(w, r, ro("person"), http.StatusFound)
 			return
 		}
 	}
 
-	if show_user == nil {
-		show_user = LoggedUser(r)
+	if showUser == nil {
+		showUser = LoggedUser(r)
 	}
 
-	show_user.FillAttrs()
+	showUser.FillAttrs()
 
-	info := map[string]interface{}{}
-	info["show_user"] = show_user
+	info := map[string]any{}
+	info["showUser"] = showUser
 
-	setFrontContent(w, r, users.MN_USERS, info, nil,
+	setFrontContent(w, r, users.MnUsers, info, nil,
 		"person/ix/index",
 		"person/ix/_ri",
 		"person/ix/_le",

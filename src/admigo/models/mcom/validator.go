@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	F_ERROR = "error"
+	fError = "error"
 )
 
 type Result struct {
@@ -17,7 +17,7 @@ type Result struct {
 }
 
 func GetErrorResult(errors map[string]string) (res *Result) {
-	res = &Result{Message: F_ERROR, Errors: errors}
+	res = &Result{Message: fError, Errors: errors}
 	return
 }
 

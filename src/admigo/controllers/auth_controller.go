@@ -3,6 +3,7 @@ package controllers
 import (
 	"errors"
 	"html/template"
+	"maps"
 	"net/http"
 	"strconv"
 	"time"
@@ -57,32 +58,30 @@ func getLoginFm(funcs map[string]any) (fm template.FuncMap) {
 	fm = template.FuncMap{
 		"ro": ro,
 		"re": lang.Re,
-		"dd": func(v interface{}) template.HTML {
+		"dd": func(v any) template.HTML {
 			return template.HTML(
 				common.ShowJSON(v, false),
 			)
 		},
 	}
 
-	for ke, fu := range funcs {
-		fm[ke] = fu
-	}
+	maps.Copy(fm, funcs)
 
 	return
 }
 
-func simpleContent(w http.ResponseWriter, r *http.Request, au *auth.AuthUser, form_par map[string]string, page string) {
-	new_data := map[string]interface{}{
+func simpleContent(w http.ResponseWriter, r *http.Request, au *auth.AuthUser, formPar map[string]string, page string) {
+	newData := map[string]any{
 		"au": au,
-		"fp": form_par,
+		"fp": formPar,
 	}
 
-	new_data["footer"] = map[string]string{
+	newData["footer"] = map[string]string{
 		"year":    strconv.Itoa(time.Now().Year()),
 		"appname": config.Env(false).Appname,
 	}
 
-	new_data["cs"] = map[string]interface{}{
+	newData["cs"] = map[string]any{
 		csrf.TemplateTag: csrf.TemplateField(r),
 	}
 
@@ -97,25 +96,25 @@ func simpleContent(w http.ResponseWriter, r *http.Request, au *auth.AuthUser, fo
 
 	tmpl := getSiteTemplates(filenames, fm)
 
-	tmpl.ExecuteTemplate(w, "layout_login", new_data)
+	tmpl.ExecuteTemplate(w, "layout_login", newData)
 }
 
 func setLoginContent(w http.ResponseWriter, r *http.Request, au *auth.AuthUser) {
-	form_par := map[string]string{
+	formPar := map[string]string{
 		"action": ro("login_post"),
 		"button": lang.Re("Sign in"),
 	}
 
-	simpleContent(w, r, au, form_par, "auth/login")
+	simpleContent(w, r, au, formPar, "auth/login")
 }
 
 func setSignupContent(w http.ResponseWriter, r *http.Request, au *auth.AuthUser) {
-	form_par := map[string]string{
+	formPar := map[string]string{
 		"action": ro("signup_post"),
 		"button": lang.Re("Signup"),
 	}
 
-	simpleContent(w, r, au, form_par, "auth/signup")
+	simpleContent(w, r, au, formPar, "auth/signup")
 }
 
 // LoginGet login to the site
@@ -136,16 +135,16 @@ func LoginPost(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		setUUIDCookie(w, uid)
 	}
 
-	cook_back := ""
+	cookBack := ""
 	if cook, err := r.Cookie(BACKA); err == nil {
-		cook_back = cook.Value
+		cookBack = cook.Value
 	}
 
-	if len(cook_back) == 0 {
-		cook_back = ro("home")
+	if len(cookBack) == 0 {
+		cookBack = ro("home")
 	}
 
-	http.Redirect(w, r, cook_back, http.StatusFound)
+	http.Redirect(w, r, cookBack, http.StatusFound)
 }
 
 func SignupGet(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {

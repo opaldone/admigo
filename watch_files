@@ -85,6 +85,7 @@ W_FILES=(
     "$src/static/js/elems/dlg.js;$bin/static/js/elems/dlg.js"
     "$src/static/js/elems/aforms.js;$bin/static/js/elems/aforms.js"
     "$src/static/js/elems/form_tabs.js;$bin/static/js/elems/form_tabs.js"
+    "$src/static/js/elems/pass_inp.js;$bin/static/js/elems/pass_inp.js"
     "$src/static/js/elems/img_box.js;$bin/static/js/elems/img_box.js"
     "$src/static/js/elems/se_list.js;$bin/static/js/elems/se_list.js"
     "$src/static/js/person/person.js;$bin/static/js/person/person.js"

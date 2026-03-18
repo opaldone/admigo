@@ -1,12 +1,33 @@
-# Admigo
-This is a Web Server with an example of the implementation of the admin panel
+<h1 align="center">
+  <img src="./lo.svg" alt="Admigo">
+  <br />
+  Admigo
+  <br />
+</h1>
+<h4 align="center">
+This is a web server featuring a reference implementation of an admin panel
+</h4>
+<p align="center">
+<img src="https://img.shields.io/badge/opaldone-admigo-gray.svg?longCache=true&colorB=brightgreen" alt="Admigo" />
+<a href="https://sourcegraph.com/github.com/opaldone/admigo?badge">
+  <img src="https://sourcegraph.com/github.com/opaldone/admigo/-/badge.svg" alt="Sourcegraph Widget" />
+</a>
+</p>
+<br />
 
-## It depends on these great packages
-![@gorilla](https://avatars.githubusercontent.com/u/489566?s=15&v=4) https://github.com/gorilla/csrf \
-![@julienschmidt](https://avatars.githubusercontent.com/u/944947?s=15&v=4) https://github.com/julienschmidt/httprouter \
-![@letsencrypt](https://avatars.githubusercontent.com/u/9289019?s=15&v=4) https://pkg.go.dev/golang.org/x/crypto/acme/autocert
+<h3>
+Built with these excellent libraries
+<img src="https://go.dev/blog/go-brand/Go-Logo/SVG/Go-Logo_Blue.svg" height="45px" vertical-align="middle" />
+</h3>
 
-## How to install and compile
+* [gorilla-csrf](https://github.com/gorilla/csrf)
+* [julienschmidt-httprouter](https://github.com/julienschmidt/httprouter)
+* [acme-autocert](https://pkg.go.dev/golang.org/x/crypto/acme/autocert)
+
+_It doesn't depend on any JavaScript or CSS frameworks; it uses only vanilla JavaScript and pure CSS._
+<h1></h1>
+
+### How to install and compile
 ##### Clonning
 ```bash
 git clone https://github.com/opaldone/admigo.git
@@ -15,11 +36,11 @@ git clone https://github.com/opaldone/admigo.git
 ```bash
 cd admigo
 ```
-##### Set the GOPATH variable to the current directory "admigo" to avoid cluttering the global GOPATH directory
+##### Set your GOPATH to the "admigo" directory to keep your global GOPATH clean
 ```bash
 export GOPATH=$(pwd)
 ```
-##### Go to the folder with source code
+##### Go to the source folder
 ```bash
 cd src/admigo
 ```
@@ -46,6 +67,7 @@ cd ../..
 ./u
 ```
 > The "u" script reads sub file "watch_files" \
+> E_FOLDERS - the array of creating empty folders \
 > C_FOLDERS - the array of folders to simple copy \
 > W_FILES - the array of files whose changes are tracked
 ```bash
@@ -59,34 +81,43 @@ ls -lash --group-directories-first bin
 ```bash
 ./r
 ```
-## About config
+### About config
 The config file is located here __admigo/bin/config.json__
 ```JavaScript
 {
   // Just a name of application
-  "appname": "Admigo",
+  "appname": "admigo",
+
   // IP address of the server, zeros mean current host
   "address": "0.0.0.0",
+
   // Port, don't forget to open it in the firewall
   "port": 8443,
+
   // The folder that stores the frontend part of the site
   "static": "static",
+
   // Set "acme": true if You need to use acme/autocert
   // false - if You use self-signed certificates
   "acme": false,
+
   // The array of domain names, set "acme": true
   "acmehost": [
-    "opaldone.click",
+    "opaldone.su",
     "206.189.101.23",
-    "www.opaldone.click"
+    "www.opaldone.su"
   ],
+
   // The folder where acme/autocert will store the keys, set "acme": true
   "dirCache": "./certs",
+
   // The paths to your self-signed HTTPS keys, set "acme": false
   "crt": "./certs_local/server.crt",
   "key": "./certs_local/server.key",
+
   // Language of the site
   "lang": "en",
+
   // Settings of db connection
   "db": {
     "host": "localhost",
@@ -96,6 +127,7 @@ The config file is located here __admigo/bin/config.json__
     "dbname": "admigo_db",
     "sslmode": "disable"
   },
+
   // Settings of the mail handler
   "mail": {
     "from": "some_user@some_site.com",
@@ -103,23 +135,33 @@ The config file is located here __admigo/bin/config.json__
     "password": "email_password",
     "port": 465,
     "username": "user_name@some_site.com",
-    // URL of the site
-    "gotourl": "https://opaldone.click:8443"
+
+    // URL of the your site
+    "gotourl": "https://opaldone.su:8443"
   }
+
   // Settings of the map handler
   "map": {
     // URL for the web socket to exchange location positions
     "ws": "wss://admigo.so:8088",
+
     // Start point of map focus
-    "startpoint": "57.989287,56.213889",
+    "startpoint": "51.76358, -0.45707",
+
     // URL of the service to make routers
     "routeurl": "https://api.openrouteservice.org/v2/directions/driving-car/geojson",
+
     // URL key for api.openrouteservice.org
     "routekey": "xxx",
+
     // The city to search addresses
     "city": "London",
+
     // The language used in addresses
     "lang": "en"
   }
 }
 ```
+
+### License
+MIT License - see [LICENSE](LICENSE) for full text

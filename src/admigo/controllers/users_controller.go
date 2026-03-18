@@ -16,7 +16,7 @@ import (
 )
 
 func doUsersWebError(w http.ResponseWriter, r *http.Request, err error) {
-	WebError(w, r, err, users.MN_USERS)
+	WebError(w, r, err, users.MnUsers)
 }
 
 func getUsersSort(qv url.Values) *map[string]string {
@@ -93,7 +93,7 @@ func UsersIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	setFrontContent(w, r, users.MN_USERS, list, map[string]any{"label": users.Label},
+	setFrontContent(w, r, users.MnUsers, list, map[string]any{"label": users.Label},
 		"users/ix/index", "users/ix/_filter",
 		"users/ix/_table", "users/ix/_row", "users/ix/_row_empty",
 		"stru/dlg", "stru/hidden_sort",
@@ -103,7 +103,8 @@ func UsersIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 func userForm(w http.ResponseWriter, r *http.Request, mo *users.UserModel) {
 	forFo := map[string]any{}
 	forFo["mo"] = mo
-	setFrontContent(w, r, users.MN_USERS, forFo, map[string]any{"label": users.Label},
+
+	setFrontContent(w, r, users.MnUsers, forFo, map[string]any{"label": users.Label},
 		"users/ed/user_form",
 		"users/ed/_sign",
 		"users/ed/_thumb",
@@ -137,7 +138,7 @@ func UserAddPost(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	redir := fmt.Sprintf("%s?sort=-id", ro(users.MN_USERS))
+	redir := fmt.Sprintf("%s?sort=-id", ro(users.MnUsers))
 	http.Redirect(w, r, redir, http.StatusFound)
 }
 
@@ -169,7 +170,7 @@ func UserEditPost(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 		return
 	}
 
-	redir := fmt.Sprintf("%s?pk=%d", ro(users.MN_USERS), mo.ID)
+	redir := fmt.Sprintf("%s?pk=%d", ro(users.MnUsers), mo.ID)
 	http.Redirect(w, r, redir, http.StatusFound)
 }
 

@@ -19,13 +19,13 @@ func getNewLink(link *url.URL, par, val string, lastpath bool) string {
 		rp = strings.Join(spl[:len(spl)-1], "/")
 	}
 
-	new_link, _ := url.ParseRequestURI(rp)
+	newLink, _ := url.ParseRequestURI(rp)
 
-	pars := new_link.Query()
+	pars := newLink.Query()
 	pars.Set(par, val)
-	new_link.RawQuery = pars.Encode()
+	newLink.RawQuery = pars.Encode()
 
-	return new_link.RequestURI()
+	return newLink.RequestURI()
 }
 
 func PrintTH(field string, label string, width string, qu *mcom.DataQuery, lastpath bool) template.HTML {
@@ -48,13 +48,13 @@ func PrintTH(field string, label string, width string, qu *mcom.DataQuery, lastp
 		cls = " class=\"" + cls + "\""
 	}
 
-	head_href := getNewLink(qu.Link, "sort", sig+field, lastpath)
+	headHref := getNewLink(qu.Link, "sort", sig+field, lastpath)
 
 	str := fmt.Sprintf(
 		`<th%s style="width:%s%%">
 		<a href="%s"><span>%s</span></a>
 		</th>`,
-		cls, width, head_href, label,
+		cls, width, headHref, label,
 	)
 
 	return template.HTML(str)
@@ -69,7 +69,7 @@ func PrintPages(colspan int, qu *mcom.DataQuery, lastpath bool) template.HTML {
 
 	var pg int
 	var ac string
-	var pg_href string
+	var pgHref string
 
 	ret := `
       <tfoot>
@@ -83,26 +83,26 @@ func PrintPages(colspan int, qu *mcom.DataQuery, lastpath bool) template.HTML {
       </tfoot>
 	`
 
-	li_str := ""
-	for i := 0; i < imax; i++ {
+	listr := ""
+	for i := range imax {
 		pg = i + 1
 		ac = fmt.Sprintf("<span>%d</span>", pg)
 
 		if pg != qu.Page {
-			pg_href = getNewLink(qu.Link, "pg", strconv.Itoa(pg), lastpath)
-			ac = fmt.Sprintf("<a href=\"%s\">%d</a>", pg_href, pg)
+			pgHref = getNewLink(qu.Link, "pg", strconv.Itoa(pg), lastpath)
+			ac = fmt.Sprintf("<a href=\"%s\">%d</a>", pgHref, pg)
 		}
 
-		li_str = fmt.Sprintf("%s<li>%s</li>", li_str, ac)
+		listr = fmt.Sprintf("%s<li>%s</li>", listr, ac)
 	}
 
-	ret = fmt.Sprintf(ret, colspan, li_str)
+	ret = fmt.Sprintf(ret, colspan, listr)
 
 	return template.HTML(ret)
 }
 
-func StringsJoin(dlm string, str_in ...string) string {
-	ret := strings.Join(str_in, dlm)
+func StringsJoin(dlm string, strIn ...string) string {
+	ret := strings.Join(strIn, dlm)
 
 	return strings.Trim(ret, dlm)
 }

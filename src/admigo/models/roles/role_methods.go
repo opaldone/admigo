@@ -51,14 +51,14 @@ func getSelectLinks(fids string) (res string) {
 	return
 }
 
-func getRoleOrLink(sel string, where_in string, val interface{}, dest ...any) (err error) {
-	if len(where_in) == 0 {
+func getRoleOrLink(sel string, whereIn string, val any, dest ...any) (err error) {
+	if len(whereIn) == 0 {
 		return
 	}
 
 	que := fmt.Sprintf("%s%s",
 		sel,
-		where_in,
+		whereIn,
 	)
 
 	err = mcom.Dbc.QueryRow(que, val).Scan(
@@ -102,17 +102,17 @@ func GetRolesList(data *RoleListRequest) (resp *RoleListRequest, err error) {
 	pk := data.Tree["pk"]
 
 	wh := ""
-	wh_ids := ""
+	whids := ""
 	fids := ""
 
 	if len(pk.(string)) > 0 {
 		fids = pk.(string)
-		wh_ids = fmt.Sprintf("l.id in (%s)", fids)
+		whids = fmt.Sprintf("l.id in (%s)", fids)
 	}
 
 	if len(fids) == 0 && paths.(*[]string) != nil && par.(string) != fid.(string) {
 		fids = strings.Join(*paths.(*[]string), ",")
-		wh_ids = fmt.Sprintf(" and l.id in (%s)", fids)
+		whids = fmt.Sprintf(" and l.id in (%s)", fids)
 	}
 
 	que := getSelectLinks(fids)
@@ -125,7 +125,7 @@ func GetRolesList(data *RoleListRequest) (resp *RoleListRequest, err error) {
 		}
 	}
 
-	wh = fmt.Sprintf("%s%s", wh, wh_ids)
+	wh = fmt.Sprintf("%s%s", wh, whids)
 
 	que = fmt.Sprintf("%s where %s\n", que, wh)
 
@@ -207,22 +207,22 @@ func RoleWithPaths(al string) (role *RoleModel, err error) {
 	return
 }
 
-func GetNewRole(par_in string) (new_role *RoleModel, err error) {
-	new_role = new(RoleModel)
-	new_role.Lid = -1
-	new_role.Al = fmt.Sprintf("ral_%s", common.RandUID())
+func GetNewRole(parIn string) (newRole *RoleModel, err error) {
+	newRole = new(RoleModel)
+	newRole.Lid = -1
+	newRole.Al = fmt.Sprintf("ral_%s", common.RandUID())
 
-	if len(par_in) > 0 {
-		new_role.Paral = par_in
+	if len(parIn) > 0 {
+		newRole.Paral = parIn
 	}
 
-	err = new_role.FillAvaiParents()
+	err = newRole.FillAvaiParents()
 
 	return
 }
 
-func GetEditRole(lid int) (ed_role *RoleModel, err error) {
-	ed_role, err = LinkByID(lid)
+func GetEditRole(lid int) (edRole *RoleModel, err error) {
+	edRole, err = LinkByID(lid)
 
 	if err == sql.ErrNoRows {
 		err = errors.New(lang.Re("Role not found"))
@@ -233,12 +233,12 @@ func GetEditRole(lid int) (ed_role *RoleModel, err error) {
 		return
 	}
 
-	if ed_role.Prot == 1 {
+	if edRole.Prot == 1 {
 		err = errors.New(lang.Re("Role is protected"))
 		return
 	}
 
-	err = ed_role.FillAvaiParents()
+	err = edRole.FillAvaiParents()
 
 	return
 }

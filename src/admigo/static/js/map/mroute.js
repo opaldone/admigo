@@ -9,7 +9,7 @@ class Mroute {
       'inp': document.getElementById('ros-inp'),
       'inp_hid': document.getElementById('ros-inp-lo'),
       'bma': document.getElementById('make-route'),
-      'bcl': document.getElementById('clo-route'),
+      'bcl': document.getElementById('ros-title'),
       'bde': document.getElementById('del-route'),
       'ma': null
     };
@@ -92,7 +92,6 @@ class Mroute {
     }
 
     this.oin.sync_litems();
-    this.oin.show_users();
   }
 
   clear_route(some) {
@@ -100,10 +99,12 @@ class Mroute {
       some.ros = {
         'ma': null,
         'ro': null,
+        'betuser': null,
         'ds': -1
       }
       return;
     }
+
     if (some.ros.ma) this.oin.map.removeLayer(some.ros.ma);
     if (some.ros.ro) this.oin.map.removeLayer(some.ros.ro);
 
@@ -151,10 +152,12 @@ class Mroute {
     return sm;
   }
 
-  make_route(some, ma, cb_fun) {
+  make_route(some, ma, betuser, cb_fun) {
     if (!some) return;
     if (!ma) return;
     if (!some.pos) return;
+
+    this.ros.bma.classList.add('dis');
 
     const rm = ma.getLatLng();
 
@@ -165,24 +168,30 @@ class Mroute {
         some.ros.ma = ma;
         some.ros.ro = this.map_route(re.data);
         some.ros.ds = this.get_dist(re.data);
+        some.ros.betuser = betuser;
 
         this.close_route_form();
         this.show_route(some);
         if (cb_fun) cb_fun();
+
+        this.ros.bma.classList.remove('dis');
       })
       .catch((err) => {
         this.oin.showLog(err, true);
         if (cb_fun) cb_fun();
+        this.ros.bma.classList.remove('dis');
       });
   }
 
   make_route_click() {
+    if (this.ros.bma.classList.contains('dis')) return;
+
     const cid = this.get_route_cid();
 
     if (cid.length == 0) return;
 
     const some = this.oin.uslist[cid];
-    this.make_route(some, this.ros.ma, null);
+    this.make_route(some, this.ros.ma, null, null);
   }
 
   bet_route(cids) {
@@ -190,7 +199,7 @@ class Mroute {
     let euse = this.oin.uslist[cids[1]];
     let ma = this.cima(euse.ma.getLatLng());
 
-    this.make_route(some, ma, this.oin.clear_bero.bind(this.oin));
+    this.make_route(some, ma, euse.cid, this.oin.clear_bero.bind(this.oin));
   }
 
   inp_hid_route_keyup(ev) {

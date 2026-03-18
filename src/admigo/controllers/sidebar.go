@@ -27,8 +27,8 @@ type sidebarItem struct {
 }
 
 var (
-	sidebar  *sidebarMenu
-	tag_item *sidebarItem
+	sidebar *sidebarMenu
+	tagItem *sidebarItem
 )
 
 func loadMenu() {
@@ -62,7 +62,7 @@ func getSidebarItems(_items *[]sidebarItem, menuitem string, _ulcls string) (tag
 		has = i.Items != nil && len(*i.Items) > 0
 		if len(i.Alias) > 0 && i.Alias == menuitem {
 			act = true
-			tag_item = &i
+			tagItem = &i
 		}
 
 		if has {
@@ -116,10 +116,10 @@ func getSidebarHTML(menuitem string) (tags string) {
 	return
 }
 
-// CreateSidebar creates sidebar menu
+// CreateSidebarWeb creates sidebar menu
 func CreateSidebarWeb(menuitem string) (template.HTML, *sidebarItem) {
-	tag_item = nil
+	tagItem = nil
 	loadMenu()
-	sb_html := template.HTML(getSidebarHTML(menuitem))
-	return sb_html, tag_item
+	sbHTML := template.HTML(getSidebarHTML(menuitem))
+	return sbHTML, tagItem
 }

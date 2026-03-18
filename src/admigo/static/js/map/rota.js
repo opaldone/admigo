@@ -3,7 +3,7 @@ class Rota {
   constructor(oin_in) {
     this.oin = oin_in;
     this.press_dur = 100
-    this.st = 3;
+    this.st = 20;
 
     document.querySelectorAll('.map-rot').forEach(el => {
       if (this.oin.fun.once(el, 'map_rot_tm')) return;

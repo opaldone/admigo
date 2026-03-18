@@ -12,7 +12,14 @@ export GOOSE_DRIVER="postgres"
 export GOOSE_DBSTRING=$DBSTRING
 export GOOSE_MIGRATION_DIR="$pw/db"
 
-declare defal="gm empty-show status, u-set migrations, c [name]-create migration with name, g-show migrations with ID"
+function _de() {
+    echo -e "How to use:\ngm"
+
+    echo -e "\t␣\t\tshow status"
+    echo -e "\tg\t\tshow migrations with ID"
+    echo -e "\tu\t\tapply migrations"
+    echo -e "\tc [name]\tcreate migration with the name"
+}
 
 if [[ $wh == "u" ]]; then
     goose -allow-missing up
@@ -56,8 +63,7 @@ if [[ $wh == "g" ]]; then
 fi
 
 if [[ $wh ]]; then
-    echo -e "\nThe parameter \"$wh\" is wrong\n"
-    echo $defal
+    _de
     exit -1
 fi
 

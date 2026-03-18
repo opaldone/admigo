@@ -31,8 +31,8 @@ func getSelect() (res string) {
 	return
 }
 
-func getUser(where_in string, val interface{}, hidePass bool) (mo *UserModel, err error) {
-	if len(where_in) == 0 {
+func getUser(wherein string, val any, hidePass bool) (mo *UserModel, err error) {
+	if len(wherein) == 0 {
 		return
 	}
 
@@ -40,7 +40,7 @@ func getUser(where_in string, val interface{}, hidePass bool) (mo *UserModel, er
 
 	que := fmt.Sprintf("%s%s",
 		getSelect(),
-		where_in,
+		wherein,
 	)
 
 	err = mcom.Dbc.QueryRow(que, val).Scan(
@@ -100,16 +100,16 @@ func UserByID(id int) (u *UserModel, err error) {
 	return
 }
 
-func GetNewUser() (new_user *UserModel, err error) {
-	new_user = new(UserModel)
-	new_user.ID = -1
-	err = new_user.FillAttrs()
+func GetNewUser() (newuser *UserModel, err error) {
+	newuser = new(UserModel)
+	newuser.ID = -1
+	err = newuser.FillAttrs()
 
 	return
 }
 
-func GetEditUser(user_id int) (ed_user *UserModel, err error) {
-	ed_user, err = UserByID(user_id)
+func GetEditUser(userid int) (eduser *UserModel, err error) {
+	eduser, err = UserByID(userid)
 
 	if err == sql.ErrNoRows {
 		err = errors.New(lang.Re("User not found"))
@@ -120,22 +120,22 @@ func GetEditUser(user_id int) (ed_user *UserModel, err error) {
 		return
 	}
 
-	if ed_user.Prot == 1 {
+	if eduser.Prot == 1 {
 		err = errors.New(lang.Re("User is protected"))
 		return
 	}
 
-	err = ed_user.FillAttrs()
+	err = eduser.FillAttrs()
 	if err != nil {
 		return
 	}
 
-	err = ed_user.FillRoles("")
+	err = eduser.FillRoles("")
 	if err != nil {
 		return
 	}
 
-	ed_user.SetOus()
+	eduser.SetOus()
 
 	return
 }
@@ -167,8 +167,8 @@ func UserEditOrAdd(r *http.Request, mo *UserModel) *UserModel {
 		return mo
 	}
 
-	for _, attr_in := range mo.Attrs {
-		attr_in.Val = r.PostFormValue(fmt.Sprintf("attr_%s", attr_in.Al))
+	for _, attrin := range mo.Attrs {
+		attrin.Val = r.PostFormValue(fmt.Sprintf("attr_%s", attrin.Al))
 	}
 
 	mo.CheckFields()

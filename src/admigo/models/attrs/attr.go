@@ -1,3 +1,4 @@
+// Package attrs
 package attrs
 
 type Attr struct {

@@ -43,7 +43,7 @@
 #route-start {
   position: absolute;
   z-index: 1001;
-  padding: 0 0 33px;
+  padding: 0 0 13px;
   top: 7px;
   right: 25%;
   width: 35%;
@@ -60,74 +60,109 @@
 }
 
 #ros-title {
+  position: relative;
   font-size: 16px;
   line-height: 18px;
   font-weight: bold;
   color: #fff;
   background-color: #333;
   padding: 9px 20px 11px;
+  margin-bottom: 7px;
   border-radius: 13px 13px 0 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#ros-title:hover {
+  background-color: #222;
+}
+
+#row-title-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 12px;
+  color: #a7a7a7;
+  width: 50px;
+  height: 100%;
+  right: 0;
+  top: 0;
+  background: #434343;
+}
+
+#ros-title:hover #row-title-icon {
+  background-color: #000;
 }
 
 #route-btns {
-  margin-top: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
   padding: 0 20px;
 }
 
 .ros-btn {
-  float: left;
-  width: 33.33%;
-  font-size: 12px;
-  line-height: 12px;
-  color: #111;
-  padding: 15px 0 17px;
+  font-size: 14px;
+  line-height: 14px;
+  color: #fff;
+  padding: 10px 20px 12px;
+  border-width: 1px;
   border-style: solid;
   border-color: #d7d7d7;
+  border-radius: 7px;
   background-color: #efefef;
   cursor: pointer;
 }
 
-.ros-btn:hover {
-  background-color: #e0e0e0;
-}
-
-.ros-btn i {
-  color: #777;
-}
-
-#make-route i {
-  color: #2b5de5;
-}
-
-#del-route i {
-  color: #ff3311;
-}
-
-.ros-btn:first-child {
-  border-width: 1px 0 1px 1px;
-  border-radius: 13px 0 0 13px;
-}
-
-.ros-btn:nth-child(2n) {
-  border-width: 1px 1px 1px 1px;
-}
-
-.ros-btn:last-child {
-  border-width: 1px 1px 1px 0;
-  border-radius: 0 13px 13px 0;
+.ros-btn:focus {
+  outline: 2px dashed #00a700;
 }
 
 .ros-btn span {
   display: inline-block;
-  margin-left: 7px;
+}
+
+.ros-btn.dis {
+  cursor: not-allowed;
+}
+
+.ros-btn .spin-wait {
+  display: none;
+  margin-right: 7px;
+}
+
+.ros-btn.dis .spin-wait {
+  display: inline-block;
+}
+
+#make-route {
+  background-color: #2b5de5;
+}
+
+#make-route.dis {
+  background-color: #7c9fff;
+}
+
+#make-route:not(.dis):hover {
+  background-color: #0737c1;
+}
+
+#del-route {
+  background-color: #ff5511;
+}
+
+#del-route:hover {
+  background-color: #ff1100;
 }
 
 .ros-header {
   display: block;
-  color: #777;
+  color: #222;
   font-weight: normal;
   padding: 9px 20px 9px;
-  margin-top: 16px;
   cursor: pointer;
 }
 
@@ -138,7 +173,7 @@
 #ros-who {
   margin-left: 5px;
   font-weight: 500;
-  color: #111;
+  color: #000;
 }
 
 #ros-se {
@@ -160,8 +195,7 @@
 .map-nav-ul {
   position: absolute;
   left: -50px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 10%;
 }
 
 .map-nav-ul li {
@@ -198,8 +232,8 @@
   width: 50px;
   height: 90px;
   background-color: #fff;
-  font-size: 12px;
-  line-height: 12px;
+  font-size: 16px;
+  line-height: 16px;
   color: #000;
 }
 
@@ -225,6 +259,24 @@
 .map-nav-ul li.act .map-nav-ico {
   background-color: #5c6e89;
   color: #fff;
+}
+
+
+#map-route-refresh {
+  transition: left 0.3s ease;
+}
+
+#map-route-refresh .map-nav-ico {
+  background-color: #2C5DE5;
+  color: #fff;
+}
+
+#map-route-refresh:hover .map-nav-ico {
+  background-color: #0737c1;
+}
+
+#map-route-refresh.hid {
+  left: 50px;
 }
 
 .map-nav-icnt#errors-cnt {

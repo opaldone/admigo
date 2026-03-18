@@ -10,7 +10,7 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=9">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="shortcut icon" href="/static/images/aa/favicon.png?v=1" />
+      <link rel="shortcut icon" href="/static/images/aa/fi.svg?v=2" />
       <title>
         {{ block "title" . }}
         {{ end }}
@@ -26,7 +26,7 @@
         <div id="lg-after" class="lg-col"></div>
         <div id="lg-title" class="lg-col">
           <div id="lg-h">
-            {{ re "Admigo Platform" }}
+            {{ re "Welcome to Admigo" }}
           </div>
         </div>
         <div id="lg-form" class="lg-col">
@@ -51,12 +51,14 @@
             <div id="copyr">
               <span>&copy;</span>
               <span>{{ $y }}</span>
-              <span>«{{ $appname }}»</span>
+              <span>«Opaldone»</span>
             </div>
           </div>
         </div>
         <div id="lg-after" class="lg-col"></div>
       </div>
+      <script src="/static/js/inc/funcs.js"></script>
+      <script src="/static/js/elems/pass_inp.js"></script>
     </body>
   </html>
 {{ end }}
