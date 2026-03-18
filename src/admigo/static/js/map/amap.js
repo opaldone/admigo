@@ -32,44 +32,6 @@ class Amap {
     });
 
     this.map_route_refresh.addEventListener('click', this.map_route_refresh_click.bind(this));
-
-// todo: for test only
-    document.getElementById('sb-menu').addEventListener('click', () => {
-      let cid = 'Mike';
-      let uujs = {
-        "cid": cid,
-        "nik": cid,
-        "issender": true
-      };
-      let loo = {
-          "pos": {
-            "lat": 57.9883,
-            "lng": 56.2020,
-            "acc": 10
-          },
-          "bat": 33
-        };
-      uujs.content = JSON.stringify(loo);
-      this.ans_loca(uujs);
-
-      cid = 'Brenda';
-      uujs = {
-        "cid": cid,
-        "nik": cid,
-        "issender": true
-      };
-      loo = {
-          "pos": {
-            "lat": 57.9853,
-            "lng": 56.2139,
-            "acc": 10
-          },
-          "bat": 33
-        };
-      uujs.content = JSON.stringify(loo);
-      this.ans_loca(uujs);
-    });
-// \todo: for test only
   }
 
   test_fill_uslist() {
@@ -256,7 +218,7 @@ class Amap {
 
       this.wsmap.startWs();
 
-      this.test_fill_uslist();
+      // this.test_fill_uslist();
     });
     this.mai = L.icon({
       'iconUrl': '/static/images/map/ma.png',
