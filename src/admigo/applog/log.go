@@ -1,3 +1,4 @@
+// Package applog for logging
 package applog
 
 import (

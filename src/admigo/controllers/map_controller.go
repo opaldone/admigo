@@ -76,19 +76,19 @@ func MapShow(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	pv := fmt.Sprintf("%s,%s", qfi, ci)
 
-	url_in := url.URL{
+	urlIn := url.URL{
 		Scheme: "https",
 		Host:   "nominatim.openstreetmap.org",
 		Path:   "/search",
 	}
 
-	q := url_in.Query()
+	q := urlIn.Query()
 	q.Set("q", pv)
 	q.Set("format", "json")
 
-	url_in.RawQuery = q.Encode()
+	urlIn.RawQuery = q.Encode()
 
-	rq, err := http.NewRequest("GET", url_in.String(), nil)
+	rq, err := http.NewRequest("GET", urlIn.String(), nil)
 	if err != nil {
 		APIError(w, err)
 		return
@@ -108,14 +108,14 @@ func MapShow(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	defer re.Body.Close()
 
 	if re.StatusCode != http.StatusOK {
-		APIError(w, fmt.Errorf("External API error %d", re.StatusCode))
+		APIError(w, fmt.Errorf("external API error %d", re.StatusCode))
 		return
 	}
 
 	var stru []*LookupResult
 	err = json.NewDecoder(re.Body).Decode(&stru)
 	if err != nil {
-		APIError(w, errors.New("Error decoding API response"))
+		APIError(w, errors.New("error decoding API response"))
 		return
 	}
 

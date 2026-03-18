@@ -151,8 +151,9 @@ class Uloca {
   }
 
   sync_litems() {
-    const cids = Object.keys(this.oin.uslist);
+    let route_exists = false;
 
+    const cids = Object.keys(this.oin.uslist);
     if (cids.length == 0) return;
 
     cids.forEach((cid, _) => {
@@ -195,10 +196,16 @@ class Uloca {
         litem.classList.remove('in-mon');
       }
 
+      if (!route_exists && some.pos && some.ros && some.ros.ro) {
+        route_exists = true;
+      }
+
       this.ref_dista_cont(some);
     });
 
     this.ref_cnt();
+
+    this.oin.show_hide_btn_route_refresh(route_exists);
   }
 
   is_located(some) {
@@ -355,7 +362,6 @@ class Uloca {
 
     this.oin.set_route_cid(some);
     this.sync_litems();
-    this.oin.hide_tabs();
 
     return false;
   }

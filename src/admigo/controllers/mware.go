@@ -11,8 +11,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func retError(w http.ResponseWriter, r *http.Request, from_api bool, mn string) {
-	if from_api {
+func retError(w http.ResponseWriter, r *http.Request, fromAPI bool, mn string) {
+	if fromAPI {
 		APIError(w, errors.New(lang.Re("Insufficient rights")))
 		return
 	}
@@ -20,7 +20,7 @@ func retError(w http.ResponseWriter, r *http.Request, from_api bool, mn string) 
 	WebError(w, r, errors.New(lang.Re("Insufficient rights")), mn)
 }
 
-func LoggedUsersAdmin(h httprouter.Handle, from_api bool) httprouter.Handle {
+func LoggedUsersAdmin(h httprouter.Handle, fromAPI bool) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		logged := LoggedUser(r)
 
@@ -29,11 +29,11 @@ func LoggedUsersAdmin(h httprouter.Handle, from_api bool) httprouter.Handle {
 			return
 		}
 
-		retError(w, r, from_api, users.MN_USERS)
+		retError(w, r, fromAPI, users.MnUsers)
 	}
 }
 
-func LoggedRolesAdmin(h httprouter.Handle, from_api bool) httprouter.Handle {
+func LoggedRolesAdmin(h httprouter.Handle, fromAPI bool) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		logged := LoggedUser(r)
 
@@ -42,6 +42,6 @@ func LoggedRolesAdmin(h httprouter.Handle, from_api bool) httprouter.Handle {
 			return
 		}
 
-		retError(w, r, from_api, roles.MN_ROLES)
+		retError(w, r, fromAPI, roles.MnRoles)
 	}
 }

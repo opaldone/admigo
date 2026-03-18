@@ -137,6 +137,54 @@
   background-color: #fff;
 }
 
+.shpa-container {
+  position: relative;
+}
+
+.shpa-container svg {
+  display: inline-block;
+}
+
+.shpa-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  right: 1px;
+  top: 1px;
+  width: 38px;
+  height: calc(100% - 2px);
+  background-color: #f0f0f0;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.shpa-icon:hover {
+  background-color: #e7e7e7;
+}
+
+.shpa-container .sh {
+  display: none;
+}
+
+.shpa-container.sh .sh {
+  display: inline-block;
+}
+
+.shpa-container.sh .hi {
+  display: none;
+}
+
+.shpa-container .form-inp.pass {
+  -webkit-text-security: disc;
+  padding-right: 40px;
+}
+
+.shpa-container.sh .form-inp.pass {
+  -webkit-text-security: none;
+}
+
 .form-inp:focus {
   outline: 2px dashed #00a700;
 }

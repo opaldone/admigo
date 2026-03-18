@@ -26,7 +26,6 @@
       <label class="form-lbl re" for="user-em">
         <span>{{ label "em" }}</span>
       </label>
-      <input style="display:none" type="email" name="foilautofill" />
       <input type="email"
              id="user-em"
              class="form-inp"
@@ -50,13 +49,19 @@
       <label class="form-lbl{{ $re }}" for="pass">
         <span>{{ label "pas" }}</span>
       </label>
-      <input type="password"
-             id="pass"
-             class="form-inp"
-             name="pas"
-             value=""
-             {{ $rq }}
-             autocomplete="off" />
+      <div class="shpa-container">
+        <input type="text"
+               id="pass"
+               class="form-inp pass"
+               name="pas"
+               value=""
+               {{ $rq }}
+               autocomplete="off" />
+        <div class="shpa-icon">
+          <svg class="hi" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24"><path stroke="#999" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10a13.358 13.358 0 0 0 3 2.685M21 10a13.358 13.358 0 0 1-3 2.685m-8 1.624L9.5 16.5m.5-2.19a10.59 10.59 0 0 0 4 0m-4 0a11.275 11.275 0 0 1-4-1.625m8 1.624.5 2.191m-.5-2.19a11.275 11.275 0 0 0 4-1.625m0 0 1.5 1.815M6 12.685 4.5 14.5"/></svg>
+          <svg class="sh" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24"><path stroke="#999" stroke-linejoin="round" stroke-width="2" d="M3 12c5.4-8 12.6-8 18 0-5.4 8-12.6 8-18 0z"/><path stroke="#999" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>
+        </div>
+      </div>
       {{ if $pas_error }}
         <span class="invalid-feedback" role="alert">
           {{ $pas_error }}

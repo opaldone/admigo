@@ -11,18 +11,17 @@ import (
 	"os"
 
 	"github.com/loovien/ipapk"
-	_ "github.com/loovien/ipapk"
 
 	"github.com/julienschmidt/httprouter"
 )
 
 const (
-	APPS_PT string = "/static/apki"
-	MN_APKI string = "apki"
+	appsPT string = "/static/apki"
+	mnAPKI string = "apki"
 )
 
 func doApkiWebError(w http.ResponseWriter, r *http.Request, err error) {
-	WebError(w, r, err, MN_APKI)
+	WebError(w, r, err, mnAPKI)
 }
 
 func humSize(bytes int64) string {
@@ -44,7 +43,6 @@ func humSize(bytes int64) string {
 func imgToB64(img image.Image) (string, error) {
 	var buf bytes.Buffer
 	err := png.Encode(&buf, img)
-
 	if err != nil {
 		return "", err
 	}
@@ -66,7 +64,7 @@ func infoApk(pt string, nm string, md string) (ret map[string]any) {
 	ret["vc"] = ai.VersionCode
 	ret["sz"] = humSize(ai.Size)
 	ret["ico"], _ = imgToB64(ai.Icon)
-	ret["hre"] = fmt.Sprintf("%s/%s", APPS_PT, nm)
+	ret["hre"] = fmt.Sprintf("%s/%s", appsPT, nm)
 	ret["md"] = md
 
 	return
@@ -79,7 +77,7 @@ func ApkiIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	pt := fmt.Sprintf("%s%s", wd, APPS_PT)
+	pt := fmt.Sprintf("%s%s", wd, appsPT)
 
 	files, err := os.ReadDir(pt)
 	if err != nil {
@@ -91,7 +89,6 @@ func ApkiIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	for _, fl := range files {
 		fo, err := fl.Info()
-
 		if err != nil {
 			doApkiWebError(w, r, err)
 			return

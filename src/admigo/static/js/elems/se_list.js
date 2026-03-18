@@ -292,7 +292,10 @@ class SeList {
     }
 
     const lis = this.get_lis();
-    if (!lis) return true;
+    if (!lis) {
+      this.inp.focus();
+      return true;
+    }
 
     this.show_se_list();
     this.inp.focus();

@@ -16,7 +16,7 @@ import (
 )
 
 func doRolesWebError(w http.ResponseWriter, r *http.Request, err error) {
-	WebError(w, r, err, roles.MN_ROLES)
+	WebError(w, r, err, roles.MnRoles)
 }
 
 func getRolesSort(qv url.Values) *map[string]string {
@@ -110,7 +110,7 @@ func RolesIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		Finded: findedrole,
 	}
 
-	setFrontContent(w, r, roles.MN_ROLES, info, map[string]any{"label": roles.Label},
+	setFrontContent(w, r, roles.MnRoles, info, map[string]any{"label": roles.Label},
 		"roles/ix/index", "roles/ix/_filter", "stru/tree", "stru/dlg", "stru/hidden_sort",
 	)
 }
@@ -118,7 +118,7 @@ func RolesIndex(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 func roleForm(w http.ResponseWriter, r *http.Request, mo *roles.RoleModel) {
 	forfo := map[string]any{}
 	forfo["mo"] = mo
-	setFrontContent(w, r, roles.MN_ROLES, forfo, map[string]any{"label": roles.Label},
+	setFrontContent(w, r, roles.MnRoles, forfo, map[string]any{"label": roles.Label},
 		"roles/ed/role_form", "roles/ed/_sign",
 	)
 }
@@ -351,7 +351,7 @@ func RoleAddPost(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	http.Redirect(w, r, ro(roles.MN_ROLES), http.StatusFound)
+	http.Redirect(w, r, ro(roles.MnRoles), http.StatusFound)
 }
 
 func RoleEditGet(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -382,5 +382,5 @@ func RoleEditPost(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 		return
 	}
 
-	http.Redirect(w, r, ro(roles.MN_ROLES), http.StatusFound)
+	http.Redirect(w, r, ro(roles.MnRoles), http.StatusFound)
 }

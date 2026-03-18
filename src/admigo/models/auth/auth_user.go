@@ -112,11 +112,11 @@ func (au *AuthUser) GetError(fld string) string {
 	return (*au.Errors)[fld]
 }
 
-func (au *AuthUser) AddError(key string, err_msg string) {
+func (au *AuthUser) AddError(key string, errmsg string) {
 	if au.Errors == nil {
 		err := make(map[string]string)
 		au.Errors = &err
 	}
 
-	(*au.Errors)[key] = err_msg
+	(*au.Errors)[key] = errmsg
 }

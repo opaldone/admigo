@@ -19,6 +19,8 @@ class Amap {
     this.zoo_pl = document.getElementById('map-zoo-pl');
     this.zoo_ne = document.getElementById('map-zoo-ne');
 
+    this.map_route_refresh = document.getElementById('map-route-refresh');
+
     this.fun = new Funcs();
     this.fun.ready(this.handler.bind(this));
 
@@ -28,65 +30,80 @@ class Amap {
       if (this.fun.once(el, 'map_zoo_co_click')) return;
       el.addEventListener('click', this.map_zoo_co_click.bind(this));
     });
+
+    this.map_route_refresh.addEventListener('click', this.map_route_refresh_click.bind(this));
+
+// todo: for test only
+    document.getElementById('sb-menu').addEventListener('click', () => {
+      let cid = 'Mike';
+      let uujs = {
+        "cid": cid,
+        "nik": cid,
+        "issender": true
+      };
+      let loo = {
+          "pos": {
+            "lat": 57.9883,
+            "lng": 56.2020,
+            "acc": 10
+          },
+          "bat": 33
+        };
+      uujs.content = JSON.stringify(loo);
+      this.ans_loca(uujs);
+
+      cid = 'Brenda';
+      uujs = {
+        "cid": cid,
+        "nik": cid,
+        "issender": true
+      };
+      loo = {
+          "pos": {
+            "lat": 57.9853,
+            "lng": 56.2139,
+            "acc": 10
+          },
+          "bat": 33
+        };
+      uujs.content = JSON.stringify(loo);
+      this.ans_loca(uujs);
+    });
+// \todo: for test only
   }
 
   test_fill_uslist() {
-    let users = ['111', '222', '333', '444', '555'];
+    let users = ['Mike', 'Brenda', 'Cool'];
+    let po = [57.98920282, 56.21387873];
 
     users.forEach((ii) => {
       let lo = `{
           "pos": {
-            "lat": 57.9743,
-            "lng": 56.2118,
+            "lat": ` + po[0] + `,
+            "lng": ` + po[1] + `,
             "acc": 15
           },
           "bat": 55
         }`;
 
-      let ni = 'test user ' + ii;
-      if (ii == '333') {
-        ni = 'ОлесяШ';
-        lo = `{
-          "pos": {
-            "lat": 57.9893,
-            "lng": 56.2139,
-            "acc": 15
-          },
-          "bat": 55
-        }`;
-      }
+      po[0] = po[0] + 0.001;
+      po[1] = po[1] + 0.001;
 
-      let uu = `{
-        "cid": "` + ii + `",
-        "nik": "` + ni + `",
+      let ni = ii;
+
+      let uujs = {
+        "cid": ii,
+        "nik": ni,
         "issender": true
-      }`;
-
-      let uujs = JSON.parse(uu)
+      };
 
       setTimeout(() => {
         this.sender_hi(uujs);
         setTimeout(() => {
           uujs.content = lo;
           this.ans_loca(uujs);
-          this.uslist[ii].ros = {'ds': '1500'};
         }, 300);
       }, 300);
-
-      let loo = JSON.parse(lo)
-      let min = parseFloat(loo.pos.lat);
-      let max = min + 0.01;
-
-      setInterval(() => {
-        if (!this.uslist[ii]) return;
-        if (!this.uslist[ii].in_se) return;
-
-        loo.pos.lat = Math.random() * (max - min) + min;
-        loo.bat = Math.random() * (100 - 1) + 1;
-        loo.pos.acc = Math.random() * 100;
-        uujs.content = JSON.stringify(loo);
-        this.ans_loca(uujs);
-      }, 2000);
     });
   }
 
@@ -239,7 +256,7 @@ class Amap {
 
       this.wsmap.startWs();
 
-      // this.test_fill_uslist();
+      this.test_fill_uslist();
     });
     this.mai = L.icon({
       'iconUrl': '/static/images/map/ma.png',
@@ -248,6 +265,35 @@ class Amap {
     });
     this.mro.init_map_event();
     this.map.setView(this.str_to_latlng(this.wsmap.ws.startpoint), 17);
+  }
+
+  show_hide_btn_route_refresh(route_exists) {
+    if (route_exists) {
+      this.map_route_refresh.classList.remove('hid');
+      return;
+    }
+
+    this.map_route_refresh.classList.add('hid');
+  }
+
+  map_route_refresh_click() {
+    const cids = Object.keys(this.uslist);
+
+    if (cids.length == 0) return;
+
+    cids.forEach((cid, _) => {
+      const some = this.uslist[cid];
+      if (!some.pos) return;
+      if (!some.ros) return;
+      if (!some.ros.ro) return;
+
+      if (some.ros.betuser) {
+        this.mro.bet_route([some.cid, some.ros.betuser]);
+        return;
+      }
+
+      this.mro.make_route(some, some.ros.ma, null, null);
+    });
   }
 
   map_zoo_co_click(e) {
@@ -269,18 +315,6 @@ class Amap {
 
   handler() {
     this.set_wsmap();
-  }
-
-  hide_tabs() {
-    if (!this.taber) return;
-
-    this.taber.hide_tabs();
-  }
-
-  show_users() {
-    if (!this.taber) return;
-
-    this.taber.show_users();
   }
 
   set_uslist_item(v) {

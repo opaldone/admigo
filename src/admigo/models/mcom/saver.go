@@ -10,7 +10,7 @@ import (
 	"admigo/config"
 )
 
-const MAX_SIZE = 3 * 1024 * 1024
+const maxSize = 3 * 1024 * 1024
 
 func SaveSomeFile(r *http.Request, name string, path string) (fileName string, err error) {
 	file, info, err := r.FormFile(name)
@@ -22,8 +22,8 @@ func SaveSomeFile(r *http.Request, name string, path string) (fileName string, e
 
 	size := info.Size
 
-	if size > MAX_SIZE {
-		err = fmt.Errorf("the file size is limited to %d", MAX_SIZE)
+	if size > maxSize {
+		err = fmt.Errorf("the file size is limited to %d", maxSize)
 		return
 	}
 

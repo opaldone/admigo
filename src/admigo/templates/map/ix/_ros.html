@@ -1,19 +1,12 @@
 {{ define "_ros" }}
   <div id="route-start" data-cid="">
-    <div id="ros-title">Making a route</div>
-    <div id="route-btns" class="clearfix">
-      <button id="make-route" class="ros-btn">
-        <i class="fa-solid fa-car-side"></i>
-        <span>{{ re "Make route" }}</span>
-      </button>
-      <button id="del-route" class="ros-btn">
-        <i class="fa-solid fa-eraser"></i>
-        <span>{{ re "Delete route" }}</span>
-      </button>
-      <button id="clo-route" class="ros-btn">
+    <div id="ros-title">
+      <span id="ros-title-cap">
+        Making a route
+      </span>
+      <span id="row-title-icon">
         <i class="fa-solid fa-xmark"></i>
-        <span>{{ re "Close" }}</span>
-      </button>
+      </span>
     </div>
     <label class="ros-header" for="ros-inp">
       <span class="ros-h">{{ re "Start from" }}</span>
@@ -32,6 +25,17 @@
         </button>
       </div>
       <div id="ros-error" class="err-cont"></div>
+    </div>
+    <div id="route-btns" class="">
+      <button id="del-route" class="ros-btn">
+        <span>{{ re "Delete route" }}</span>
+      </button>
+      <button id="make-route" class="ros-btn">
+        <span class="spin-wait">
+          <i class="fa-solid fa-spinner"></i>
+        </span>
+        <span>{{ re "Make route" }}</span>
+      </button>
     </div>
   </div>
 {{ end }}
