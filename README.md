@@ -165,6 +165,15 @@ The config file is located here __admigo/bin/config.json__
 
 ### Screenshots
 [![Home Page](assets/imgs/i1.png)](assets/imgs/i1.png)
+[![Users](assets/imgs/i2.png)](assets/imgs/i2.png)
+[![Roles](assets/imgs/i3.png)](assets/imgs/i3.png)
+[![Roles tree](assets/imgs/i4.png)](assets/imgs/i4.png)
+[![User edit](assets/imgs/i5.png)](assets/imgs/i5.png)
+[![User edit roles](assets/imgs/i6.png)](assets/imgs/i6.png)
+[![Map](assets/imgs/i7.png)](assets/imgs/i7.png)
+[![Map](assets/imgs/i8.png)](assets/imgs/i8.png)
+[![Map](assets/imgs/i9.png)](assets/imgs/i9.png)
+[![Map](assets/imgs/i10.png)](assets/imgs/i10.png)
 
 ### License
 MIT License - see [LICENSE](LICENSE) for full text
