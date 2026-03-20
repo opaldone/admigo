@@ -259,7 +259,24 @@ class Uloca {
         });
     }
 
-    return null;
+    return this.oin.mai;
+  }
+
+  get_cust_cir(some) {
+    let ret = {
+      'fillColor': '#2b5de5',
+      'fillOpacity': 0.2,
+      'stroke': false,
+      'weight': 1,
+      'radius': some.pos.acc
+    };
+
+    if (some.nik.toLowerCase().includes('оле')) {
+      ret['fillColor'] = '#e4228c';
+      ret['fillOpacity'] = 0.3;
+    }
+
+    return ret;
   }
 
   ref_ma(cid) {
@@ -280,9 +297,7 @@ class Uloca {
       some.ma.setLatLng(sp);
     } else {
       let pop = some.nik ? some.nik : some.cid;
-      let cicon = this.get_cust_icon(some);
-      let ico = this.oin.mai;
-      if (cicon) ico = cicon;
+      let ico = this.get_cust_icon(some);
       some.ma = L.marker(sp, {
         'icon': ico
       }).addTo(this.oin.map);
@@ -297,14 +312,8 @@ class Uloca {
       some.ci.setLatLng(sp);
       some.ci.setRadius(some.pos.acc);
     } else {
-      some.ci = L.circle(sp, {
-        'fillColor': '#2b5de5',
-        'fillOpacity': 0.2,
-        'stroke': false,
-        'color': '#2b5de5',
-        'weight': 1,
-        'radius': some.pos.acc
-      }).addTo(this.oin.map);
+      const cipa = this.get_cust_cir(some);
+      some.ci = L.circle(sp, cipa).addTo(this.oin.map);
     }
 
     if (!route_opened) {
