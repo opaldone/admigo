@@ -7,14 +7,7 @@
 <h4 align="center">
 This is a web server featuring a reference implementation of an admin panel
 </h4>
-<p align="center">
-<img src="https://img.shields.io/badge/opaldone-admigo-gray.svg?longCache=true&colorB=brightgreen" alt="Admigo" />
-<a href="https://sourcegraph.com/github.com/opaldone/admigo?badge">
-  <img src="https://sourcegraph.com/github.com/opaldone/admigo/-/badge.svg" alt="Sourcegraph Widget" />
-</a>
-</p>
 <br />
-
 <h3>
 Built with these excellent libraries
 <img src="https://go.dev/blog/go-brand/Go-Logo/SVG/Go-Logo_Blue.svg" height="45px" vertical-align="middle" />
