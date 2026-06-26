@@ -30,12 +30,11 @@ class Wsmap {
     axios.post(url, null, {
       headers: { 'X-CSRF-Token': cs }
     })
-      .then((re) => {
+      .then(re => {
         this.ws.cid = re.data.cid;
         this.ws.wsurl = re.data.link;
         this.ws.startpoint = re.data.startpoint;
-        this.ws.routeurl = re.data.routeurl;
-        this.ws.routekey = re.data.routekey;
+        this.ws.route = re.data.route;
         this.oin.init_map();
       })
       .catch(err => {

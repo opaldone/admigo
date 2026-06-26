@@ -1,17 +1,20 @@
 ;"use strict";
 class Mroute {
-  constructor(oin_in) {
+  constructor(oin_in, fun_in) {
     this.oin = oin_in;
+    this.fun = fun_in;
 
     this.ros = {
       'el': document.getElementById('route-start'),
       'who': document.getElementById('ros-who'),
       'inp': document.getElementById('ros-inp'),
       'inp_hid': document.getElementById('ros-inp-lo'),
+      'inp_ci': document.getElementById('ros-inp-ci'),
       'bma': document.getElementById('make-route'),
       'bcl': document.getElementById('ros-title'),
       'bde': document.getElementById('del-route'),
-      'ma': null
+      'ma': null,
+      'tp_route': 'carurl'
     };
 
     this.ros.bcl.addEventListener('click', () => {
@@ -22,6 +25,36 @@ class Mroute {
     this.ros.inp_hid.addEventListener('keyup', this.inp_hid_route_keyup.bind(this));
     this.ros.inp.addEventListener('input', this.inp_input.bind(this));
     this.ros.bde.addEventListener('click', this.del_route_click.bind(this));
+
+    document.querySelectorAll('.rs-set-btn').forEach(el => {
+      if (this.fun.once(el, 'rs_set_btn_click')) return;
+      el.addEventListener('click', this.rs_set_btn_click.bind(this));
+    });
+
+    this.ref_rs_btns();
+  }
+
+  ref_rs_btns() {
+    const rsid = 'map-route-' + this.ros.tp_route;
+
+    document.querySelectorAll('.rs-set-btn').forEach(el => {
+      if (el.getAttribute('id') === rsid) {
+        el.classList.add('ract');
+        return;
+      }
+
+      el.classList.remove('ract');
+    });
+  }
+
+  rs_set_btn_click(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const btn = e.currentTarget;
+    this.ros.tp_route = btn.getAttribute('data-rurl');
+
+    this.ref_rs_btns();
   }
 
   cima(latlng) {
@@ -74,6 +107,10 @@ class Mroute {
 
     this.show_route(some);
     this.move_start_route(some);
+
+    if (some.rocity) {
+      this.ros.inp_ci.value = some.rocity;
+    }
   }
 
   get_route_cid() {
@@ -127,14 +164,16 @@ class Mroute {
   }
 
   promise_route(st, en) {
-    const url = this.oin.wsmap.ws.routeurl;
+    const url = this.oin.wsmap.ws.route[this.ros.tp_route];
+
     const obj = {
       'coordinates': [[st.lng, st.lat], [en.lng, en.lat]]
-    }
+    };
+
     const he = {
       'Content-Type': 'application/json; charset=utf-8',
       'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
-      'Authorization': this.oin.wsmap.ws.routekey
+      'Authorization': this.oin.wsmap.ws.route.key
     }
 
     return axios.post(url, obj, {
@@ -162,7 +201,7 @@ class Mroute {
     const rm = ma.getLatLng();
 
     this.promise_route(some.pos, rm)
-      .then((re) => {
+      .then(re => {
         this.clear_route(some);
 
         some.ros.ma = ma;

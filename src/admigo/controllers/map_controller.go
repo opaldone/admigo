@@ -15,21 +15,16 @@ import (
 )
 
 type LookupResult struct {
-	Lat         string `json:"lat"`
-	Lon         string `json:"lon"`
-	DisplayName string `json:"display_name"`
-	ShortName   string `json:"short_name"`
-	MiddleName  string `json:"middle_name"`
+	Lat         string            `json:"lat"`
+	Lon         string            `json:"lon"`
+	DisplayName string            `json:"display_name"`
+	ShortName   string            `json:"short_name"`
+	MiddleName  string            `json:"middle_name"`
+	Address     map[string]string `json:"address"`
 }
 
 func MapLoca(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	e := config.Env(false)
-
-	info := map[string]string{
-		"city": e.Map.City,
-	}
-
-	setFrontContent(w, r, "loca", info, nil,
+	setFrontContent(w, r, "loca", nil, nil,
 		"map/ix/loca",
 		"map/ix/_mus",
 		"map/ix/_logs",
@@ -44,11 +39,10 @@ func MapWs(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	link := fmt.Sprintf("%s/ws/0", e.Map.Ws)
 
-	js := map[string]string{
+	js := map[string]any{
 		"link":       link,
 		"startpoint": e.Map.StartPoint,
-		"routeurl":   e.Map.RouteURL,
-		"routekey":   e.Map.RouteKey,
+		"route":      e.Map.Route,
 	}
 
 	output, _ := json.Marshal(js)
@@ -64,14 +58,87 @@ func prepLookupResult(list []*LookupResult) {
 	}
 }
 
-func MapShow(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func setRqHeader(rq *http.Request) {
+	e := config.Env(false)
+
+	rq.Header.Set("Content-Type", "application/json")
+	rq.Header.Set("Accept", "application/json")
+	rq.Header.Set("Accept-Language", e.Map.Lang)
+	rq.Header.Set("User-Agent", "Chrome")
+}
+
+func MapCity(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	w.Header().Set("Content-Type", "application/json")
 
-	e := config.Env(false)
+	qv := r.URL.Query()
+	lat := qv.Get("lat")
+	lon := qv.Get("lon")
+
+	urlIn := url.URL{
+		Scheme: "https",
+		Host:   "nominatim.openstreetmap.org",
+		Path:   "/reverse",
+	}
+
+	q := urlIn.Query()
+	q.Set("format", "json")
+	q.Set("addressdetails", "1")
+	q.Set("lat", lat)
+	q.Set("lon", lon)
+
+	urlIn.RawQuery = q.Encode()
+
+	rq, err := http.NewRequest("GET", urlIn.String(), nil)
+	if err != nil {
+		APIError(w, err)
+		return
+	}
+
+	setRqHeader(rq)
+
+	re, err := http.DefaultClient.Do(rq)
+	if err != nil {
+		APIError(w, err)
+		return
+	}
+
+	defer re.Body.Close()
+
+	if re.StatusCode != http.StatusOK {
+		APIError(w, fmt.Errorf("external API error %d", re.StatusCode))
+		return
+	}
+
+	var stru *LookupResult
+	err = json.NewDecoder(re.Body).Decode(&stru)
+	if err != nil {
+		APIError(w, errors.New("error decoding API response"))
+		return
+	}
+
+	prepLookupResult([]*LookupResult{stru})
+
+	addr, err := json.Marshal(stru)
+	if err != nil {
+		APIError(w, errors.New("error decoding stru"))
+		return
+	}
+
+	ans := common.AjaxAnswer{
+		Cont: string(addr),
+	}
+
+	output, _ := json.Marshal(ans)
+
+	w.Write(output)
+}
+
+func MapFind(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	w.Header().Set("Content-Type", "application/json")
 
 	qv := r.URL.Query()
 
-	ci := ps.ByName("ci")
+	ci := qv.Get("ci")
 	qfi := qv.Get("fi")
 
 	pv := fmt.Sprintf("%s,%s", qfi, ci)
@@ -94,10 +161,7 @@ func MapShow(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	rq.Header.Set("Content-Type", "application/json")
-	rq.Header.Set("Accept", "application/json")
-	rq.Header.Set("Accept-Language", e.Map.Lang)
-	rq.Header.Set("User-Agent", "Chrome")
+	setRqHeader(rq)
 
 	re, err := http.DefaultClient.Do(rq)
 	if err != nil {

@@ -27,13 +27,17 @@ type mailConfig struct {
 	GotoURL  string `json:"gotourl"`
 }
 
+type mapRoute struct {
+	CarURL  string `json:"carurl"`
+	WalkURL string `json:"walkurl"`
+	Key     string `json:"key"`
+}
+
 type mapConfig struct {
-	Ws         string `json:"ws"`
-	StartPoint string `json:"startpoint"`
-	RouteURL   string `json:"routeurl"`
-	RouteKey   string `json:"routekey"`
-	City       string `json:"city"`
-	Lang       string `json:"lang"`
+	Ws         string    `json:"ws"`
+	StartPoint string    `json:"startpoint"`
+	Lang       string    `json:"lang"`
+	Route      *mapRoute `json:"route"`
 }
 
 // Configuration type for config of admigo

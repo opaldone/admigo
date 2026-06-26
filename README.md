@@ -141,17 +141,19 @@ The config file is located here __admigo/bin/config.json__
     // Start point of map focus
     "startpoint": "51.76358, -0.45707",
 
-    // URL of the service to make routers
-    "routeurl": "https://api.openrouteservice.org/v2/directions/driving-car/geojson",
-
-    // URL key for api.openrouteservice.org
-    "routekey": "xxx",
-
-    // The city to search addresses
-    "city": "London",
-
     // The language used in addresses
     "lang": "en"
+
+    "route": {
+      // URL of the service to make a route for a car
+      "carurl": "https://api.openrouteservice.org/v2/directions/driving-car/geojson",
+
+      // URL of the service to make a route for foot
+      "walkurl": "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
+
+      // URL key for api.openrouteservice.org
+      "key": "YOUR_KEY"
+    }
   }
 }
 ```

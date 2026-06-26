@@ -35,6 +35,33 @@ class Uloca {
       if (this.oin.fun.once(el, 'us_chat_click')) return;
       el.addEventListener('click', this.us_chat_click.bind(this));
     });
+
+    this.list.querySelectorAll('.coo-cont').forEach(el => {
+      if (this.oin.fun.once(el, 'coo_cont_click')) return;
+      el.addEventListener('click', this.coo_cont_click.bind(this));
+    });
+  }
+
+  coo_cont_click(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const coo = e.currentTarget;
+    const lipar = this.fun.parent(coo, '.map-us-li');
+    const cid = lipar.getAttribute('id');
+    const iva = coo.querySelectorAll('.i-val')[0];
+
+    if (!iva) return false;
+
+    const buf = iva.innerHTML;
+    if (!buf) return false;
+    this.oin.cp_into_buf(buf);
+
+    if (coo.classList.contains('loca')) {
+      this.oin.set_roloca(cid);
+    }
+
+    return false;
   }
 
   fm_distance(di) {
@@ -96,6 +123,24 @@ class Uloca {
     }
 
     msg = `<i class="fa-solid fa-location-crosshairs"></i><div class="i-val">${msg}</div>`;
+
+    this.ref_info(el, msg);
+  }
+
+  ref_city_cont(some) {
+    if (!some.rocity && !some.roloca) return;
+
+    let sid = 'roc-' + some.cid;
+    let el = document.getElementById(sid);
+
+    if (!el) return;
+
+    let msg = some.roloca;
+    some.roloca = null;
+    if (!msg) {
+      msg = some.rocity;
+    }
+    msg = `<i class="fa-solid fa-street-view"></i><div class="i-val">${msg}</div>`;
 
     this.ref_info(el, msg);
   }
@@ -457,7 +502,8 @@ class Uloca {
       '<div class="info-cont">' +
       '<div class="info-cont-items">' +
       '<div class="coo-cont" id="bat-#CID#" title="Battery"></div>' +
-      '<div class="coo-cont" id="coo-#CID#" title="Location"></div>' +
+      '<div class="coo-cont loca" id="coo-#CID#" title="Location"></div>' +
+      '<div class="coo-cont" id="roc-#CID#" title="City"></div>' +
       '<div class="coo-cont" id="dista-#CID#" title="Distance"></div>' +
       '</div>' +
       '</div>' +
@@ -467,7 +513,7 @@ class Uloca {
       '<i class="fa-solid fa-crosshairs"></i>' +
       '</span>' +
       '<span class="us-route" title="Make a route">' +
-      '<i class="fa-solid fa-car-side"></i>' +
+      '<i class="fa-solid fa-route"></i>' +
       '</span>' +
       '<span class="bet-us-route" title="Make a route between people">' +
       '<i class="fa-solid fa-person-walking-arrow-loop-left"></i>' +
