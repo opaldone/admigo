@@ -44,13 +44,10 @@
   position: absolute;
   z-index: 1001;
   padding: 0 0 13px;
-  top: 7px;
+  top: 83px;
   right: 25%;
   width: 35%;
   background-color: #fff;
-  border-style: solid;
-  border-color: #d7d7d7;
-  border-width: 0 1px 1px 1px;
   border-radius: 13px;
   box-shadow: 0 0 7px #979797;
 }
@@ -61,13 +58,9 @@
 
 #ros-title {
   position: relative;
-  font-size: 16px;
-  line-height: 18px;
-  font-weight: bold;
   color: #fff;
   background-color: #333;
-  padding: 9px 20px 11px;
-  margin-bottom: 7px;
+  padding: 10px 20px 11px;
   border-radius: 13px 13px 0 0;
   cursor: pointer;
   overflow: hidden;
@@ -75,6 +68,10 @@
 
 #ros-title:hover {
   background-color: #222;
+}
+
+#ros-title span {
+  display: inline-block;
 }
 
 #row-title-icon {
@@ -100,20 +97,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 30px;
-  padding: 0 20px;
+  padding: 29px 20px 0;
 }
 
 .ros-btn {
-  font-size: 14px;
-  line-height: 14px;
   color: #fff;
-  padding: 10px 20px 12px;
+  padding: 10px 20px 11px;
   border-width: 1px;
   border-style: solid;
-  border-color: #d7d7d7;
   border-radius: 7px;
-  background-color: #efefef;
   cursor: pointer;
 }
 
@@ -140,6 +132,7 @@
 
 #make-route {
   background-color: #2b5de5;
+  border-color: #2b5de5;
 }
 
 #make-route.dis {
@@ -152,6 +145,7 @@
 
 #del-route {
   background-color: #ff5511;
+  border-color: #ff5511;
 }
 
 #del-route:hover {
@@ -171,13 +165,13 @@
 }
 
 #ros-who {
+  font-weight: normal;
+  color: #ff9933;
   margin-left: 5px;
-  font-weight: 500;
-  color: #000;
 }
 
 #ros-se {
-  padding: 0 20px;
+  padding: 29px 20px 0;
 }
 
 #ros-inp {
@@ -185,17 +179,13 @@
 }
 
 .err-cont {
-  font-size: 12px;
-  line-height: 14px;
-  font-weight: 500;
-  color: #f51;
-  margin-top: 5px;
+  color: #0737c1;
 }
 
 .map-nav-ul {
   position: absolute;
   left: -50px;
-  top: 10%;
+  top: 45px;
 }
 
 .map-nav-ul li {
@@ -212,15 +202,11 @@
 }
 
 .map-nav-ul li.nav-delim {
-  margin: 13px 0;
+  margin: 7px 0;
 }
 
 .map-nav-ul li + li {
   margin-top: 3px;
-}
-
-.map-nav-ul li.act {
-  box-shadow: -2px 2px 3px #5c6e89;
 }
 
 .map-nav-ico {
@@ -230,23 +216,23 @@
   justify-content: center;
   flex-direction: column;
   width: 50px;
-  height: 90px;
+  height: 65px;
   background-color: #fff;
-  font-size: 16px;
-  line-height: 16px;
+  font-size: 12px;
+  line-height: 12px;
   color: #000;
 }
 
 .hv .map-nav-ico {
-  height: 50px;
   background-color: #f0f0f0;
+  height: 50px;
 }
 
-.map-nav-ul .hv:hover .map-nav-ico {
+.map-nav-ul .hv:not(.ract):hover .map-nav-ico {
   background-color: #fff;
 }
 
-.map-nav-ul .hv:not(.dis):active .map-nav-ico {
+.map-nav-ul .hv:not(.dis):not(.ract):active .map-nav-ico {
   background-color: #d7d7d7;
 }
 
@@ -261,13 +247,18 @@
   color: #fff;
 }
 
-
 #map-route-refresh {
   transition: left 0.3s ease;
 }
 
 #map-route-refresh .map-nav-ico {
   background-color: #2C5DE5;
+  color: #fff;
+  height: 100px;
+}
+
+.map-nav-ul li.ract .map-nav-ico {
+  background-color: #ff9933;
   color: #fff;
 }
 
@@ -477,6 +468,7 @@
 }
 
 .nik-cont {
+  position: relative;
   font-size: 16px;
   line-height: 18px;
   font-weight: 500;
@@ -504,7 +496,7 @@
 }
 
 .info-cont {
-  padding: 24px 20px 25px;
+  padding: 10px 11px 11px;
 }
 
 .info-cont-items {
@@ -514,7 +506,7 @@
   background-color: #fff;
   padding: 15px;
   min-height: 92px;
-  border: 1px solid #e7e7e7;
+  border: 1px solid #d7d7d7;
   border-radius: 7px;
 }
 
@@ -533,6 +525,7 @@
 }
 
 .coo-cont .i-val {
+  position: relative;
   font-size: 12px;
   color: #000;
   width: calc(100% - 20px);
@@ -545,7 +538,6 @@
   background-color: #f0f0f0;
 }
 
-.coo-cont.sh i,
 .coo-cont.sh .i-val {
   padding-top: 2px;
   padding-bottom: 2px;
@@ -580,9 +572,7 @@
     width: 45%;
     right: -45%;
   }
-}
 
-@media (max-width: 980px) {
   #route-start {
     width: 55%;
   }

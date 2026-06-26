@@ -37,6 +37,7 @@ class Amap {
   test_fill_uslist() {
     let users = ['Mike', 'Brenda', 'Cool'];
     let po = [57.98920282, 56.21387873];
+    // let po = [57.880038, 43.807764];
 
     users.forEach((ii) => {
       let lo = `{
@@ -66,6 +67,24 @@ class Amap {
           this.ans_loca(uujs);
         }, 300);
       }, 300);
+    });
+
+    document.getElementById('route-start').addEventListener('click', () => {
+      let uujs = {
+        "cid": 'Mike',
+        "nik": 'Mike',
+        "issender": true
+      };
+      let lo = `{
+          "pos": {
+            "lat": 57.9911,
+            "lng": 56.1990,
+            "acc": 15
+          },
+          "bat": 3
+        }`;
+      uujs.content = lo;
+      this.ans_loca(uujs);
     });
   }
 
@@ -196,7 +215,7 @@ class Amap {
     this.taber = new Taber(this.fun);
     this.wsmap = new Wsmap(this);
     this.ulo = new Uloca(this, this.fun);
-    this.mro = new Mroute(this);
+    this.mro = new Mroute(this, this.fun);
     this.rota = new Rota(this);
   }
 
@@ -218,7 +237,7 @@ class Amap {
 
       this.wsmap.startWs();
 
-      // this.test_fill_uslist();
+      this.test_fill_uslist();
     });
     this.mai = L.icon({
       'iconUrl': '/static/images/map/ma.png',
@@ -279,6 +298,67 @@ class Amap {
     this.set_wsmap();
   }
 
+  set_rocity(cid) {
+    const some = this.uslist[cid];
+    if (!some) return;
+    if (!some.pos) return;
+    if (some.rocity) {
+      this.ulo.ref_city_cont(some);
+      return;
+    }
+
+    let url = this.taber.tb.getAttribute('data-ci');
+    url += '?lat=' + some.pos.lat + '&lon=' + some.pos.lng;
+
+    axios.get(url, null)
+      .then((re) => {
+        if (!re) return;
+        if (!re.data) return;
+        if (!re.data.cont) return;
+        const jso = JSON.parse(re.data.cont);
+        if (!jso) return;
+        if (!jso.address) return;
+
+        let ci = jso.address.city;
+        if (!ci) ci = jso.address.town;
+        if (!ci) return;
+
+        some.rocity = ci;
+        this.ulo.ref_city_cont(some);
+      })
+      .catch(err => {
+        this.showLog(err, true);
+      });
+  }
+
+  set_roloca(cid) {
+    const some = this.uslist[cid];
+    if (!some) return;
+    if (!some.pos) return;
+    let url = this.taber.tb.getAttribute('data-ci');
+    url += '?lat=' + some.pos.lat + '&lon=' + some.pos.lng;
+
+    axios.get(url, null)
+      .then((re) => {
+        if (!re) return;
+        if (!re.data) return;
+        if (!re.data.cont) return;
+        const jso = JSON.parse(re.data.cont);
+        if (!jso) return;
+        if (!jso.address) return;
+
+        let ci = jso.address.city;
+        if (!ci) ci = jso.address.town;
+        if (!ci) return;
+
+        some.roloca = jso.short_name + ', ' + ci;
+        this.ulo.ref_city_cont(some);
+      })
+      .catch(err => {
+        this.showLog(err, true);
+      });
+  }
+
   set_uslist_item(v) {
     const cid = v.cid;
 
@@ -293,7 +373,9 @@ class Amap {
         'pos': null,
         'tm': null,
         'loc_tm': null,
-        'in_mon': false
+        'in_mon': false,
+        'rocity': null,
+        'roloca': null
       };
     }
 
@@ -301,6 +383,8 @@ class Amap {
     this.uslist[cid]['issender'] = v.issender;
     this.uslist[cid]['pos'] = v.pos;
     this.uslist[cid]['bat'] = v.bat;
+
+    this.set_rocity(cid);
   }
 
   rem_uslist_item(v) {

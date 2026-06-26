@@ -25,6 +25,11 @@ class SeList {
     this.btn_show = this.props.able.querySelector('.se-list-btn.sh');
     this.btn_cl = this.props.able.querySelector('.se-list-btn.cl');
     this.ex_btn = (this.btn_show != undefined);
+    this.btn_clear = this.props.able.querySelector('#input-clear');
+
+    if (this.btn_clear) {
+      this.btn_clear.addEventListener('click', this.btn_clear_click.bind(this));
+    }
 
     if (this.ex_btn) {
       this.btn_show.addEventListener('click', this.btn_sh_click.bind(this));
@@ -239,6 +244,28 @@ class SeList {
     });
   }
 
+  getParameters() {
+    const cls = '.seapar';
+
+    let ret = '';
+
+    document.querySelectorAll(cls).forEach(ele_in => {
+      const nm = ele_in.getAttribute('name');
+      const va = ele_in.value;
+
+      if (!nm) return;
+      if (!va) return;
+
+      if (ret.length > 0) ret += '&';
+
+      ret += nm + '=' + va;
+    });
+
+    if (ret.length == 0) return '';
+
+    return '&' + ret;
+  }
+
   handler_input() {
     this.inp.data.pressed = true;
 
@@ -250,13 +277,16 @@ class SeList {
 
     let url = this.se_list.getAttribute('data-seu');
 
-    url = url + '?' + 'fi=' + str;
+    let pars = this.getParameters();
+
+    url = url + '?' + 'fi=' + str + pars;
 
     this.inp.data.tm = setTimeout(() => {
       axios.get(url)
-        .then((re) => {
+        .then(re => {
           if (!re.data || !re.data.cont) {
             this.clear_search();
+            this.show_error('Nothing found');
             return;
           }
 
@@ -278,6 +308,12 @@ class SeList {
 
   inp_input() {
     this.handler_input();
+  }
+
+  btn_clear_click() {
+    this.inp.value = '';
+    this.inp.data.pressed = false;
+    this.inp.focus();
   }
 
   btn_sh_click(ev) {

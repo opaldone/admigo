@@ -13,8 +13,8 @@
 {{ end }}
 {{ define "content" }}
   <div id="map" href="{{ ro "loca_ws" }}"></div>
-  {{ template "_ros" . }}
-  <div id="map-nav" class="tb-users sh">
+  {{ template "_ros" }}
+  <div id="map-nav" class="tb-users sh" data-ci="{{ ro "loca_city" }}">
     <ul id="map-nav-btns" class="map-nav-ul">
       <li id="tb-users" class="map-nav-bu act">
         <div class="map-nav-ico">
@@ -33,6 +33,16 @@
         </div>
       </li>
       <li class="nav-delim"></li>
+      <li id="map-rotate-ri" class="map-rot hv">
+        <div class="map-nav-ico">
+          <i class="fa-solid fa-rotate-right"></i>
+        </div>
+      </li>
+      <li id="map-rotate-le" class="map-rot hv le">
+        <div class="map-nav-ico">
+          <i class="fa-solid fa-rotate-left"></i>
+        </div>
+      </li>
       <li id="map-zoo-pl" class="map-zoo-co hv">
         <div class="map-nav-ico">
           <i class="fa-solid fa-plus"></i>
@@ -43,14 +53,15 @@
           <i class="fa-solid fa-minus"></i>
         </div>
       </li>
-      <li id="map-rotate-ri" class="map-rot hv">
+      <li class="nav-delim"></li>
+      <li id="map-route-carurl" class="rs-set-btn hv" data-rurl="carurl" title="Car">
         <div class="map-nav-ico">
-          <i class="fa-solid fa-rotate-right"></i>
+          <i class="fa-solid fa-car"></i>
         </div>
       </li>
-      <li id="map-rotate-le" class="map-rot hv le">
+      <li id="map-route-walkurl" class="rs-set-btn hv" data-rurl="walkurl" title="Foot">
         <div class="map-nav-ico">
-          <i class="fa-solid fa-rotate-left"></i>
+          <i class="fa-solid fa-person-walking"></i>
         </div>
       </li>
       <li class="nav-delim"></li>

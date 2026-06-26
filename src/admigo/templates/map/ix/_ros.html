@@ -2,34 +2,37 @@
   <div id="route-start" data-cid="">
     <div id="ros-title">
       <span id="ros-title-cap">
-        Making a route
+        Making a route from
       </span>
-      <span id="row-title-icon">
-        <i class="fa-solid fa-xmark"></i>
-      </span>
-    </div>
-    <label class="ros-header" for="ros-inp">
-      <span class="ros-h">{{ re "Start from" }}</span>
       <span id="ros-who"></span>
-    </label>
+      <div id="row-title-icon">
+        <i class="fa-solid fa-xmark"></i>
+      </div>
+    </div>
     <div id="ros-se">
       <div class="search-able one" data-errid="ros-error">
         <input type="hidden" id="ros-inp-lo" class="sea-lo" value="" />
-        <input type="text" id="ros-inp" autofocus class="form-inp sea-nm" placeholder="{{ re "To point" }}" />
-        <div class="se-list hid" tabindex="-1" data-seu="{{ ro "loca_show" .info.city }}"></div>
+        <input type="hidden" id="ros-inp-ci" class="seapar" name="ci" value="" />
+        <div id="ros-inp-cont">
+          <input type="text" id="ros-inp" autofocus class="form-inp sea-nm" placeholder="{{ re "To point" }}" />
+          <button id="input-clear" tabindex="-1">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
         <button class="se-list-btn sh" title="Show addresses">
-          <i class="fa-solid fa-ellipsis"></i>
+          <i class="fa-solid fa-magnifying-glass"></i>
         </button>
         <button class="se-list-btn cl hid" title="Hide addresses">
           <i class="fa-solid fa-xmark"></i>
         </button>
+        <div class="se-list hid with-btn" tabindex="-1" data-seu="{{ ro "loca_find" }}"></div>
       </div>
-      <div id="ros-error" class="err-cont"></div>
     </div>
     <div id="route-btns" class="">
       <button id="del-route" class="ros-btn">
         <span>{{ re "Delete route" }}</span>
       </button>
+      <div id="ros-error" class="err-cont"></div>
       <button id="make-route" class="ros-btn">
         <span class="spin-wait">
           <i class="fa-solid fa-spinner"></i>

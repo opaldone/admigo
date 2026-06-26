@@ -51,7 +51,8 @@ func init() {
 
 		"loca":      Route{"GET", "/map/loca", MapLoca},
 		"loca_ws":   Route{"POST", "/map/locaws", MapWs},
-		"loca_show": Route{"GET", "/map/locash/:ci", MapShow},
+		"loca_find": Route{"GET", "/map/locafi", MapFind},
+		"loca_city": Route{"GET", "/map/locaci", MapCity},
 
 		"apki": Route{"GET", "/apps", ApkiIndex},
 	}
