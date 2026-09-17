@@ -37,7 +37,6 @@ class Amap {
   test_fill_uslist() {
     let users = ['Mike', 'Brenda', 'Cool'];
     let po = [57.98920282, 56.21387873];
-    // let po = [57.880038, 43.807764];
 
     users.forEach((ii) => {
       let lo = `{
@@ -168,9 +167,13 @@ class Amap {
     let errs = this.lg.querySelectorAll('.err');
     let cc = errs.length;
 
-    if (cc == 0) return;
+    if (cc == 0) {
+      this.lg_errors.classList.remove('sh');
+      return;
+    }
 
     this.lg_errors.textContent = cc;
+    this.lg_errors.classList.add('sh');
   }
 
   lg_clear_click(e) {
@@ -237,7 +240,7 @@ class Amap {
 
       this.wsmap.startWs();
 
-      this.test_fill_uslist();
+      // this.test_fill_uslist();
     });
     this.mai = L.icon({
       'iconUrl': '/static/images/map/ma.png',
@@ -306,12 +309,15 @@ class Amap {
       this.ulo.ref_city_cont(some);
       return;
     }
+    if (some.roloca_progress) return;
 
     let url = this.taber.tb.getAttribute('data-ci');
     url += '?lat=' + some.pos.lat + '&lon=' + some.pos.lng;
 
+    some.roloca_progress = true;
     axios.get(url, null)
       .then((re) => {
+        some.roloca_progress = false;
         if (!re) return;
         if (!re.data) return;
         if (!re.data.cont) return;
@@ -327,6 +333,7 @@ class Amap {
         this.ulo.ref_city_cont(some);
       })
       .catch(err => {
+        some.roloca_progress = false;
         this.showLog(err, true);
       });
   }
@@ -335,11 +342,15 @@ class Amap {
     const some = this.uslist[cid];
     if (!some) return;
     if (!some.pos) return;
+    if (some.roloca_progress) return;
+
     let url = this.taber.tb.getAttribute('data-ci');
     url += '?lat=' + some.pos.lat + '&lon=' + some.pos.lng;
 
+    some.roloca_progress = true;
     axios.get(url, null)
       .then((re) => {
+        some.roloca_progress = false;
         if (!re) return;
         if (!re.data) return;
         if (!re.data.cont) return;
@@ -355,6 +366,7 @@ class Amap {
         this.ulo.ref_city_cont(some);
       })
       .catch(err => {
+        some.roloca_progress = false;
         this.showLog(err, true);
       });
   }
@@ -375,7 +387,8 @@ class Amap {
         'loc_tm': null,
         'in_mon': false,
         'rocity': null,
-        'roloca': null
+        'roloca': null,
+        'roloca_progress': false,
       };
     }
 

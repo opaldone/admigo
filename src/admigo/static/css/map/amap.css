@@ -22,6 +22,14 @@
   margin-bottom: -11px;
 }
 
+.abs-bu {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  cursor: pointer;
+  z-index: 777;
+}
+
 #map-nav {
   position: fixed;
   z-index: 1000;
@@ -228,6 +236,24 @@
   height: 50px;
 }
 
+.abs-bu .map-nav-ico {
+  width: 25px;
+  height: 25px;
+  font-size: 10px;
+  line-height: 10px;
+  color: #fff;
+  background-color: #a7a7a799;
+  border-radius: 7px;
+}
+
+.abs-bu .map-nav-ico:hover {
+  background-color: #a7a7a7;
+}
+
+.abs-bu .map-nav-ico:active {
+  background-color: #777777;
+}
+
 .map-nav-ul .hv:not(.ract):hover .map-nav-ico {
   background-color: #fff;
 }
@@ -271,8 +297,20 @@
 }
 
 .map-nav-icnt#errors-cnt {
+  display: none;
+  align-items: center;
+  justify-content: center;
   background-color: #ff3311;
   color: #fff;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border-radius: 7px;
+}
+
+.map-nav-icnt#errors-cnt.sh {
+  display: flex;
 }
 
 .map-nav-icnt {
@@ -354,6 +392,11 @@
   height: calc(100% - 45px);
 }
 
+.bg-logs {
+  background: #354050;
+  color: #fff;
+}
+
 .ulover {
   height: 100%;
   overflow-y: auto;
@@ -387,7 +430,7 @@
 }
 
 .tb-list-err li {
-  padding: 7px 20px 9px;
+  padding: 3px 0 5px;
 }
 
 .tb-list-err li span {
@@ -550,17 +593,14 @@
   padding-right: 3px;
 }
 
-.tb-list-err li .lg-tm {
-  color: #575757;
-}
-
 .tb-list-err {
   font-size: 12px;
   line-height: 14px;
+  padding: 20px 20px 0 20px;
 }
 
 .tb-list-err li.err {
-  background-color: #ffd8d1;
+  background-color: #a00;
 }
 
 /*

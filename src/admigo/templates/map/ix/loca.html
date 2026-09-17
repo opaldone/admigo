@@ -12,6 +12,14 @@
   {{ attr (" class=\"full\"") }}
 {{ end }}
 {{ define "content" }}
+  <div id="tb-logs" class="map-nav-bu abs-bu">
+    <div class="map-nav-ico">
+      <span class="map-nav-icnt" id="errors-cnt"></span>
+      <span class="map-nav-lbl">
+        <i class="fa-solid fa-gears"></i>
+      </span>
+    </div>
+  </div>
   <div id="map" href="{{ ro "loca_ws" }}"></div>
   {{ template "_ros" }}
   <div id="map-nav" class="tb-users sh" data-ci="{{ ro "loca_city" }}">
@@ -21,14 +29,6 @@
           <span class="map-nav-icnt" id="users-cnt"></span>
           <span class="map-nav-lbl">
             <i class="fa-solid fa-user-group"></i>
-          </span>
-        </div>
-      </li>
-      <li id="tb-logs" class="map-nav-bu">
-        <div class="map-nav-ico">
-          <span class="map-nav-icnt" id="errors-cnt"></span>
-          <span class="map-nav-lbl">
-            <i class="fa-solid fa-chart-simple"></i>
           </span>
         </div>
       </li>
