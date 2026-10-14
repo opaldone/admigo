@@ -16,7 +16,8 @@ class Wsmap {
         'CLIST': 'clist',
         'SENDERHI': 'sender_hi',
         'SENDERST': 'sender_stop',
-        'GOCHAT': 'go_chat'
+        'GOCHAT': 'go_chat',
+        'AMED': 'amed'
       }
     };
 
@@ -138,5 +139,16 @@ class Wsmap {
     if (window.AndroidChatInterface) {
       window.AndroidChatInterface.sendRoomid(some.roomid);
     }
+  }
+
+  req_alarm_ws(some) {
+    if (!this.ws.handler) return;
+
+    let jo = {
+      'tp': this.ws.TPS.AMED,
+      'cid': some.cid,
+    };
+
+    this.ws.handler.send(JSON.stringify(jo));
   }
 }

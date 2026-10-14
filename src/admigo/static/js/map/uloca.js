@@ -40,6 +40,11 @@ class Uloca {
       if (this.oin.fun.once(el, 'coo_cont_click')) return;
       el.addEventListener('click', this.coo_cont_click.bind(this));
     });
+
+    this.list.querySelectorAll('.us-alarm').forEach(el => {
+      if (this.oin.fun.once(el, 'us_alarm_click')) return;
+      el.addEventListener('click', this.us_alarm_click.bind(this));
+    });
   }
 
   coo_cont_click(e) {
@@ -495,6 +500,22 @@ class Uloca {
     return false;
   }
 
+  us_alarm_click(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let el = e.currentTarget;
+    let li_cont = this.fun.parent(el, '.map-us-li');
+    let cid = li_cont.getAttribute('id');
+    let some = this.oin.uslist[cid];
+
+    if (!some) return;
+
+    this.oin.req_alarm(some)
+
+    return false;
+  }
+
   get_li_tag() {
     let ret = '<li id="#CID#" class="map-us-li">' +
       '<div class="map-us-cont">' +
@@ -520,6 +541,9 @@ class Uloca {
       '</span>' +
       '<span class="us-chat" title="Join to chat">' +
       '<i class="fa-solid fa-microphone"></i>' +
+      '</span>' +
+      '<span class="us-alarm" title="Alarm">' +
+      '<i class="fa-solid fa-volume-high"></i>' +
       '</span>' +
       '</div>' +
       '</li>';

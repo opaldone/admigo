@@ -462,6 +462,10 @@ class Amap {
     this.wsmap.req_chat_ws(some);
   }
 
+  req_alarm(some) {
+    this.wsmap.req_alarm_ws(some);
+  }
+
   set_route_cid(some) {
     this.mro.set_route_cid(some);
   }
