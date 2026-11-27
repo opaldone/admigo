@@ -465,12 +465,16 @@ class Amap {
     this.wsmap.req_alarm_ws(some);
   }
 
-  set_route_cid(some) {
-    this.mro.set_route_cid(some);
+  set_route_cid(some, tp) {
+    this.mro.set_route_cid(some, tp);
   }
 
   get_route_cid() {
     return this.mro.get_route_cid();
+  }
+
+  get_route_class() {
+    return this.mro.get_route_class();
   }
 
   close_route_form() {

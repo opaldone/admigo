@@ -9,35 +9,42 @@
         <i class="fa-solid fa-xmark"></i>
       </div>
     </div>
-    <div id="ros-se">
-      <div class="search-able one" data-errid="ros-error">
-        <input type="hidden" id="ros-inp-lo" class="sea-lo" value="" />
-        <input type="hidden" id="ros-inp-ci" class="seapar" name="ci" value="" />
-        <div id="ros-inp-cont">
-          <input type="text" id="ros-inp" autofocus class="form-inp sea-nm" placeholder="{{ re "Address" }}" autocomplete="off" />
-          <button id="input-clear" tabindex="-1">
+    <div id="ros-se-container" class="ros-panel">
+      <div id="ros-se">
+        <div class="search-able one" data-errid="ros-error">
+          <input type="hidden" id="ros-inp-lo" class="sea-lo" value="" />
+          <input type="hidden" id="ros-inp-ci" class="seapar" name="ci" value="" />
+          <div id="ros-inp-cont">
+            <input type="text" id="ros-inp" autofocus class="form-inp sea-nm" placeholder="{{ re "Address" }}" autocomplete="off" />
+            <button id="input-clear" tabindex="-1">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <button class="se-list-btn sh" title="Show addresses">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <button class="se-list-btn cl hid" title="Hide addresses">
             <i class="fa-solid fa-xmark"></i>
           </button>
+          <div class="se-list hid with-btn" tabindex="-1" data-seu="{{ ro "loca_find" }}"></div>
         </div>
-        <button class="se-list-btn sh" title="Show addresses">
-          <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <div id="route-btns" class="">
+        <button id="del-route" class="ros-btn">
+          <span>{{ re "Delete route" }}</span>
         </button>
-        <button class="se-list-btn cl hid" title="Hide addresses">
-          <i class="fa-solid fa-xmark"></i>
+        <div id="ros-error" class="err-cont"></div>
+        <button id="make-route" class="ros-btn">
+          <span class="spin-wait">
+            <i class="fa-solid fa-spinner"></i>
+          </span>
+          <span>{{ re "Make route" }}</span>
         </button>
-        <div class="se-list hid with-btn" tabindex="-1" data-seu="{{ ro "loca_find" }}"></div>
       </div>
     </div>
-    <div id="route-btns" class="">
-      <button id="del-route" class="ros-btn">
-        <span>{{ re "Delete route" }}</span>
-      </button>
-      <div id="ros-error" class="err-cont"></div>
-      <button id="make-route" class="ros-btn">
-        <span class="spin-wait">
-          <i class="fa-solid fa-spinner"></i>
-        </span>
-        <span>{{ re "Make route" }}</span>
+    <div id="ros-alarm-container" class="ros-panel">
+      <button id="alarm-go">
+        <i class="fa-regular fa-face-grimace"></i>
       </button>
     </div>
   </div>

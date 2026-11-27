@@ -3,8 +3,14 @@ class Mroute {
   constructor(oin_in) {
     this.oin = oin_in;
 
+    this.ros_titles = {
+      'dlg-route': 'Making a route from',
+      'dlg-alarm': 'Alarm for'
+    };
+
     this.ros = {
       'el': document.getElementById('route-start'),
+      'ttl': document.getElementById('ros-title-cap'),
       'who': document.getElementById('ros-who'),
       'inp': document.getElementById('ros-inp'),
       'inp_hid': document.getElementById('ros-inp-lo'),
@@ -12,6 +18,7 @@ class Mroute {
       'bma': document.getElementById('make-route'),
       'bcl': document.getElementById('ros-title'),
       'bde': document.getElementById('del-route'),
+      'alarm': document.getElementById('alarm-go'),
       'ma': null,
       'tp_route': 'carurl'
     };
@@ -24,6 +31,7 @@ class Mroute {
     this.ros.inp_hid.addEventListener('keyup', this.inp_hid_route_keyup.bind(this));
     this.ros.inp.addEventListener('input', this.inp_input.bind(this));
     this.ros.bde.addEventListener('click', this.del_route_click.bind(this));
+    this.ros.alarm.addEventListener('click', this.alarm_go_click.bind(this));
 
     document.querySelectorAll('.rs-set-btn').forEach(el => {
       if (window.fun.once(el, 'rs_set_btn_click')) return;
@@ -98,10 +106,16 @@ class Mroute {
     this.oin.map.setView(some.ros.ma.getLatLng());
   }
 
-  set_route_cid(some) {
+  set_route_cid(some, tp) {
     let nik = some.nik;
+
+    this.ros.ttl.innerHTML = this.ros_titles[tp];
     this.ros.who.innerHTML = nik;
+
     this.ros.el.setAttribute('data-cid', some.cid);
+    this.ros.el.removeAttribute('class');
+    this.ros.el.classList.add(tp);
+
     this.ros.inp.focus();
 
     this.show_route(some);
@@ -113,12 +127,18 @@ class Mroute {
   }
 
   get_route_cid() {
-    let cid = this.ros.el.getAttribute('data-cid');
-
+    const cid = this.ros.el.getAttribute('data-cid');
     return cid;
   }
 
+  get_route_class() {
+    const cls = this.ros.el.getAttribute('class');
+    if (!cls) return '';
+    return cls;
+  }
+
   close_route_form() {
+    this.ros.el.removeAttribute('class');
     this.ros.el.setAttribute('data-cid', '');
     this.ros.who.innerHTML = '';
 
@@ -291,5 +311,15 @@ class Mroute {
 
   init_map_event() {
     this.oin.map.on('click', this.map_click_route.bind(this));
+  }
+
+  alarm_go_click() {
+    const cid = this.get_route_cid();
+
+    if (cid.length == 0) return;
+    const some = this.oin.uslist[cid];
+    if (!some) return;
+
+    this.oin.req_alarm(some)
   }
 }
