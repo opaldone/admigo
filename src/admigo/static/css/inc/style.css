@@ -1,5 +1,6 @@
 html {
   background-color: #f5f5f5;
+  color: #121212;
 }
 
 body {
@@ -90,5 +91,21 @@ a.ext-link:after {
 
   #h-content.full {
     padding: 0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: #464f5e;
+    color: #97a9c7;
+  }
+
+  a {
+    display: inline-block;
+    color: #4C7DF5;
+  }
+
+  a:hover {
+    color: #506cbe;
   }
 }

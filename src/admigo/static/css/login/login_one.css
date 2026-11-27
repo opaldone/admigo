@@ -111,7 +111,6 @@ body {
 * MEDIA
 */
 
-@media (max-width: 1440px) {}
 @media (max-width: 1280px) {
   #lg-title {
     width: 44%;
@@ -126,8 +125,6 @@ body {
     width: 36%;
   }
 }
-@media (max-width: 1024px) {}
-@media (max-width: 980px) {}
 @media (max-width: 800px) {
   #lg-after, #lg-title {
     display: none;
@@ -146,10 +143,22 @@ body {
     margin-top: 91px;
   }
 }
-@media (max-width: 768px) {}
-@media (max-width: 640px) {}
-@media (max-width: 600px) {}
-@media (max-width: 480px) {}
-@media (max-width: 360px) {}
-@media (max-width: 320px) {}
-@media (max-width: 240px) {}
+
+@media (prefers-color-scheme: dark) {
+  #lg-form {
+    background-color: #464f5e;
+    color: #97a9c7;
+  }
+
+  #lg-f-ttl {
+    color: #fff;
+  }
+
+  #lg-footer {
+    border-color: #545e6f;
+  }
+
+  #copyr {
+    color: #768398;
+  }
+}

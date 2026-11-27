@@ -21,7 +21,7 @@ class Agrida {
 
   docon() {
     document.querySelectorAll('#' + this.gr_cont.id + ' .rwd-table tbody tr.cla').forEach(tr => {
-      if (!this.props.fun.once(tr, 'row_click')) {
+      if (!window.fun.once(tr, 'row_click')) {
         tr.addEventListener('click', this.row_click.bind(this));
       }
     });
@@ -32,10 +32,15 @@ class Agrida {
 
     if (hi) return;
 
+    let bgcol = '#e5e5e5';
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      bgcol = '#1c2430';
+    }
+
     let sel_el = '#' + tbl_id + ' tr[data-rid="' + rid_in + '"]';
     let st = document.createElement('style');
     st.id = this.hi_style_id;
-    st.innerHTML = sel_el + '{background-color:#e5e5e5}';
+    st.innerHTML = sel_el + '{background-color:' + bgcol + '}';
     document.getElementsByTagName('head')[0].appendChild(st);
   }
 
@@ -85,7 +90,7 @@ class Agrida {
     ul.innerHTML = lis;
 
     ul.querySelectorAll('.act').forEach(el => {
-      if (this.props.fun.once(el, 'act_click')) return;
+      if (window.fun.once(el, 'act_click')) return;
       el.addEventListener('click', this.actClick.bind(this));
     });
   }
@@ -121,13 +126,13 @@ class Agrida {
       }
     }
 
-    if (!this.props.fun.once(this.gr_mn, 'mouse_enter')) {
+    if (!window.fun.once(this.gr_mn, 'mouse_enter')) {
       this.gr_mn.addEventListener('mouseenter', () => {
         clearTimeout(this.gr_mn.data.tm);
       });
     }
 
-    if (!this.props.fun.once(this.gr_mn, 'mouse_leave')) {
+    if (!window.fun.once(this.gr_mn, 'mouse_leave')) {
       this.gr_mn.addEventListener('mouseleave', () => {
         this.gr_mn.data.tm = setTimeout(() => {
           this.hide_menu();
@@ -180,13 +185,11 @@ class Agrida {
 
     let url = btn.getAttribute('data-u');
 
-    let dlg = new Dlg({
-      'fun': this.props.fun
-    });
+    let dlg = new Dlg();
 
     dlg.show({
       'header': window.lang.re('Confirmation'),
-      'msg': window.lang.re('Confirm deleting the row'),
+      'msg': window.lang.re('Do You really want to delete the row?'),
       'buttons': [
         {'cap': window.lang.re('Cancel'), 'ret': 0},
         {'cap': window.lang.re('Delete'), 'ret': 1}

@@ -1,8 +1,7 @@
 ;"use strict";
 class Aforms {
   constructor() {
-    this.fun = new Funcs();
-    this.fun.ready(this.handler.bind(this));
+    window.fun.ready(this.handler.bind(this));
   }
 
   handler() {
@@ -13,7 +12,7 @@ class Aforms {
 
   el_keyup(ev) {
     let ct = ev.currentTarget;
-    let par = this.fun.parent(ct, '.form-it-cont');
+    let par = window.fun.parent(ct, '.form-it-cont');
     let hid = par.querySelector('input[type=hidden]');
     let inv = par.querySelector('.invalid-feedback');
     let ct_val = ct.value;

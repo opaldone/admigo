@@ -1,9 +1,7 @@
 ;"use strict";
 class FormTabs {
   constructor() {
-    this.fun = new Funcs();
-    this.fun.ready(this.handler.bind(this));
-
+    window.fun.ready(this.handler.bind(this));
     this.tabs = null;
   }
 
@@ -24,7 +22,7 @@ class FormTabs {
 
     if (!act_tab) return;
 
-    this.fun.trigger(act_tab, 'click');
+    window.fun.trigger(act_tab, 'click');
   }
 
   clearAct() {

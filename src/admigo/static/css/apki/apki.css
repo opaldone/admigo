@@ -96,3 +96,22 @@
     width: 100%;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  #list-app li a {
+    background-color: #2b3648;
+    border: 1px solid #4f6486;
+  }
+
+  #list-app li a:hover {
+    background-color: #323e52;
+  }
+
+  .app-name-s {
+    color: #97a9c7;
+  }
+
+  .app-sz {
+    color: #fff;
+  }
+}
