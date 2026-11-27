@@ -21,13 +21,12 @@ class Amap {
 
     this.map_route_refresh = document.getElementById('map-route-refresh');
 
-    this.fun = new Funcs();
-    this.fun.ready(this.handler.bind(this));
+    window.fun.ready(this.handler.bind(this));
 
     this.lg_clear.addEventListener('click', this.lg_clear_click.bind(this));
 
     document.querySelectorAll('.map-zoo-co').forEach(el => {
-      if (this.fun.once(el, 'map_zoo_co_click')) return;
+      if (window.fun.once(el, 'map_zoo_co_click')) return;
       el.addEventListener('click', this.map_zoo_co_click.bind(this));
     });
 
@@ -215,10 +214,10 @@ class Amap {
   }
 
   set_wsmap() {
-    this.taber = new Taber(this.fun);
+    this.taber = new Taber();
     this.wsmap = new Wsmap(this);
-    this.ulo = new Uloca(this, this.fun);
-    this.mro = new Mroute(this, this.fun);
+    this.ulo = new Uloca(this);
+    this.mro = new Mroute(this);
     this.rota = new Rota(this);
   }
 

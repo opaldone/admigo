@@ -1,7 +1,6 @@
 ;"use strict";
 class Taber {
-  constructor(fun_in) {
-    this.fun = fun_in;
+  constructor() {
     this.tb = document.getElementById('map-nav');
 
     this.taids = [];

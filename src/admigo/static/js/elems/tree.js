@@ -25,7 +25,7 @@ class Atree {
 
   docon() {
     document.querySelectorAll(this.expander).forEach(el => {
-      if (this.props.fun.once(el, 'toggle')) return;
+      if (window.fun.once(el, 'toggle')) return;
       el.addEventListener('click', this.toggle.bind(this));
     });
 
@@ -71,8 +71,8 @@ class Atree {
       let parsel = this.el + ' tr[data-rid="' + prid + '"]' + '[data-root="' + root + '"]';
 
       const par = document.querySelector(parsel);
-      const posele = this.props.fun.position(elem);
-      const pospar = this.props.fun.position(par);
+      const posele = window.fun.position(elem);
+      const pospar = window.fun.position(par);
       const nh = posele.top - pospar.top;
 
       h.style.height = nh + 'px';
@@ -162,7 +162,7 @@ class Atree {
     ev.stopPropagation();
 
     let th = ev.currentTarget;
-    let par = this.props.fun.parent(th, 'tr');
+    let par = window.fun.parent(th, 'tr');
     let isOpen = par.classList.contains(this.clexp);
 
     if (isOpen) {
@@ -190,7 +190,7 @@ class Atree {
       let clo = [];
 
       document.querySelectorAll(this.expander).forEach(el => {
-        const par = this.props.fun.parent(el, 'tr');
+        const par = window.fun.parent(el, 'tr');
 
         if (par.classList.contains(this.clexp)) return;
 
@@ -234,8 +234,7 @@ class Atree {
 
 class TreeHandler {
   constructor() {
-    this.fun = new Funcs();
-    this.fun.ready(this.handler.bind(this));
+    window.fun.ready(this.handler.bind(this));
   }
 
   handler() {
@@ -245,15 +244,13 @@ class TreeHandler {
       let tbl_cont = elem.querySelector('.rwd-table-container');
       const grida_in = new Agrida({
         'gr_cont': tbl_cont,
-        'cs': cs,
-        'fun': this.fun
+        'cs': cs
       });
 
       let cid = elem.id;
       new Atree({
         'cs': cs,
         'cid': cid,
-        'fun': this.fun,
         'gr': grida_in
       });
     });

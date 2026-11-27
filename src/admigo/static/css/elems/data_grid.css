@@ -1,7 +1,9 @@
 .rwd-table-container {
   position: relative;
   width: 100%;
-  overflow-x: auto;
+  overflow: auto;
+  border-radius: 7px;
+  border: 1px solid #e7e7e7;
 }
 
 .rwd-menu {
@@ -50,14 +52,11 @@
 
 .rwd-menu div.act .act-cap span + span {
   margin-left: 13px;
-  color: #74829b;
+  color: #97a9c7;
 }
 
 .rwd-table {
   width: 100%;
-  border-radius: 7px;
-  overflow: hidden;
-  box-shadow:  0 0 13px #e7e7e7;
 }
 
 .rwd-table thead tr {
@@ -203,8 +202,7 @@
 .page-list li a,
 .page-list li span {
   display: block;
-  padding: 7px 13px 7px 13px;
-  border: 1px solid #e7e7e7;
+  padding: 8px 14px 8px 14px;
   border-radius: 7px;
 }
 
@@ -219,7 +217,6 @@
 .page-list li span {
   background-color: #2C5DE5;
   color: #fff;
-  border-color: #2C5DE5;
   cursor: default;
 }
 
@@ -256,7 +253,7 @@
 }
 
 .grid-form-inp::placeholder {
-  color: #a7a7a7;
+  color: #575d68;
 }
 
 .grid-form-btn {
@@ -295,10 +292,6 @@
  * TREE
  */
 
-.rwd-table.tree tbody tr {
-  border-color: #f7f7f7;
-}
-
 .rwd-table.tree td {
   padding: 0 1em;
 }
@@ -313,7 +306,7 @@
   line-height: 12px;
   color: #fff;
   background-color: #3C7Df5;
-  padding: 8px 10px 7px;
+  padding: 8px 12px 9px;
   border-radius: 7px;
   cursor: pointer;
 }
@@ -453,5 +446,61 @@
     float: none;
     display: inline-block;
     width: 50%;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .grid-form-inp {
+    background-color: #2b3648;
+    border-color: #545e6f;
+    color: #fff;
+  }
+
+  .rwd-table-container {
+    border-color: #545e6f;
+  }
+
+  .rwd-table tbody tr {
+    background-color: #2b3648;
+    border-color: #373d48;
+  }
+
+  .rwd-table tr:not(thead tr):not(tfoot tr):hover {
+    background-color: #323e52;
+  }
+
+  .rwd-menu {
+    box-shadow: 0 0 7px #252d3a;
+  }
+
+  .tr-exp, .tr-exp-emp {
+    color: #97a9c7;
+  }
+
+  .tr-exp:hover {
+    background-color: #1c2430;
+  }
+
+  .vline, .hline {
+    border-color: #384861;
+  }
+
+  .rwd-table.tree tbody tr.finded,
+  .rwd-table.tree tbody tr.finded .tr-td-data {
+    background-color: #262f3f;
+  }
+
+  .rwd-table tfoot tr {
+    background-color: #273142;
+    border-color: #373d48;
+  }
+
+  .page-list li a {
+    background-color: #273142;
+    color: #fff;
+  }
+
+  .page-list li a:hover {
+    background-color: #303c51;
   }
 }

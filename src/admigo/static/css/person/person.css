@@ -58,3 +58,25 @@
 #per-lk-list li div:first-child {
   color: #797979;
 }
+
+/*
+* MEDIA
+*/
+
+@media (prefers-color-scheme: dark) {
+  #per-ava-cont {
+    background-color: #32363c;
+  }
+
+  #per-lk-name {
+    color: #fff;
+  }
+
+  #per-lk-info {
+    border-color: #545e6f;
+  }
+
+  #per-lk-list li div:first-child {
+    color: #fff;
+  }
+}

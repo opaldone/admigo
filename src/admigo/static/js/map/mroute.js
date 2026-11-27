@@ -1,8 +1,7 @@
 ;"use strict";
 class Mroute {
-  constructor(oin_in, fun_in) {
+  constructor(oin_in) {
     this.oin = oin_in;
-    this.fun = fun_in;
 
     this.ros = {
       'el': document.getElementById('route-start'),
@@ -27,7 +26,7 @@ class Mroute {
     this.ros.bde.addEventListener('click', this.del_route_click.bind(this));
 
     document.querySelectorAll('.rs-set-btn').forEach(el => {
-      if (this.fun.once(el, 'rs_set_btn_click')) return;
+      if (window.fun.once(el, 'rs_set_btn_click')) return;
       el.addEventListener('click', this.rs_set_btn_click.bind(this));
     });
 
@@ -271,7 +270,7 @@ class Mroute {
     if (!ar) return true;
 
     this.ros.inp_hid.value = val;
-    this.oin.fun.trigger(this.ros.inp_hid, 'keyup');
+    window.fun.trigger(this.ros.inp_hid, 'keyup');
   }
 
   map_click_route(e) {

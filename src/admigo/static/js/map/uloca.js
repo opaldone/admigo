@@ -1,8 +1,7 @@
 ;"use strict";
 class Uloca {
-  constructor(oin_in, fun_in) {
+  constructor(oin_in) {
     this.oin = oin_in;
-    this.fun = fun_in;
     this.list = document.getElementById('map-users');
     this.user_cnt = document.getElementById('users-cnt');
     this.li_tag = this.get_li_tag();
@@ -12,37 +11,37 @@ class Uloca {
 
   docon() {
     this.list.querySelectorAll('li').forEach(el => {
-      if (this.oin.fun.once(el, 'li_click')) return;
+      if (window.fun.once(el, 'li_click')) return;
       el.addEventListener('click', this.li_click.bind(this));
     });
 
     this.list.querySelectorAll('.us-route').forEach(el => {
-      if (this.oin.fun.once(el, 'us_route_click')) return;
+      if (window.fun.once(el, 'us_route_click')) return;
       el.addEventListener('click', this.us_route_click.bind(this));
     });
 
     this.list.querySelectorAll('.bet-us-route').forEach(el => {
-      if (this.oin.fun.once(el, 'bet_us_route_click')) return;
+      if (window.fun.once(el, 'bet_us_route_click')) return;
       el.addEventListener('click', this.bet_us_route_click.bind(this));
     });
 
     this.list.querySelectorAll('.us-monit').forEach(el => {
-      if (this.oin.fun.once(el, 'us_monit_click')) return;
+      if (window.fun.once(el, 'us_monit_click')) return;
       el.addEventListener('click', this.us_monit_click.bind(this));
     });
 
     this.list.querySelectorAll('.us-chat').forEach(el => {
-      if (this.oin.fun.once(el, 'us_chat_click')) return;
+      if (window.fun.once(el, 'us_chat_click')) return;
       el.addEventListener('click', this.us_chat_click.bind(this));
     });
 
     this.list.querySelectorAll('.coo-cont').forEach(el => {
-      if (this.oin.fun.once(el, 'coo_cont_click')) return;
+      if (window.fun.once(el, 'coo_cont_click')) return;
       el.addEventListener('click', this.coo_cont_click.bind(this));
     });
 
     this.list.querySelectorAll('.us-alarm').forEach(el => {
-      if (this.oin.fun.once(el, 'us_alarm_click')) return;
+      if (window.fun.once(el, 'us_alarm_click')) return;
       el.addEventListener('click', this.us_alarm_click.bind(this));
     });
   }
@@ -52,7 +51,7 @@ class Uloca {
     e.stopPropagation();
 
     const coo = e.currentTarget;
-    const lipar = this.fun.parent(coo, '.map-us-li');
+    const lipar = window.fun.parent(coo, '.map-us-li');
     const cid = lipar.getAttribute('id');
     const iva = coo.querySelectorAll('.i-val')[0];
 
@@ -404,7 +403,7 @@ class Uloca {
     e.stopPropagation();
 
     let el = e.currentTarget;
-    let li_cont = this.fun.parent(el, '.map-us-li');
+    let li_cont = window.fun.parent(el, '.map-us-li');
     let cid = li_cont.getAttribute('id');
     const rcid = this.oin.get_route_cid();
     let in_route = cid == rcid;
@@ -441,7 +440,7 @@ class Uloca {
     e.stopPropagation();
 
     let el = e.currentTarget;
-    let li_cont = this.fun.parent(el, '.map-us-li');
+    let li_cont = window.fun.parent(el, '.map-us-li');
     let cid = li_cont.getAttribute('id');
     let in_bero = li_cont.classList.contains('in-bero');
     let some = this.oin.uslist[cid];
@@ -471,7 +470,7 @@ class Uloca {
     e.stopPropagation();
 
     let el = e.currentTarget;
-    let li_cont = this.fun.parent(el, '.map-us-li');
+    let li_cont = window.fun.parent(el, '.map-us-li');
     let cid = li_cont.getAttribute('id');
     let in_mon = li_cont.classList.contains('in-mon');
     let some = this.oin.uslist[cid];
@@ -489,7 +488,7 @@ class Uloca {
     e.stopPropagation();
 
     let el = e.currentTarget;
-    let li_cont = this.fun.parent(el, '.map-us-li');
+    let li_cont = window.fun.parent(el, '.map-us-li');
     let cid = li_cont.getAttribute('id');
     let some = this.oin.uslist[cid];
 
@@ -505,7 +504,7 @@ class Uloca {
     e.stopPropagation();
 
     let el = e.currentTarget;
-    let li_cont = this.fun.parent(el, '.map-us-li');
+    let li_cont = window.fun.parent(el, '.map-us-li');
     let cid = li_cont.getAttribute('id');
     let some = this.oin.uslist[cid];
 
@@ -530,7 +529,7 @@ class Uloca {
       '</div>' +
       '</div>' +
       '<div class="us-btn-cont">' +
-      '<span class="us-monit" title="Moving map">' +
+      '<span class="us-monit noh" title="Moving map">' +
       '<i class="fa-solid fa-crosshairs"></i>' +
       '</span>' +
       '<span class="us-route" title="Make a route">' +

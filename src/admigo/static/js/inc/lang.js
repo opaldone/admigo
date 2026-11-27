@@ -2,8 +2,7 @@
 
 class Lang {
   constructor() {
-    this.fun = new Funcs();
-    this.fun.ready(this.handler.bind(this));
+    window.fun.ready(this.handler.bind(this));
     this.lame = null;
   }
 
@@ -42,5 +41,3 @@ class Lang {
     return ret;
   }
 }
-
-window.lang = new Lang();

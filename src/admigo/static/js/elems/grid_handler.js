@@ -1,7 +1,6 @@
 class GridHandler {
   constructor() {
-    this.fun = new Funcs();
-    this.fun.ready(this.handler.bind(this));
+    window.fun.ready(this.handler.bind(this));
   }
 
   handler() {
@@ -10,8 +9,7 @@ class GridHandler {
     document.querySelectorAll('.rwd-table-container').forEach((cont) => {
       const grida = new Agrida({
         'gr_cont': cont,
-        'cs': cs,
-        'fun': this.fun
+        'cs': cs
       });
 
       grida.docon();

@@ -21,6 +21,7 @@ body.show-dlg-screen {
 #dlg-container {
   position: relative;
   width: 35%;
+  max-width: 500px;
   top: 20%;
   left: 50%;
 }
@@ -67,7 +68,6 @@ body.show-dlg-screen {
   font-size: 18px;
   line-height: 22px;
   font-weight: 500;
-  color: #121212;
   padding: 20px 20px 24px 20px;
 }
 
@@ -78,11 +78,18 @@ body.show-dlg-screen {
   padding: 10px 20px 10px 20px;
 }
 
+#dlg-header.emp,
+#dlg-msg.emp,
+#dlg-btns.emp {
+  padding: 0;
+  line-height: 0;
+}
+
 .dlg-btn {
   border: none;
   color: #fff;
   background-color: #2C5DE5;
-  padding: 8px 15px 10px 15px;
+  padding: 8px 15px 8px 15px;
   cursor: pointer;
   border-radius: 7px;
 }
@@ -96,7 +103,7 @@ body.show-dlg-screen {
 }
 
 .dlg-btn + .dlg-btn {
-  margin-left: 7px;
+  margin-left: 20px;
 }
 
 .dlg-btn.cancel {
@@ -116,5 +123,25 @@ body.show-dlg-screen {
   #dlg-container {
     width: 70%;
     transform: translateX(-50%);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #dlg-header {
+    background-color: #007700;
+  }
+
+  #dlg-content {
+    background-color: #464f5e;
+    box-shadow: 3px 3px 13px #1c2430;
+  }
+
+  .dlg-btn.cancel {
+    background-color: #535e70;
+    color: #fff;
+  }
+
+  .dlg-btn.cancel:hover {
+    background-color: #616e82;
   }
 }

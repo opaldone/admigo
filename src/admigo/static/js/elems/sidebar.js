@@ -1,8 +1,7 @@
 ;"use strict";
 class Sidebar {
   constructor() {
-    this.fun = new Funcs();
-    this.fun.ready(this.handler.bind(this));
+    window.fun.ready(this.handler.bind(this));
 
     this.collapa = null;
     this.sb = null;
@@ -45,7 +44,7 @@ class Sidebar {
   clickMenu(ev) {
     let trg = ev.target;
 
-    let par = this.fun.parent(trg, 'a');
+    let par = window.fun.parent(trg, 'a');
 
     if (par || trg.matches('a')) {
       return true;

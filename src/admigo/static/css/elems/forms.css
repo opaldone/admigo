@@ -190,7 +190,7 @@
 }
 
 .form-inp::placeholder {
-  color: #a7a7a7;
+  color: #575d68;
 }
 
 .form-btn {
@@ -231,7 +231,7 @@
 }
 
 .form-btn + .form-btn {
-  margin-left: 5px;
+  margin-left: 20px;
 }
 
 .invalid-feedback {
@@ -470,5 +470,105 @@
     font-size: 10px;
     line-height: 12px;
     padding: 8px 7px 10px 7px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #form-container {
+    background-color: #464f5e;
+    box-shadow: 0 0 13px #1c2430;
+  }
+
+  .form-header {
+    color: #fff;
+  }
+
+  .form-header span {
+    color: #97a9c7;
+  }
+
+  #form-tabs, .form-footer, .form-tab {
+    border-color: #545e6f;
+  }
+
+  .form-tab {
+    background-color: #545e6f;
+    color: #bccae0;
+  }
+
+  .form-tab:not(.act):hover {
+    background-color: #5b6679;
+  }
+
+  .form-inp {
+    background-color: #2b3648;
+    border-color: #545e6f;
+    color: #fff;
+  }
+
+  .form-it-cont .form-lbl {
+    color: inherit;
+  }
+
+  .form-it-cont .form-lbl:hover {
+    color: #fff;
+  }
+
+  .shpa-icon, .form-btn.light {
+    background-color: #535e70;
+  }
+
+  .form-btn.light {
+    color: #fff;
+  }
+
+  .shpa-icon:hover, .form-btn.light:hover {
+    background-color: #616e82;
+    color: #fff;
+  }
+
+  .img-box, .crop-tools-btns span {
+    background-color: #535e70;
+  }
+
+  .crop-tools-btns span {
+    border-color: #647289;
+    box-shadow: none;
+    color: #777777;
+  }
+
+  .cropping .crop-tools-btns span.end-crop,
+  .ex-img .crop-tools-btns span.start-crop {
+    color: #fff;
+  }
+
+  .cropping .crop-tools-btns span.end-crop:hover,
+  .ex-img .crop-tools-btns span.start-crop:hover {
+    background-color: #616e82;
+  }
+
+  .ex-img.cropping .crop-tools-btns span.start-crop {
+    background-color: #4e5868;
+    box-shadow: inset 1px 1px 1px #2b3648;
+  }
+
+  .crop-tools-btns .crop-size {
+    color: #97a9c7;
+  }
+
+  .lita-cont {
+    background-color: #535e70;
+    color: #fff;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #5f6c82;
+  }
+
+  .sp-del {
+    background-color: #070;
+  }
+
+  .sp-del:hover {
+    background-color: #050;
   }
 }

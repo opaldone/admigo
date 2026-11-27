@@ -78,6 +78,7 @@ W_FILES=(
 # js
     "$src/static/js/inc/funcs.js;$bin/static/js/inc/funcs.js"
     "$src/static/js/inc/lang.js;$bin/static/js/inc/lang.js"
+    "$src/static/js/elems/wintools.js;$bin/static/js/elems/wintools.js"
     "$src/static/js/elems/sidebar.js;$bin/static/js/elems/sidebar.js"
     "$src/static/js/elems/grid.js;$bin/static/js/elems/grid.js"
     "$src/static/js/elems/grid_handler.js;$bin/static/js/elems/grid_handler.js"

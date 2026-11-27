@@ -48,3 +48,17 @@
   line-height: 15px;
   cursor: pointer;
 }
+
+/*
+* MEDIA
+*/
+
+@media (prefers-color-scheme: dark) {
+  .ho-title {
+    color: #fff;
+  }
+
+  .ho-info a {
+    border-color: #47f;
+  }
+}

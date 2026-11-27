@@ -6,7 +6,7 @@ class Rota {
     this.st = 20;
 
     document.querySelectorAll('.map-rot').forEach(el => {
-      if (this.oin.fun.once(el, 'map_rot_tm')) return;
+      if (window.fun.once(el, 'map_rot_tm')) return;
       el.data = {
         'press_tm': null
       };

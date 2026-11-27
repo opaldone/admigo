@@ -49,7 +49,7 @@ class SeList {
 
   mi_item_remove_click(ev) {
     let btn = ev.currentTarget;
-    let par_ml_item = this.props.fun.parent(btn, '.ml-item');
+    let par_ml_item = window.fun.parent(btn, '.ml-item');
     let li_val = btn.getAttribute('data-vuq');
 
     delete this.items_added[li_val];
@@ -59,7 +59,7 @@ class SeList {
   set_mi_item_remove() {
     if (!this.list_to_add) return;
     this.list_to_add.querySelectorAll('.sp-del').forEach(btn => {
-      if (this.props.fun.once(btn, 'rem_click')) return;
+      if (window.fun.once(btn, 'rem_click')) return;
       if (!btn.getAttribute('data-vuq')) return;
       btn.addEventListener('click', this.mi_item_remove_click.bind(this));
     });
@@ -97,19 +97,19 @@ class SeList {
   }
 
   show_se_list() {
-    this.se_list.classList.remove('hid');
+    this.se_list.classList.add('show');
 
     if (this.ex_btn) {
-      this.btn_cl.classList.remove('hid');
+      this.btn_cl.classList.add('show');
     }
   }
 
   hide_se_list() {
     this.clear_tm();
-    this.se_list.classList.add('hid');
+    this.se_list.classList.remove('show');
 
     if (this.ex_btn) {
-      this.btn_cl.classList.add('hid');
+      this.btn_cl.classList.remove('show');
     }
   }
 
@@ -183,7 +183,7 @@ class SeList {
         if (ele_in.classList.contains('sea-ifemp') && ele_in.value.length > 0) return;
 
         ele_in.value = va;
-        this.props.fun.trigger(ele_in, 'keyup');
+        window.fun.trigger(ele_in, 'keyup');
       });
     }
 
@@ -231,7 +231,7 @@ class SeList {
     if (lis.list.length == 0) return;
 
     lis.list.forEach((lit) => {
-      if (this.props.fun.once(lit, 'lit_click')) return;
+      if (window.fun.once(lit, 'lit_click')) return;
       lit.addEventListener('click', (ev) => {
         ev.stopPropagation();
         ev.preventDefault();
@@ -398,7 +398,7 @@ class SeList {
   }
 
   inp_focusin() {
-    this.props.fun.trigger(this.inp, 'input');
+    window.fun.trigger(this.inp, 'input');
   }
 
   inp_focusout(ev) {
@@ -418,14 +418,12 @@ class SeList {
 
 class SeListHandler {
   constructor() {
-    this.fun = new Funcs();
-    this.fun.ready(this.handler.bind(this));
+    window.fun.ready(this.handler.bind(this));
   }
 
   handler() {
     document.querySelectorAll('.search-able').forEach(elem => {
       new SeList({
-        'fun': this.fun,
         'able': elem
       })
     });

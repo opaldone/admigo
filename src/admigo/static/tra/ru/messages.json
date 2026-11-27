@@ -27,7 +27,7 @@
   "Cancel": "Отмена",
   "Delete": "Удалить",
   "Confirmation": "Подтверждение",
-  "Confirm deleting the row": "Подтвердите удаление строки",
+  "Do You really want to delete the row?": "Вы действительно хотите удалить строку?",
   "Toggle cropping": "Режим обрезки",
   "Save cropping": "Сохранить обрезку",
   "Expand all": "Развернуть все",
@@ -47,7 +47,7 @@
   "Location": "Местонахождение",
   "Logs": "Логи",
   "Clear": "Очистить",
-  "To point": "До точки",
+  "Address": "Адрес",
   "Start from": "Старт от",
   "Android apps": "Андроид приложения"
 }
