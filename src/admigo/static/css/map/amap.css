@@ -53,6 +53,7 @@
 }
 
 #route-start {
+  display: none;
   position: absolute;
   z-index: 1001;
   padding: 0 0 13px;
@@ -65,8 +66,8 @@
   box-shadow: 0 0 7px #979797;
 }
 
-#route-start[data-cid=""] {
-  display: none;
+#route-start[class] {
+  display: block;
 }
 
 #ros-title {
@@ -104,6 +105,42 @@
 
 #ros-title:hover #row-title-icon {
   background-color: #000;
+}
+
+.ros-panel {
+  display: none;
+}
+
+#ros-alarm-container {
+  padding: 20px 20px 7px 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.dlg-route #ros-se-container {
+  display: block;
+}
+
+.dlg-alarm #ros-alarm-container {
+  display: flex;
+}
+
+#alarm-go {
+  width: 150px;
+  height: 150px;
+  border: none;
+  border-radius: 50%;
+  background-color: #c70000;
+  font-size: 33px;
+  line-height: 33px;
+  color: #fff;
+  cursor: pointer;
+}
+
+#alarm-go:active {
+  background-color: #a70000;
+  border-color: #a70000;
+  box-shadow: inset 1px 1px 7px #571f1f;
 }
 
 #route-btns {

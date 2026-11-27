@@ -15,6 +15,11 @@ class Uloca {
       el.addEventListener('click', this.li_click.bind(this));
     });
 
+    this.list.querySelectorAll('.us-alarm').forEach(el => {
+      if (window.fun.once(el, 'us_route_click')) return;
+      el.addEventListener('click', this.us_route_click.bind(this));
+    });
+
     this.list.querySelectorAll('.us-route').forEach(el => {
       if (window.fun.once(el, 'us_route_click')) return;
       el.addEventListener('click', this.us_route_click.bind(this));
@@ -38,11 +43,6 @@ class Uloca {
     this.list.querySelectorAll('.coo-cont').forEach(el => {
       if (window.fun.once(el, 'coo_cont_click')) return;
       el.addEventListener('click', this.coo_cont_click.bind(this));
-    });
-
-    this.list.querySelectorAll('.us-alarm').forEach(el => {
-      if (window.fun.once(el, 'us_alarm_click')) return;
-      el.addEventListener('click', this.us_alarm_click.bind(this));
     });
   }
 
@@ -253,7 +253,6 @@ class Uloca {
     });
 
     this.ref_cnt();
-
     this.oin.show_hide_btn_route_refresh(route_exists);
   }
 
@@ -340,7 +339,7 @@ class Uloca {
     if (!some.pos) return false;
 
     let sp = [some.pos.lat, some.pos.lng];
-    let route_opened = this.oin.get_route_cid().length > 0;
+    let route_opened = this.oin.get_route_class().length > 0;
 
     if (some.ma) {
       some.ma.setLatLng(sp);
@@ -402,24 +401,26 @@ class Uloca {
     e.preventDefault();
     e.stopPropagation();
 
-    let el = e.currentTarget;
-    let li_cont = window.fun.parent(el, '.map-us-li');
-    let cid = li_cont.getAttribute('id');
-    const rcid = this.oin.get_route_cid();
-    let in_route = cid == rcid;
-    let some = this.oin.uslist[cid];
+    const el = e.currentTarget;
+    const tp = el.getAttribute('data-tp');
 
-    if (!some.pos) {
+    const li_cont = window.fun.parent(el, '.map-us-li');
+    const cid = li_cont.getAttribute('id');
+    const route_class = this.oin.get_route_class();
+    const route_cid = this.oin.get_route_cid();
+
+    const some = this.oin.uslist[cid];
+
+    if (route_class == 'dlg-route' && !some.pos) {
       return false;
     }
 
-    if (in_route) {
+    if (tp == route_class && cid == route_cid) {
       this.oin.close_route_form();
       return false;
     }
 
-    this.oin.set_route_cid(some);
-    this.sync_litems();
+    this.oin.set_route_cid(some, tp);
 
     return false;
   }
@@ -499,22 +500,6 @@ class Uloca {
     return false;
   }
 
-  us_alarm_click(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    let el = e.currentTarget;
-    let li_cont = window.fun.parent(el, '.map-us-li');
-    let cid = li_cont.getAttribute('id');
-    let some = this.oin.uslist[cid];
-
-    if (!some) return;
-
-    this.oin.req_alarm(some)
-
-    return false;
-  }
-
   get_li_tag() {
     let ret = '<li id="#CID#" class="map-us-li">' +
       '<div class="map-us-cont">' +
@@ -532,7 +517,7 @@ class Uloca {
       '<span class="us-monit noh" title="Moving map">' +
       '<i class="fa-solid fa-crosshairs"></i>' +
       '</span>' +
-      '<span class="us-route" title="Make a route">' +
+      '<span class="us-route" title="Make a route" data-tp="dlg-route">' +
       '<i class="fa-solid fa-route"></i>' +
       '</span>' +
       '<span class="bet-us-route" title="Make a route between people">' +
@@ -541,7 +526,7 @@ class Uloca {
       '<span class="us-chat" title="Join to chat">' +
       '<i class="fa-solid fa-microphone"></i>' +
       '</span>' +
-      '<span class="us-alarm" title="Alarm">' +
+      '<span class="us-alarm" title="Alarm" data-tp="dlg-alarm">' +
       '<i class="fa-solid fa-volume-high"></i>' +
       '</span>' +
       '</div>' +
